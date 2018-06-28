@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "name": "Cert Viewer",
+  "short_name": "Cert Viewer",
+  "version": "1.0.0",
+
+  "description": "TLS Info Experiment",
+  "homepage_url": "https://github.com/april/cert-viewer",
+  "developer": {
+    "name": "April King",
+    "url": "https://github.com/april/cert-viewer"
+  },
+
+  "icons": {
+    "48": "icons/http.svg",
+    "96": "icons/http.svg"
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "a2fff151f5ad0ef63cbd7e454e8907c1fa9cc32008f489178775570374f408a7@pokeinthe.io",
+      "strict_min_version": "62.0"
+    }
+  },
+
+  "background": {
+    "scripts": [
+      "js/utils.js",
+      "js/ux.js",
+      "js/handlers.js"
+    ]
+  },
+
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/http.svg",
+    "default_title": "Cert Viewer by Mozilla"
+  },
+
+  "permissions": [
+    "storage",
+    "tabs",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "http://*/*",
+    "https://*/*"
+  ]
+}

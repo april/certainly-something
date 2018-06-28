@@ -1,0 +1,44 @@
+body {
+  font-size: 14px;
+  line-height: 1.428;
+  -moz-user-select: text;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.25em;
+  margin: 0;
+}
+
+.panel-list-item:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+.panel-list-item div:nth-of-type(1) {
+  font-weight: bold;
+  min-width: 11em;
+  max-width: 11em;
+}
+
+.certificate, .panel-list-container {
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+}
+
+.certificate-icon {
+  background-image: url('certificate.svg');
+}
+
+.section {
+  margin-bottom: .5em;
+}
+
+/* overrides to extension.css */
+.panel-list-item {
+  height: inherit;
+  min-height: 24px;
+}

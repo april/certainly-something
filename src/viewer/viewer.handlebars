@@ -1,0 +1,73 @@
+<div id="template">
+  <!-- handshake -->
+  <div class="row section" id="handshake">
+    <div class="panel">
+      <div class="panel-section panel-section-header">
+        <div class="text-section-header"><h1>Handshake</h1></div>
+      </div>
+      <div class="panel-list-container">
+        <div class="panel-list-item">
+          <div class="text">Protocol</div>
+          <div class="text">{{replace protocolVersion "v" " "}}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Cipher Suite</div>
+          <div class="text">{{ cipherSuite }}</div>
+        </div>
+        {{#if (isntnull keaGroupName)}}
+        <div class="panel-list-item">
+          <div class="text">Key Exchange Group</div>
+          <div class="text">{{ keaGroupName }}</div>
+        </div>
+        {{/if}}
+        {{#if (isntnull signatureSchemeName)}}
+        <div class="panel-list-item">
+          <div class="text">Signature Scheme</div>
+          <div class="text">{{ signatureSchemeName }}</div>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <!-- certificates -->
+  <div class="row section" id="certificates">
+    <div class="panel">
+      <div class="panel-section panel-section-header">
+        <div class="text-section-header"><h1>Certificates</h1></div>
+      </div>
+    </div>
+
+    {{#each certificates}}
+    <div class="row">
+      <div class="certificate panel">
+        <div class="panel-section panel-section-header">
+          <div class="icon-section-header certificate-icon"></div>
+          <div class="text-section-header"><h2>Certificate #{{onebasedindex @index}} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</h2></div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Subject</div>
+          <div class="text">{{ this.subject }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Serial Number</div>
+          <div class="text">{{ this.serialNumber }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Issuer</div>
+          <div class="text">{{ this.issuer }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Valid From</div>
+          <div class="text">{{ this.validity.startGMT }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Valid To</div>
+          <div class="text">{{ this.validity.endGMT }}</div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+</div>

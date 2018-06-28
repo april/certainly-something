@@ -1,0 +1,15 @@
+{
+    "env":{
+        "browser": true
+    },
+    "extends":"airbnb",
+    "globals":{
+        "browser": true,
+        "chrome": true,
+        "Handlebars": true
+    },
+    "rules":{
+        "arrow-parens": [2, "as-needed"],
+        "no-param-reassign": 0
+    }
+}
