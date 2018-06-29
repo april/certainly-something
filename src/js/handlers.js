@@ -36,7 +36,7 @@ const consumer = async details => {
     // grab the security info
     securityInfo = await browser.webRequest.getSecurityInfo( // fetch the security info
       details.requestId,
-      { certificateChain: true, rawDER: false });
+      { certificateChain: true, rawDER: true });
 
     if (securityInfo !== undefined) {
       tabState[tid].si = securityInfo;

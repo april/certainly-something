@@ -1,6 +1,6 @@
 const render = (securityInfo) => {
   document.body.innerHTML = Handlebars.templates.certificate(securityInfo);
-}
+};
 
 const handleDOMContentLoaded = () => {
   // get the tab id
@@ -12,11 +12,10 @@ const handleDOMContentLoaded = () => {
       'tabId': tid
     },
     (response) => {
-      console.log('response is', response);
       render(response);
     }
   )
-}
+};
 
 // initialize the document
 document.addEventListener('DOMContentLoaded', () => {
