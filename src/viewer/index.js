@@ -1,6 +1,27 @@
-const render = (securityInfo) => {
-  document.body.innerHTML = Handlebars.templates.certificate(securityInfo);
+import { parse } from './der.js';
+
+
+const getSecurityInfo = async (securityInfo) => {
+  // there is some information we need from the parsed securityInfo.certificates as well as
+  // information that can only be retrieved from the certificate's raw DER
+  securityInfo['certs'] = [];
+  for (const siCert of securityInfo.certificates) {
+    const der = new Uint8Array(siCert.rawDER);
+    const parsedCert = await parse(der);
+
+    // store if it's a built-in cert or not
+    parsedCert['isBuiltInRoot'] = siCert.isBuiltInRoot;
+
+    securityInfo['certs'].push(parsedCert);
+  }
+
+  return securityInfo;
 };
+
+const render = (securityInfo) => {
+  console.log('about to render', securityInfo);
+  document.body.innerHTML = Handlebars.templates.viewer(securityInfo);
+}
 
 const handleDOMContentLoaded = () => {
   // get the tab id
@@ -11,7 +32,8 @@ const handleDOMContentLoaded = () => {
       'action': 'getSecurityInfo',
       'tabId': tid
     },
-    (response) => {
+    async response => {
+      const securityInfo = await getSecurityInfo(response);
       render(response);
     }
   )

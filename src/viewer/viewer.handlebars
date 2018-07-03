@@ -38,16 +38,20 @@
       </div>
     </div>
 
-    {{#each certificates}}
+    {{#each certs}}
     <div class="row">
       <div class="certificate panel">
         <div class="panel-section panel-section-header">
           <div class="icon-section-header certificate-icon"></div>
-          <div class="text-section-header"><h2>Certificate #{{onebasedindex @index}} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</h2></div>
+          <div class="text-section-header"><h2>{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</h2></div>
         </div>
         <div class="panel-list-item">
           <div class="text">Subject</div>
-          <div class="text">{{ this.subject }}</div>
+          <div class="text">{{ this.subject.path }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Download</div>
+          <div class="text"><a href="data:,{{ this.files.pem }}" download="{{ this.subject.cn }}.pem">PEM</a></div>
         </div>
         <div class="panel-list-item">
           <div class="text">Serial Number</div>
@@ -55,15 +59,23 @@
         </div>
         <div class="panel-list-item">
           <div class="text">Issuer</div>
-          <div class="text">{{ this.issuer }}</div>
+          <div class="text">{{ this.issuer.path }}</div>
         </div>
         <div class="panel-list-item">
           <div class="text">Valid From</div>
-          <div class="text">{{ this.validity.startGMT }}</div>
+          <div class="text">{{ this.notBefore }}</div>
         </div>
         <div class="panel-list-item">
           <div class="text">Valid To</div>
-          <div class="text">{{ this.validity.endGMT }}</div>
+          <div class="text">{{ this.notAfter }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Version</div>
+          <div class="text">{{ this.version }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Signature Algorithm</div>
+          <div class="text">{{ this.signature.name }}</div>
         </div>
       </div>
     </div>
