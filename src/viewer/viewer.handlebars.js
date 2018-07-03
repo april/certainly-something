@@ -21,6 +21,8 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.isBuiltInRoot : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</h2></div>\n        </div>\n        <div class=\"panel-list-item\">\n          <div class=\"text\">Subject</div>\n          <div class=\"text\">"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.subject : depth0)) != null ? stack1.path : stack1), depth0))
+    + "</div>\n        </div>\n        <div class=\"panel-list-item\">\n          <div class=\"text\">Subject Alt Names</div>\n          <div class=\"text\">"
+    + alias2(alias1((depth0 != null ? depth0.subjectAltNames : depth0), depth0))
     + "</div>\n        </div>\n        <div class=\"panel-list-item\">\n          <div class=\"text\">Download</div>\n          <div class=\"text\"><a href=\"data:,"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.files : depth0)) != null ? stack1.pem : stack1), depth0))
     + "\" download=\""
