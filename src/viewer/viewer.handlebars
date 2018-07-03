@@ -45,9 +45,117 @@
           <div class="icon-section-header certificate-icon"></div>
           <div class="text-section-header"><h2>{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</h2></div>
         </div>
+
+        <!-- Subject -->
+        <div class="panel-section-subheader">
+          <span>Subject Name</span>
+        </div>
+        {{#if this.subject.c}}
         <div class="panel-list-item">
-          <div class="text">Subject</div>
-          <div class="text">{{ this.subject.path }}</div>
+          <div class="text">Country</div>
+          <div class="text">{{ this.subject.c }}</div>
+        </div>
+        {{/if}}
+        {{#if this.subject.s}}
+        <div class="panel-list-item">
+          <div class="text">State / Province</div>
+          <div class="text">{{ this.subject.s }}</div>
+        </div>
+        {{/if}}
+        {{#if this.subject.l}}
+        <div class="panel-list-item">
+          <div class="text">Locality</div>
+          <div class="text">{{ this.subject.l }}</div>
+        </div>
+        {{/if}}
+        {{#if this.subject.address}}
+        <div class="panel-list-item">
+          <div class="text">Street Address</div>
+          <div class="text">{{ this.subject.address }}</div>
+        </div>
+        {{/if}}
+        {{#if this.subject.ou}}
+        <div class="panel-list-item">
+          <div class="text">Organizational Unit</div>
+          <div class="text">{{ this.subject.ou }}</div>
+        </div>
+        {{/if}}
+        {{#if this.subject.o}}
+        <div class="panel-list-item">
+          <div class="text">Organization</div>
+          <div class="text">{{ this.subject.o }}</div>
+        </div>
+        {{/if}}
+        {{#if this.subject.cn}}
+        <div class="panel-list-item">
+          <div class="text">Common Name</div>
+          <div class="text">{{ this.subject.cn }}</div>
+        </div>
+        {{/if}}
+
+        <!-- Issuer -->
+        <div class="panel-section-subheader">
+          <span>Issuer Name</span>
+        </div>
+        {{#if this.issuer.c}}
+        <div class="panel-list-item">
+          <div class="text">Country</div>
+          <div class="text">{{ this.issuer.c }}</div>
+        </div>
+        {{/if}}
+        {{#if this.issuer.s}}
+        <div class="panel-list-item">
+          <div class="text">State / Province</div>
+          <div class="text">{{ this.issuer.s }}</div>
+        </div>
+        {{/if}}
+        {{#if this.issuer.l}}
+        <div class="panel-list-item">
+          <div class="text">Locality</div>
+          <div class="text">{{ this.issuer.l }}</div>
+        </div>
+        {{/if}}
+        {{#if this.issuer.address}}
+        <div class="panel-list-item">
+          <div class="text">Street Address</div>
+          <div class="text">{{ this.issuer.address }}</div>
+        </div>
+        {{/if}}
+        {{#if this.issuer.ou}}
+        <div class="panel-list-item">
+          <div class="text">Organizational Unit</div>
+          <div class="text">{{ this.issuer.ou }}</div>
+        </div>
+        {{/if}}
+        {{#if this.issuer.o}}
+        <div class="panel-list-item">
+          <div class="text">Organization</div>
+          <div class="text">{{ this.issuer.o }}</div>
+        </div>
+        {{/if}}
+        {{#if this.issuer.cn}}
+        <div class="panel-list-item">
+          <div class="text">Common Name</div>
+          <div class="text">{{ this.issuer.cn }}</div>
+        </div>
+        {{/if}}
+
+
+        <!-- Validity -->
+        <div class="panel-section-subheader">
+          <span>Validity</span>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Not Before</div>
+          <div class="text">{{ this.notBefore }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Not After</div>
+          <div class="text">{{ this.notAfter }}</div>
+        </div>
+
+        <div class="panel-section-subheader">
+          <span>Miscellaneous</span>
         </div>
         {{#if this.subjectAltNames }}
         <div class="panel-list-item">
@@ -64,18 +172,6 @@
           <div class="text">{{ this.serialNumber }}</div>
         </div>
         <div class="panel-list-item">
-          <div class="text">Issuer</div>
-          <div class="text">{{ this.issuer.path }}</div>
-        </div>
-        <div class="panel-list-item">
-          <div class="text">Valid From</div>
-          <div class="text">{{ this.notBefore }}</div>
-        </div>
-        <div class="panel-list-item">
-          <div class="text">Valid To</div>
-          <div class="text">{{ this.notAfter }}</div>
-        </div>
-        <div class="panel-list-item">
           <div class="text">Version</div>
           <div class="text">{{ this.version }}</div>
         </div>
@@ -83,6 +179,20 @@
           <div class="text">Signature Algorithm</div>
           <div class="text">{{ this.signature.name }}</div>
         </div>
+
+        <!-- Fingerprints -->
+        <div class="panel-section-subheader">
+          <span>Fingerprints</span>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">SHA-256</div>
+          <div class="text">{{ this.fingerprint.sha256 }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">SHA-1</div>
+          <div class="text">{{ this.fingerprint.sha1 }}</div>
+        </div>
+
       </div>
     </div>
     {{/each}}
