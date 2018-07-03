@@ -49,10 +49,12 @@
           <div class="text">Subject</div>
           <div class="text">{{ this.subject.path }}</div>
         </div>
+        {{#if this.subjectAltNames }}
         <div class="panel-list-item">
           <div class="text">Subject Alt Names</div>
           <div class="text">{{ this.subjectAltNames }}</div>
-        </div>
+        </div>        
+        {{/if}}
         <div class="panel-list-item">
           <div class="text">Download</div>
           <div class="text"><a href="data:,{{ this.files.pem }}" download="{{ this.subject.cn }}.pem">PEM</a></div>
