@@ -7,10 +7,15 @@ Handlebars.registerHelper('replace', (str, a, b) => {
   return str.split(a).join(b);
 });
 
-Handlebars.registerHelper('isntnull', v => {
-  if (v !== null && v !== 'none') {
-    return true;
+Handlebars.registerHelper('truthy', v => {
+  if (v === null || v === 'none') {
+    return false;
   }
 
-  return false;
+  // empty array or string
+  if ((Array.isArray(v) || typeof v === 'string') && v.length === 0) {
+    return false;
+  }
+
+  return true;
 });

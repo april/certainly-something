@@ -18,10 +18,45 @@ const getSecurityInfo = async (securityInfo) => {
   return securityInfo;
 };
 
+
+const postRender = () => {
+  // setup handlers for tabbing between certificates
+  const buttons = document.getElementById('certificates').getElementsByClassName('panel-section-tabs-button');
+  const certificates = document.getElementsByClassName('certificate');
+
+  // setup the event handlers for tabs
+  for (let node of buttons) {
+    node.addEventListener('click', event => {
+
+      Array.from(buttons).forEach(button => {
+        if (event.target === button) {
+          button.classList.add('selected');
+        } else {
+          button.classList.remove('selected');
+        }
+      });
+
+      Array.from(certificates).forEach(certificate => {
+        if (event.target.getAttribute('data-certificate-index') == certificate.getAttribute('data-certificate-index')) {
+          certificate.removeAttribute('hidden');
+        } else {
+          certificate.setAttribute('hidden', true);
+        }
+      });
+
+    });
+  }
+};
+
+
 const render = (securityInfo) => {
-  console.log('about to render', securityInfo);
+  console.log('about to render with this securityInfo', securityInfo);
   document.body.innerHTML = Handlebars.templates.viewer(securityInfo);
+
+  // once handlebars has rendered, let us setup event handlers
+  postRender();
 }
+
 
 const handleDOMContentLoaded = () => {
   // get the tab id
@@ -38,6 +73,7 @@ const handleDOMContentLoaded = () => {
     }
   )
 };
+
 
 // initialize the document
 document.addEventListener('DOMContentLoaded', () => {
