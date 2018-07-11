@@ -281,6 +281,28 @@
             </div>
           {{/if}}
 
+          <!-- Subject Key Identifier -->
+          {{#if this.ext.sKID}}
+            <div class="panel-section-subheader">
+              <span>Subject Key ID</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Key ID</div>
+              <div class="text">{{ this.ext.sKID.id }}</div>
+            </div>
+          {{/if}}
+
+          <!-- Subject Key Identifier -->
+          {{#if this.ext.aKID}}
+            <div class="panel-section-subheader">
+              <span>Authority Key ID</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Key ID</div>
+              <div class="text">{{ this.ext.aKID.id }}</div>
+            </div>
+          {{/if}}
+
           <!-- Certificate transparency -->
           {{#if this.ext.scts}}
             <div class="panel-section-subheader">

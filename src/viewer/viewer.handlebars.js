@@ -87,8 +87,12 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.basicConstraints : stack1),{"name":"if","hash":{},"fn":container.program(57, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- Extended key usages -->\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.eKUsages : stack1),{"name":"if","hash":{},"fn":container.program(59, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Subject Key Identifier -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.sKID : stack1),{"name":"if","hash":{},"fn":container.program(61, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Subject Key Identifier -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aKID : stack1),{"name":"if","hash":{},"fn":container.program(63, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- Certificate transparency -->\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(61, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(65, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     return "hidden";
@@ -239,9 +243,21 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"61":function(container,depth0,helpers,partials,data) {
     var stack1;
 
+  return "            <div class=\"panel-section-subheader\">\n              <span>Subject Key ID</span>\n            </div>\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Key ID</div>\n              <div class=\"text\">"
+    + container.escapeExpression(container.lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.sKID : stack1)) != null ? stack1.id : stack1), depth0))
+    + "</div>\n            </div>\n";
+},"63":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "            <div class=\"panel-section-subheader\">\n              <span>Authority Key ID</span>\n            </div>\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Key ID</div>\n              <div class=\"text\">"
+    + container.escapeExpression(container.lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aKID : stack1)) != null ? stack1.id : stack1), depth0))
+    + "</div>\n            </div>\n";
+},"65":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
   return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(62, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"62":function(container,depth0,helpers,partials,data) {
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(66, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"66":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Log ID</div>\n                <div class=\"text\">"
@@ -251,9 +267,9 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Timestamp</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.timestamp : depth0), depth0))
     + "</div>\n              </div>\n              "
-    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),(data && data.last),{"name":"unless","hash":{},"fn":container.program(63, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),(data && data.last),{"name":"unless","hash":{},"fn":container.program(67, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"63":function(container,depth0,helpers,partials,data) {
+},"67":function(container,depth0,helpers,partials,data) {
     return "<div class=\"panel-list-item-separator\"></div>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;

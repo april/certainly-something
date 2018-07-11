@@ -141,12 +141,18 @@ export const parse = async (der) => {
   // convert the cert to PEM
   const certBTOA = window.btoa(String.fromCharCode.apply(null, der)).match(/.{1,64}/g).join('\r\n');
 
-  // get the subjectAltNames
-  let san = getX509Ext(x509.extensions, '2.5.29.17').parsedValue;
-  if (san !== undefined && san.hasOwnProperty('altNames')) {
-    san = Object.keys(san.altNames).map(x => san.altNames[x].value);
-  } else {
-    san = [];
+  // get the public key info
+  let spki = x509.subjectPublicKeyInfo;
+  if (spki.kty === 'RSA') {
+      spki.e = b64urltodec(spki.e);                   // exponent
+      spki.keysize = b64urltohex(spki.n).length * 8;  // key size in bits
+      spki.n = hashify(b64urltohex(spki.n));          // modulus
+  } else if (spki.kty === 'EC') {
+    spki.kty = 'Elliptic Curve';
+    spki.keysize = parseInt(spki.crv.split('-')[1])   // this is a bit hacky
+    spki.x = hashify(b64urltohex(spki.x));            // x coordinate
+    spki.y = hashify(b64urltohex(spki.y));            // y coordinate
+    spki.xy = `04:${spki.x}:${spki.y}`;               // 04 (uncompressed) public key
   }
 
   // get the keyUsages
@@ -170,6 +176,14 @@ export const parse = async (der) => {
     keyUsages.reverse();
   };
 
+  // get the subjectAltNames
+  let san = getX509Ext(x509.extensions, '2.5.29.17').parsedValue;
+  if (san !== undefined && san.hasOwnProperty('altNames')) {
+    san = Object.keys(san.altNames).map(x => san.altNames[x].value);
+  } else {
+    san = [];
+  }
+
   // get the basic constraints
   const basicConstraints = {};
   const basicConstraintsExt = getX509Ext(x509.extensions, '2.5.29.19');
@@ -183,6 +197,23 @@ export const parse = async (der) => {
   if (eKUsages !== undefined) {
     eKUsages = {
       purposes: eKUsages.keyPurposes.map(x => eKUNames[x]),
+    }
+  }
+
+  // get the subject key identifier
+  let sKID = getX509Ext(x509.extensions, '2.5.29.14').parsedValue;
+  if (sKID !== undefined) {
+    sKID = {
+      id: hashify(sKID.valueBlock.valueHex),
+    }
+  }
+
+  // get the authority key identifier
+  let aKID = getX509Ext(x509.extensions, '2.5.29.35').parsedValue;
+  if (aKID !== undefined) {
+    console.log('akid is', aKID)
+    aKID = {
+      id: hashify(aKID.keyIdentifier.valueBlock.valueHex),
     }
   }
 
@@ -201,29 +232,17 @@ export const parse = async (der) => {
     scts = [];
   }
 
-  // get the public key info
-  let spki = x509.subjectPublicKeyInfo;
-  if (spki.kty === 'RSA') {
-      spki.e = b64urltodec(spki.e);                   // exponent
-      spki.keysize = b64urltohex(spki.n).length * 8;  // key size in bits
-      spki.n = hashify(b64urltohex(spki.n));          // modulus
-  } else if (spki.kty === 'EC') {
-    spki.kty = 'Elliptic Curve';
-    spki.keysize = parseInt(spki.crv.split('-')[1])   // this is a bit hacky
-    spki.x = hashify(b64urltohex(spki.x));            // x coordinate
-    spki.y = hashify(b64urltohex(spki.y));            // y coordinate
-    spki.xy = `04:${spki.x}:${spki.y}`;               // 04 (uncompressed) public key
-  }
-
   console.log('returning from parse() for cert', x509);
 
   // the output shell
   return {
     ext: {
-      basicConstraints: basicConstraints,
-      eKUsages: eKUsages,
-      keyUsages: keyUsages,
+      aKID,
+      basicConstraints,
+      eKUsages,
+      keyUsages,
       scts: scts,
+      sKID,
       subjectAltNames: san,
     },
     files: {
