@@ -25,6 +25,12 @@ h2 {
   padding: 0 16px;
 }
 
+.panel-section-subsection {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 14px 0 0 16px;
+}
+
 .panel-section-subheader span {
   color: #b8b8b8;
   text-align: right;
@@ -60,6 +66,21 @@ h2 {
 
 .certificate-icon {
   background-image: url('certificate.svg');
+}
+
+.long-hex {
+  flex-grow: inherit;
+  margin-right: 4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.long-hex:hover {
+  margin-right: 4em;
+  overflow: visible;
+  white-space: normal;
+  width: auto;
 }
 
 .section {

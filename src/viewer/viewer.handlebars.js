@@ -56,25 +56,39 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + "</div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Not After</div>\n            <div class=\"text\">"
     + alias3(alias4((depth0 != null ? depth0.notAfter : depth0), depth0))
     + "</div>\n          </div>\n\n"
-    + ((stack1 = helpers["if"].call(alias1,(helpers.truthy || (depth0 && depth0.truthy) || alias2).call(alias1,(depth0 != null ? depth0.subjectAltNames : depth0),{"name":"truthy","hash":{},"data":data}),{"name":"if","hash":{},"fn":container.program(41, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(helpers.truthy || (depth0 && depth0.truthy) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.subjectAltNames : stack1),{"name":"truthy","hash":{},"data":data}),{"name":"if","hash":{},"fn":container.program(41, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Subject Public Key Info -->\n          <div class=\"panel-section-subheader\">\n            <span>Public Key Info</span>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Algorithm</div>\n            <div class=\"text\">"
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.kty : stack1), depth0))
+    + "</div>\n          </div>\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.keysize : stack1),{"name":"if","hash":{},"fn":container.program(44, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- EC only -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.crv : stack1),{"name":"if","hash":{},"fn":container.program(46, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.xy : stack1),{"name":"if","hash":{},"fn":container.program(48, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- RSA only -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.e : stack1),{"name":"if","hash":{},"fn":container.program(50, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.n : stack1),{"name":"if","hash":{},"fn":container.program(52, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <div class=\"panel-section-subheader\">\n            <span>Miscellaneous</span>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Download</div>\n            <div class=\"text\"><a href=\"data:,"
     + alias3(alias4(((stack1 = (depth0 != null ? depth0.files : depth0)) != null ? stack1.pem : stack1), depth0))
     + "\" download=\""
     + alias3(alias4(((stack1 = (depth0 != null ? depth0.subject : depth0)) != null ? stack1.cn : stack1), depth0))
     + ".pem\">PEM</a></div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Key Usage</div>\n            <div class=\"text\">"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.keyUsages : depth0),{"name":"each","hash":{},"fn":container.program(44, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.keyUsages : stack1),{"name":"each","hash":{},"fn":container.program(54, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Serial Number</div>\n            <div class=\"text\">"
     + alias3(alias4((depth0 != null ? depth0.serialNumber : depth0), depth0))
-    + "</div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Version</div>\n            <div class=\"text\">"
-    + alias3(alias4((depth0 != null ? depth0.version : depth0), depth0))
     + "</div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Signature Algorithm</div>\n            <div class=\"text\">"
     + alias3(alias4(((stack1 = (depth0 != null ? depth0.signature : depth0)) != null ? stack1.name : stack1), depth0))
+    + "</div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Version</div>\n            <div class=\"text\">"
+    + alias3(alias4((depth0 != null ? depth0.version : depth0), depth0))
     + "</div>\n          </div>\n\n          <!-- Fingerprints -->\n          <div class=\"panel-section-subheader\">\n            <span>Fingerprints</span>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">SHA-256</div>\n            <div class=\"text\">"
     + alias3(alias4(((stack1 = (depth0 != null ? depth0.fingerprint : depth0)) != null ? stack1.sha256 : stack1), depth0))
     + "</div>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">SHA-1</div>\n            <div class=\"text\">"
     + alias3(alias4(((stack1 = (depth0 != null ? depth0.fingerprint : depth0)) != null ? stack1.sha1 : stack1), depth0))
-    + "</div>\n          </div>\n\n          <!-- Certificate transparency -->\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.scts : depth0),{"name":"if","hash":{},"fn":container.program(47, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</div>\n          </div>\n\n          <div class=\"panel-section-subsection\">Extensions</div>\n          <!-- Basic constraints -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.basicConstraints : stack1),{"name":"if","hash":{},"fn":container.program(57, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Extended key usages -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.eKUsages : stack1),{"name":"if","hash":{},"fn":container.program(59, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Certificate transparency -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(61, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     return "hidden";
@@ -166,7 +180,7 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     var stack1;
 
   return "            <!-- Subject Alt Names-->\n            <div class=\"panel-section-subheader\">\n              <span>Subject Alt Names</span>\n            </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.subjectAltNames : depth0),{"name":"each","hash":{},"fn":container.program(42, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.subjectAltNames : stack1),{"name":"each","hash":{},"fn":container.program(42, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"42":function(container,depth0,helpers,partials,data) {
     return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Common Name</div>\n                <div class=\"text\">"
     + container.escapeExpression(container.lambda(depth0, depth0))
@@ -174,16 +188,60 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"44":function(container,depth0,helpers,partials,data) {
     var stack1;
 
+  return "          <div class=\"panel-list-item\">\n            <div class=\"text\">Key size</div>\n            <div class=\"text\">"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.keysize : stack1), depth0))
+    + " bits</div>\n          </div>\n";
+},"46":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "          <div class=\"panel-list-item\">\n            <div class=\"text\">Curve</div>\n            <div class=\"text\">"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.crv : stack1), depth0))
+    + "</div>\n          </div>\n";
+},"48":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "          <div class=\"panel-list-item\">\n            <div class=\"text\">Public Value</div>\n            <div class=\"text long-hex\">"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.xy : stack1), depth0))
+    + "</div>\n          </div>\n";
+},"50":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "          <div class=\"panel-list-item\">\n            <div class=\"text\">Exponent</div>\n            <div class=\"text\">"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.e : stack1), depth0))
+    + "</div>\n          </div>\n";
+},"52":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "          <div class=\"panel-list-item\">\n            <div class=\"text\">Modulus</div>\n            <div class=\"text long-hex\">"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.subjectPublicKeyInfo : depth0)) != null ? stack1.n : stack1), depth0))
+    + "</div>\n          </div>\n";
+},"54":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
   return container.escapeExpression(container.lambda(depth0, depth0))
-    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),(data && data.last),{"name":"unless","hash":{},"fn":container.program(45, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"45":function(container,depth0,helpers,partials,data) {
+    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),(data && data.last),{"name":"unless","hash":{},"fn":container.program(55, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"55":function(container,depth0,helpers,partials,data) {
     return ", ";
-},"47":function(container,depth0,helpers,partials,data) {
+},"57":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "            <div class=\"panel-section-subheader\">\n              <span>Basic Constraints</span>\n            </div>\n            <!-- hiding this for now, since most people don't care\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Critical</div>\n              <div class=\"text\">"
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.basicConstraints : stack1)) != null ? stack1.critical : stack1), depth0))
+    + "</div>\n            </div>\n            -->\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Certificate Authority</div>\n              <div class=\"text\">"
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.basicConstraints : stack1)) != null ? stack1.cA : stack1), depth0))
+    + "</div>\n            </div>\n";
+},"59":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "            <div class=\"panel-section-subheader\">\n              <span>Extended Key Usages</span>\n            </div>\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Purposes</div>\n              <div class=\"text\">"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.eKUsages : stack1)) != null ? stack1.purposes : stack1),{"name":"each","hash":{},"fn":container.program(54, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</div>\n            </div>\n";
+},"61":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.scts : depth0),{"name":"each","hash":{},"fn":container.program(48, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"48":function(container,depth0,helpers,partials,data) {
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(62, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"62":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Log ID</div>\n                <div class=\"text\">"
@@ -193,9 +251,9 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Timestamp</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.timestamp : depth0), depth0))
     + "</div>\n              </div>\n              "
-    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),(data && data.last),{"name":"unless","hash":{},"fn":container.program(49, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),(data && data.last),{"name":"unless","hash":{},"fn":container.program(63, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"49":function(container,depth0,helpers,partials,data) {
+},"63":function(container,depth0,helpers,partials,data) {
     return "<div class=\"panel-list-item-separator\"></div>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;

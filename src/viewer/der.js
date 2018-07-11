@@ -1,5 +1,17 @@
 import * as asn1js from './pkijs/asn1.js';
+import * as pvutils from './pkijs/pvutils.js';
 import Certificate from './pkijs/Certificate.js';
+
+const b64urltodec = (b64) => {
+  return new asn1js.Integer({ valueHex: pvutils.stringToArrayBuffer(pvutils.fromBase64('AQAB', true, true)) }).valueBlock._valueDec;
+};
+
+const b64urltohex = (b64) => {
+  const hexBuffer = new asn1js.Integer({ valueHex: pvutils.stringToArrayBuffer(pvutils.fromBase64(b64, true, true)) }).valueBlock._valueHex;
+  const hexArray = Array.from(new Uint8Array(hexBuffer));
+
+  return hexArray.map(b => ('00' + b.toString(16)).slice(-2));
+};
 
 // this particular prototype override makes it easy to chain down complex objects
 const get = (obj, path) => {
@@ -19,9 +31,14 @@ const get = (obj, path) => {
 const getX509Ext = (extensions, v) => {
   for (var extension in extensions) {
     if (extensions[extension].extnID === v) {
-      return extensions[extension].parsedValue
+      return extensions[extension];
     }
   }
+
+  return {
+    parsedValue: undefined,
+  };
+
 };
 
 const getHash = async (algo, buffer) => {
@@ -32,7 +49,11 @@ const getHash = async (algo, buffer) => {
 };
 
 const hashify = (hash) => {
-  return hash.match(/.{2}/g).join(':').toUpperCase();
+  if (typeof hash === 'string') {
+    return hash.match(/.{2}/g).join(':').toUpperCase();
+  } else {
+    return hash.join(':').toUpperCase();
+  }
 }
 
 const parseSubsidiary = (obj) => {
@@ -91,6 +112,14 @@ export const parse = async (der) => {
     'Digital Signature',
   ];
 
+  const eKUNames = {
+    '1.3.6.1.5.5.7.3.1': 'Server Authentication',
+    '1.3.6.1.5.5.7.3.2': 'Client Authentication',
+    '1.3.6.1.5.5.7.3.3': 'Code Signing',
+    '1.3.6.1.5.5.7.3.4': 'E-mail Protection',
+    '1.3.6.1.5.5.7.3.5': 'Timestamping',
+  }
+
   const signatureNames = {
     '1.2.840.113549.1.1.5': 'SHA-1 with RSA Encryption',
     '1.2.840.113549.1.1.11': 'SHA-256 with RSA Encryption',
@@ -113,7 +142,7 @@ export const parse = async (der) => {
   const certBTOA = window.btoa(String.fromCharCode.apply(null, der)).match(/.{1,64}/g).join('\r\n');
 
   // get the subjectAltNames
-  let san = getX509Ext(x509.extensions, '2.5.29.17');
+  let san = getX509Ext(x509.extensions, '2.5.29.17').parsedValue;
   if (san !== undefined && san.hasOwnProperty('altNames')) {
     san = Object.keys(san.altNames).map(x => san.altNames[x].value);
   } else {
@@ -122,7 +151,7 @@ export const parse = async (der) => {
 
   // get the keyUsages
   const keyUsages = [];
-  let keyUsagesBS = getX509Ext(x509.extensions, '2.5.29.15');
+  let keyUsagesBS = getX509Ext(x509.extensions, '2.5.29.15').parsedValue;
   if (keyUsagesBS !== undefined) {
     // parse the bit string, shifting as necessary
     let unusedBits = keyUsagesBS.valueBlock.unusedBits;
@@ -141,8 +170,24 @@ export const parse = async (der) => {
     keyUsages.reverse();
   };
 
+  // get the basic constraints
+  const basicConstraints = {};
+  const basicConstraintsExt = getX509Ext(x509.extensions, '2.5.29.19');
+  if (basicConstraintsExt !== undefined) {
+    basicConstraints.critical = basicConstraintsExt.critical === true ? 'Yes' : 'No';
+    basicConstraints.cA = basicConstraintsExt.parsedValue.cA === true ? 'Yes' : 'No';
+  }
+
+  // get the extended key usages
+  let eKUsages = getX509Ext(x509.extensions, '2.5.29.37').parsedValue;
+  if (eKUsages !== undefined) {
+    eKUsages = {
+      purposes: eKUsages.keyPurposes.map(x => eKUNames[x]),
+    }
+  }
+
   // get the embedded SCTs
-  let scts = getX509Ext(x509.extensions, '1.3.6.1.4.1.11129.2.4.2');
+  let scts = getX509Ext(x509.extensions, '1.3.6.1.4.1.11129.2.4.2').parsedValue;
   if (scts !== undefined) {
     scts = Object.keys(scts.timestamps).map(x => {
       return {
@@ -156,10 +201,31 @@ export const parse = async (der) => {
     scts = [];
   }
 
+  // get the public key info
+  let spki = x509.subjectPublicKeyInfo;
+  if (spki.kty === 'RSA') {
+      spki.e = b64urltodec(spki.e);                   // exponent
+      spki.keysize = b64urltohex(spki.n).length * 8;  // key size in bits
+      spki.n = hashify(b64urltohex(spki.n));          // modulus
+  } else if (spki.kty === 'EC') {
+    spki.kty = 'Elliptic Curve';
+    spki.keysize = parseInt(spki.crv.split('-')[1])   // this is a bit hacky
+    spki.x = hashify(b64urltohex(spki.x));            // x coordinate
+    spki.y = hashify(b64urltohex(spki.y));            // y coordinate
+    spki.xy = `04:${spki.x}:${spki.y}`;               // 04 (uncompressed) public key
+  }
+
   console.log('returning from parse() for cert', x509);
 
   // the output shell
   return {
+    ext: {
+      basicConstraints: basicConstraints,
+      eKUsages: eKUsages,
+      keyUsages: keyUsages,
+      scts: scts,
+      subjectAltNames: san,
+    },
     files: {
       der: undefined,
       pem: encodeURI(`-----BEGIN CERTIFICATE-----\r\n${certBTOA}\r\n-----END CERTIFICATE-----\r\n`),
@@ -168,36 +234,16 @@ export const parse = async (der) => {
       'sha1': await getHash('SHA-1', der.buffer),
       'sha256': await getHash('SHA-256', der.buffer),
     },
-    keyUsages: keyUsages,
     issuer: parseSubsidiary(x509.issuer.typesAndValues),
     notBefore: x509.notBefore.value.toLocaleString(),
     notAfter: x509.notAfter.value.toLocaleString(),
-    scts: scts,
     subject: parseSubsidiary(x509.subject.typesAndValues),
     serialNumber: hashify(get(x509, 'serialNumber.valueBlock.valueHex')),
     signature: {
       name: signatureNames[get(x509, 'signature.algorithmId')],
       type: get(x509, 'signature.algorithmId'),
     },
-    subjectAltNames: san,
+    subjectPublicKeyInfo: spki,
     version: (x509.version + 1).toString(),
   }
-
-
-
-
-  // console.log('here is the asn1', asn1);
-  // console.log('here is the cert', x509);
-
-  // let's see if we can do this
-  // console.log('serial number', get(x509, 'serialNumber.valueBlock.valueHex'));
-
-  // console.log('here is the cert so far', cert);
-
 };
-
-const fml = async () => {
-  return await parse(myDER);
-}
-
-// fml();
