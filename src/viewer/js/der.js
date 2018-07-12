@@ -163,7 +163,12 @@ export const parse = async (der) => {
   const basicConstraintsExt = getX509Ext(x509.extensions, '2.5.29.19');
   if (basicConstraintsExt) {
     basicConstraints.critical = basicConstraintsExt.critical === true ? 'Yes' : 'No';
-    basicConstraints.cA = basicConstraintsExt.parsedValue.cA === true ? 'Yes' : 'No';
+
+    if (basicConstraintsExt.parsedValue.cA !== undefined) {
+      basicConstraints.cA = basicConstraintsExt.parsedValue.cA === true ? 'Yes' : 'No';
+    } else {
+      basicConstraints.cA = false;
+    }
   }
 
   // get the extended key usages
