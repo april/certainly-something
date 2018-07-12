@@ -96,7 +96,19 @@ browser.browserAction.onClicked.addListener(
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     if (request.action === 'getSecurityInfo' && sender.envType === 'addon_child') {
-      sendResponse(tabState[request.tabId].si);
+      const state = tabState[request.tabId];
+
+      if (!state) {
+        sendResponse(undefined);
+        return;
+      }
+
+      sendResponse(state.si);
+    }
+
+    // this is a bit hackish for now, I could probably have a real error page
+    if (request.action === 'closeTab' && sender.envType === 'addon_child') {
+      browser.tabs.remove(sender.tab.id);
     }
   }
 );

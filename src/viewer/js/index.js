@@ -62,6 +62,14 @@ const render = (securityInfo) => {
   postRender();
 }
 
+// closes the current tab of the viewer - can't use window.close()
+const closeTab = () => {
+  chrome.runtime.sendMessage(
+    {
+      'action': 'closeTab',
+    }
+  );
+};
 
 const handleDOMContentLoaded = () => {
   // get the tab id
@@ -73,10 +81,17 @@ const handleDOMContentLoaded = () => {
       'tabId': tid
     },
     async response => {
+      // close the tab if we don't get a response back
+      // this mostly happens because you can't disable the icon on moz-extension pages
+      if (response === undefined) {
+        closeTab();
+        return;
+      }
+
       const securityInfo = await getSecurityInfo(response);
       render(response);
     }
-  )
+  );
 };
 
 

@@ -167,7 +167,7 @@ export const parse = async (der) => {
     if (basicConstraintsExt.parsedValue.cA !== undefined) {
       basicConstraints.cA = basicConstraintsExt.parsedValue.cA === true ? 'Yes' : 'No';
     } else {
-      basicConstraints.cA = false;
+      basicConstraints.cA = 'No';
     }
   }
 
