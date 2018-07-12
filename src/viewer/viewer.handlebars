@@ -218,7 +218,7 @@
           </div>
           <div class="panel-list-item">
             <div class="text">Download</div>
-            <div class="text"><a href="data:,{{ this.files.pem }}" download="{{ this.subject.cn }}.pem">PEM</a></div>
+            <div class="text"><a href="data:,{{ this.files.pem }}" download="{{ this.subject.cn }}.pem">PEM (cert)</a>, <a href="data:,{{#each ../certs}}{{ this.files.pem }}{{/each}}" download="{{ this.subject.cn }}-chain.pem">PEM (chain)</a></div>
           </div>
           <div class="panel-list-item">
             <div class="text">Key Usage</div>
