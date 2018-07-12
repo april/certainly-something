@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Cert Viewer",
-  "short_name": "Cert Viewer",
+  "name": "Certificate Viewer",
+  "short_name": "Certificate Viewer",
   "version": "1.0.0",
 
   "description": "TLS Info Experiment",
@@ -34,11 +34,10 @@
   "browser_action": {
     "browser_style": true,
     "default_icon": "icons/http.svg",
-    "default_title": "Cert Viewer by Mozilla"
+    "default_title": "Certificate Viewer by Mozilla"
   },
 
   "permissions": [
-    "storage",
     "tabs",
     "webNavigation",
     "webRequest",
