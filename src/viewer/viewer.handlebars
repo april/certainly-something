@@ -5,28 +5,26 @@
       <div class="panel-section panel-section-header">
         <div class="text-section-header"><h1>Handshake</h1></div>
       </div>
-      <div class="panel-list-container">
-        <div class="panel-list-item">
-          <div class="text">Protocol</div>
-          <div class="text">{{replace protocolVersion "v" " "}}</div>
-        </div>
-        <div class="panel-list-item">
-          <div class="text">Cipher Suite</div>
-          <div class="text">{{ cipherSuite }}</div>
-        </div>
-        {{#if (truthy keaGroupName)}}
-        <div class="panel-list-item">
-          <div class="text">Key Exchange Group</div>
-          <div class="text">{{ keaGroupName }}</div>
-        </div>
-        {{/if}}
-        {{#if (truthy signatureSchemeName)}}
-        <div class="panel-list-item">
-          <div class="text">Signature Scheme</div>
-          <div class="text">{{ signatureSchemeName }}</div>
-        </div>
-        {{/if}}
+      <div class="panel-list-item">
+        <div class="text">Protocol</div>
+        <div class="text">{{replace protocolVersion "v" " "}}</div>
       </div>
+      <div class="panel-list-item">
+        <div class="text">Cipher Suite</div>
+        <div class="text">{{ cipherSuite }}</div>
+      </div>
+      {{#if (truthy keaGroupName)}}
+      <div class="panel-list-item">
+        <div class="text">Key Exchange Group</div>
+        <div class="text">{{ keaGroupName }}</div>
+      </div>
+      {{/if}}
+      {{#if (truthy signatureSchemeName)}}
+      <div class="panel-list-item">
+        <div class="text">Signature Scheme</div>
+        <div class="text">{{ signatureSchemeName }}</div>
+      </div>
+      {{/if}}
     </div>
   </div>
 
@@ -166,8 +164,8 @@
             </div>
             {{#each this.ext.subjectAltNames}}
               <div class="panel-list-item">
-                <div class="text">Common Name</div>
-                <div class="text">{{ this }}</div>
+                <div class="text">{{lookup this 0}}</div>
+                <div class="text">{{lookup this 1}}</div>
               </div>
             {{/each}}
           {{/if}}
@@ -281,6 +279,17 @@
             </div>
           {{/if}}
 
+          <!-- OCSP Stapling -->
+          {{#if this.ext.ocspStaple.required}}
+          <div class="panel-section-subheader">
+            <span>OCSP Stapling</span>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Required</div>
+            <div class="text">Yes</div>
+          </div>
+          {{/if}}
+
           <!-- Subject Key Identifier -->
           {{#if this.ext.sKID}}
             <div class="panel-section-subheader">
@@ -301,6 +310,19 @@
               <div class="text">Key ID</div>
               <div class="text">{{ this.ext.aKID.id }}</div>
             </div>
+          {{/if}}
+
+          <!-- CRL Distribution Points -->
+          {{#if this.ext.crlPoints}}
+            <div class="panel-section-subheader">
+              <span>CRL Endpoints</span>
+            </div>
+            {{#each this.ext.crlPoints.points}}
+              <div class="panel-list-item">
+                <div class="text">Distribution Point {{onebasedindex @index}}</div>
+                <div class="text">{{{link this this}}}</div>
+              </div>
+            {{/each}}
           {{/if}}
 
           <!-- Certificate transparency -->

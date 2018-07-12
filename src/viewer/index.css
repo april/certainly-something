@@ -28,7 +28,7 @@ h2 {
 .panel-section-subsection {
   font-size: 18px;
   font-weight: 700;
-  margin: 14px 0 0 16px;
+  margin: 14px 0 -8px 16px;
 }
 
 .panel-section-subheader span {
@@ -42,6 +42,10 @@ h2 {
   flex: 1 1;
   border-bottom: 1px solid #b8b8b8;
   margin: auto 2em auto 1em;
+}
+
+#handshake .panel .panel-section-header {
+  margin-bottom: 8px;
 }
 
 .panel-list-item ~ .panel-section-subheader {
@@ -76,13 +80,6 @@ h2 {
   white-space: nowrap;
 }
 
-.long-hex:hover {
-  margin-right: 4em;
-  overflow: visible;
-  white-space: normal;
-  width: auto;
-}
-
 .section {
   margin-bottom: .5em;
 }
@@ -103,7 +100,7 @@ h2 {
 }
 
 .panel-section-tabs {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .panel-section-tabs-button.selected {

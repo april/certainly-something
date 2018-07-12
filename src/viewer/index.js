@@ -23,6 +23,7 @@ const postRender = () => {
   // setup handlers for tabbing between certificates
   const buttons = document.getElementById('certificates').getElementsByClassName('panel-section-tabs-button');
   const certificates = document.getElementsByClassName('certificate');
+  const longhexes = document.getElementsByClassName('long-hex');
 
   // setup the event handlers for tabs
   for (let node of buttons) {
@@ -43,8 +44,12 @@ const postRender = () => {
           certificate.setAttribute('hidden', true);
         }
       });
-
     });
+  }
+
+  // make long hex values expand if clicked upon
+  for (let node of longhexes) {
+    node.addEventListener('click', event => event.target.classList.toggle('long-hex'));
   }
 };
 

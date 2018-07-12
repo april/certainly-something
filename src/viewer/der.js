@@ -36,6 +36,7 @@ const getX509Ext = (extensions, v) => {
   }
 
   return {
+    extnValue: undefined,
     parsedValue: undefined,
   };
 
@@ -112,6 +113,18 @@ export const parse = async (der) => {
     'Digital Signature',
   ];
 
+  const sanNames = [
+    'Other Name',
+    'RFC 822 Name',
+    'DNS Name',
+    'X.400 Address',
+    'Directory Name',
+    'EDI Party Name',
+    'URI',
+    'IP Address',
+    'Registered ID',
+  ]
+
   const eKUNames = {
     '1.3.6.1.5.5.7.3.1': 'Server Authentication',
     '1.3.6.1.5.5.7.3.2': 'Client Authentication',
@@ -178,23 +191,24 @@ export const parse = async (der) => {
 
   // get the subjectAltNames
   let san = getX509Ext(x509.extensions, '2.5.29.17').parsedValue;
-  if (san !== undefined && san.hasOwnProperty('altNames')) {
-    san = Object.keys(san.altNames).map(x => san.altNames[x].value);
+  if (san && san.hasOwnProperty('altNames')) {
+    san = Object.keys(san.altNames).map(x => [sanNames[san.altNames[x].type], san.altNames[x].value]);
   } else {
     san = [];
   }
+  console.log('san is', san);
 
   // get the basic constraints
   const basicConstraints = {};
   const basicConstraintsExt = getX509Ext(x509.extensions, '2.5.29.19');
-  if (basicConstraintsExt !== undefined) {
+  if (basicConstraintsExt) {
     basicConstraints.critical = basicConstraintsExt.critical === true ? 'Yes' : 'No';
     basicConstraints.cA = basicConstraintsExt.parsedValue.cA === true ? 'Yes' : 'No';
   }
 
   // get the extended key usages
   let eKUsages = getX509Ext(x509.extensions, '2.5.29.37').parsedValue;
-  if (eKUsages !== undefined) {
+  if (eKUsages) {
     eKUsages = {
       purposes: eKUsages.keyPurposes.map(x => eKUNames[x]),
     }
@@ -202,7 +216,7 @@ export const parse = async (der) => {
 
   // get the subject key identifier
   let sKID = getX509Ext(x509.extensions, '2.5.29.14').parsedValue;
-  if (sKID !== undefined) {
+  if (sKID) {
     sKID = {
       id: hashify(sKID.valueBlock.valueHex),
     }
@@ -210,16 +224,35 @@ export const parse = async (der) => {
 
   // get the authority key identifier
   let aKID = getX509Ext(x509.extensions, '2.5.29.35').parsedValue;
-  if (aKID !== undefined) {
-    console.log('akid is', aKID)
+  if (aKID) {
     aKID = {
       id: hashify(aKID.keyIdentifier.valueBlock.valueHex),
     }
   }
 
+  // get the CRL points
+  let crlPoints = getX509Ext(x509.extensions, '2.5.29.31').parsedValue;
+
+  if (crlPoints) {
+    crlPoints = {
+      points: crlPoints.distributionPoints.map(x => x.distributionPoint[0].value),
+    };
+  }
+
+  let ocspStaple = getX509Ext(x509.extensions, '1.3.6.1.5.5.7.1.24').extnValue;
+  if (ocspStaple && ocspStaple.valueBlock.valueHex === '3003020105') {
+    ocspStaple = {
+      required: true,
+    }
+  } else {
+    ocspStaple = {
+      required: false,
+    }
+  }
+
   // get the embedded SCTs
   let scts = getX509Ext(x509.extensions, '1.3.6.1.4.1.11129.2.4.2').parsedValue;
-  if (scts !== undefined) {
+  if (scts) {
     scts = Object.keys(scts.timestamps).map(x => {
       return {
         logId: hashify(scts.timestamps[x].logID),
@@ -239,8 +272,10 @@ export const parse = async (der) => {
     ext: {
       aKID,
       basicConstraints,
+      crlPoints,
       eKUsages,
       keyUsages,
+      ocspStaple,
       scts: scts,
       sKID,
       subjectAltNames: san,
