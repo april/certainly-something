@@ -13,7 +13,7 @@ It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext
 
 ```bash
 $ web-ext run --browser-console -s src --ignore-files 'viewer/*.handlebars'
-$ fswatch src/viewer/viewer.handlebars | xargs -n1 handlebars -f src/viewer/viewer.handlebars.js
+$ fswatch src/viewer/viewer.handlebars | xargs -n1 handlebars -f src/viewer/js/viewer.handlebars.js
 ```
 
 If you are simply looking to give it a single run, you can install it by navigating to:
