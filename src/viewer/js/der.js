@@ -1,32 +1,7 @@
 import * as asn1js from './pkijs/asn1.js';
-import * as pvutils from './pkijs/pvutils.js';
 import Certificate from './pkijs/Certificate.js';
+import { b64urltodec, b64urltohex, getObjPath, hash, hashify } from './utils.js';
 
-const b64urltodec = (b64) => {
-  return new asn1js.Integer({ valueHex: pvutils.stringToArrayBuffer(pvutils.fromBase64('AQAB', true, true)) }).valueBlock._valueDec;
-};
-
-const b64urltohex = (b64) => {
-  const hexBuffer = new asn1js.Integer({ valueHex: pvutils.stringToArrayBuffer(pvutils.fromBase64(b64, true, true)) }).valueBlock._valueHex;
-  const hexArray = Array.from(new Uint8Array(hexBuffer));
-
-  return hexArray.map(b => ('00' + b.toString(16)).slice(-2));
-};
-
-// this particular prototype override makes it easy to chain down complex objects
-const get = (obj, path) => {
-    for (var i=0, path=path.split('.'), len=path.length; i<len; i++){
-        if (Array.isArray(obj[path[i]])){
-            obj = obj[path[i]][ path[i+1]];
-            i++;
-        } else {
-            obj = obj[path[i]];
-        }
-
-    };
-
-    return obj;
-};
 
 const getX509Ext = (extensions, v) => {
   for (var extension in extensions) {
@@ -42,20 +17,6 @@ const getX509Ext = (extensions, v) => {
 
 };
 
-const getHash = async (algo, buffer) => {
-  const hashBuffer = await crypto.subtle.digest(algo, buffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-  return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join(':').toUpperCase();
-};
-
-const hashify = (hash) => {
-  if (typeof hash === 'string') {
-    return hash.match(/.{2}/g).join(':').toUpperCase();
-  } else {
-    return hash.join(':').toUpperCase();
-  }
-}
 
 const parseSubsidiary = (obj) => {
   var path = [];
@@ -196,7 +157,6 @@ export const parse = async (der) => {
   } else {
     san = [];
   }
-  console.log('san is', san);
 
   // get the basic constraints
   const basicConstraints = {};
@@ -285,17 +245,17 @@ export const parse = async (der) => {
       pem: encodeURI(`-----BEGIN CERTIFICATE-----\r\n${certBTOA}\r\n-----END CERTIFICATE-----\r\n`),
     },
     fingerprint: {
-      'sha1': await getHash('SHA-1', der.buffer),
-      'sha256': await getHash('SHA-256', der.buffer),
+      'sha1': await hash('SHA-1', der.buffer),
+      'sha256': await hash('SHA-256', der.buffer),
     },
     issuer: parseSubsidiary(x509.issuer.typesAndValues),
     notBefore: x509.notBefore.value.toLocaleString(),
     notAfter: x509.notAfter.value.toLocaleString(),
     subject: parseSubsidiary(x509.subject.typesAndValues),
-    serialNumber: hashify(get(x509, 'serialNumber.valueBlock.valueHex')),
+    serialNumber: hashify(getObjPath(x509, 'serialNumber.valueBlock.valueHex')),
     signature: {
-      name: signatureNames[get(x509, 'signature.algorithmId')],
-      type: get(x509, 'signature.algorithmId'),
+      name: signatureNames[getObjPath(x509, 'signature.algorithmId')],
+      type: getObjPath(x509, 'signature.algorithmId'),
     },
     subjectPublicKeyInfo: spki,
     version: (x509.version + 1).toString(),
