@@ -77,6 +77,11 @@ browser.tabs.onCreated.addListener(
   }
 );
 
+// same with a new navigation
+browser.webNavigation.onBeforeNavigate.addListener(details => {
+  updateIcon(details.tabId, 'http');
+})
+
 // when it's first loaded, disable the icon on every page
 browser.runtime.onInstalled.addListener(async () => {
   let activeTab = undefined;
