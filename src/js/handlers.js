@@ -77,6 +77,34 @@ browser.tabs.onCreated.addListener(
   }
 );
 
+// when it's first loaded, disable the icon on every page
+browser.runtime.onInstalled.addListener(async () => {
+  let activeTab = undefined;
+  let activeUrl = undefined;
+
+  const tabs = await browser.tabs.query({});
+
+  // disable every inactive tab
+  tabs.forEach(tab => {
+    updateIcon(tab.id, 'http');
+
+    // disable the icon on every tab
+    if (tab.active) {
+      activeTab = tab.id;
+      try {
+        activeUrl = new URL(tab.url);
+      } catch {
+        // pass
+      }
+    }
+  });
+
+  // refresh the active tab, if it's a web page and it's on https
+  if (activeTab && activeUrl && activeUrl.protocol === 'https:') {
+    browser.tabs.reload(activeTab);
+  }
+});
+
 // update the icon when a navigation is complete
 browser.webNavigation.onCompleted.addListener(
   details => { updateIcon(details.tabId, tabState[details.tabId].si.state); },
