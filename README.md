@@ -12,7 +12,7 @@ It currently requires at least Firefox 62.
 It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext) for installation and testing.  It provides a number of useful features, such as automated installation and autoreload upon source changes:
 
 ```bash
-$ web-ext run --browser-console -s src --ignore-files 'viewer/*.handlebars'
+$ web-ext run --browser-console -s src --ignore-files 'viewer/*.handlebars' --ignore-files 'scripts/*'
 $ fswatch src/viewer/viewer.handlebars | xargs -n1 handlebars -f src/viewer/js/viewer.handlebars.js
 ```
 

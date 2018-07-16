@@ -336,6 +336,10 @@
                 <div class="text">{{ this.logId }}</div>
               </div>
               <div class="panel-list-item">
+                <div class="text">Log Name</div>
+                <div class="text">{{#if this.name}}{{ this.name }}{{else}}Unknown{{/if}}</div>
+              </div>
+              <div class="panel-list-item">
                 <div class="text">Signature Algorithm</div>
                 <div class="text">{{ this.signatureAlgorithm }}</div>
               </div>

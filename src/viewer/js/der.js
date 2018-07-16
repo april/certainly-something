@@ -1,5 +1,6 @@
 import * as asn1js from './pkijs/asn1.js';
 import Certificate from './pkijs/Certificate.js';
+import { ctLogNames } from './ctlognames.js';
 import { b64urltodec, b64urltohex, getObjPath, hash, hashify } from './utils.js';
 
 
@@ -64,6 +65,7 @@ const parseSubsidiary = (obj) => {
 
 export const parse = async (der) => {
   console.log('called into parse()');
+  const timeZone = `${new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1]}`;
   const keyUsageNames = [
     'CRL Signing',
     'Certificate Signing',
@@ -218,11 +220,14 @@ export const parse = async (der) => {
   // get the embedded SCTs
   let scts = getX509Ext(x509.extensions, '1.3.6.1.4.1.11129.2.4.2').parsedValue;
   if (scts) {
+    console.log('here are the scts', scts);
     scts = Object.keys(scts.timestamps).map(x => {
+      let logId = scts.timestamps[x].logID.toLowerCase();
       return {
-        logId: hashify(scts.timestamps[x].logID),
+        logId: hashify(logId),
+        name: ctLogNames.hasOwnProperty(logId) ? ctLogNames[logId] : undefined,
         signatureAlgorithm: `${scts.timestamps[x].hashAlgorithm.replace('sha', 'SHA-')} ${scts.timestamps[x].signatureAlgorithm.toUpperCase()}`,
-        timestamp: scts.timestamps[x].timestamp.toLocaleString(),
+        timestamp: `${scts.timestamps[x].timestamp.toLocaleString()} (${timeZone})`,
         version: scts.timestamps[x].version + 1,
       }
     });
@@ -254,8 +259,8 @@ export const parse = async (der) => {
       'sha256': await hash('SHA-256', der.buffer),
     },
     issuer: parseSubsidiary(x509.issuer.typesAndValues),
-    notBefore: x509.notBefore.value.toLocaleString(),
-    notAfter: x509.notAfter.value.toLocaleString(),
+    notBefore: `${x509.notBefore.value.toLocaleString()} (${timeZone})`,
+    notAfter: `${x509.notAfter.value.toLocaleString()} (${timeZone})`,
     subject: parseSubsidiary(x509.subject.typesAndValues),
     serialNumber: hashify(getObjPath(x509, 'serialNumber.valueBlock.valueHex')),
     signature: {
