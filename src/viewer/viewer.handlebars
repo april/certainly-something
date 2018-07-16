@@ -343,6 +343,43 @@
             {{/each}}
           {{/if}}
 
+          <!-- Certificate policies -->
+          {{#if this.ext.cp}}
+            <div class="panel-section-subheader">
+              <span>Certificate Policies</span>
+            </div>
+            {{#each this.ext.cp}}
+              <div class="panel-list-item">
+                <div class="text">Policy {{onebasedindex @index}}</div>
+                <div class="text">{{#if this.name}}{{ this.name }} ( {{ this.id }} ){{else}}{{ this.id }}{{/if}}</div>
+              </div>
+              {{#if this.value}}
+                <div class="panel-list-item">
+                  <div class="text">Value</div>
+                  <div class="text">{{#if (is_web_uri this.value)}}{{{link this.value this.value}}}{{else}}{{ this.value }}{{/if}}</div>
+                </div>
+              {{/if}}
+              {{#if this.qualifiers}}
+                {{#if this.value}}
+                  <div class="panel-list-item-separator"></div>
+                {{/if}}
+                {{#each this.qualifiers}}
+                  <div class="panel-list-item">
+                    <div class="text">Qualifier {{onebasedindex @index}}</div>
+                    <div class="text">{{#if this.name}}{{ this.name }} ( {{ this.id }} ){{else}}{{ this.id }}{{/if}}</div>
+                  </div>
+                  {{#if this.value}}
+                    <div class="panel-list-item">
+                      <div class="text">Value</div>
+                      <div class="text">{{#if (is_web_uri this.value)}}{{{link this.value this.value}}}{{else}}{{ this.value }}{{/if}}</div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+              {{/if}}
+              {{#unless @last}}<div class="panel-list-item-separator"></div>{{/unless}}
+            {{/each}}
+          {{/if}}
+
           <!-- Certificate transparency -->
           {{#if this.ext.scts}}
             <div class="panel-section-subheader">

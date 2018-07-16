@@ -1,3 +1,17 @@
+Handlebars.registerHelper('is_web_uri', (_url) => {
+  try {
+    let url = new URL(_url);
+
+    if (url.protocol === 'http:' || url.protocol === 'https:') {
+      return true;
+    }
+  } catch {
+    return false;
+  }
+
+  return false;
+});
+
 Handlebars.registerHelper('link', (text, url) => {
   text = Handlebars.escapeExpression(text);
   url = Handlebars.escapeExpression(url);

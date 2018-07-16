@@ -114,6 +114,54 @@ export const parse = async (der) => {
     '1.3.6.1.5.5.7.48.2': 'CA Issuers',
   };
 
+  // this includes qualifiers as well
+  const cpsNames = {
+    '1.3.6.1.4.1': {
+      name: 'Statement Identifier',
+      value: undefined,
+    },
+    '1.3.6.1.5.5.7.2.1': {
+      name: 'Practices Statement',
+      value: undefined,
+    },
+    '1.3.6.1.5.5.7.2.2': {
+      name: 'User Notice',
+      value: undefined,
+    },
+    '2.16.840': {
+      name: 'ANSI Organizational Identifier',
+      value: undefined,
+    },
+    '2.23.140.1.1': {
+      name: 'Certificate Type',
+      value: 'Extended Validation',
+    },
+    '2.23.140.1.2.1': {
+      name: 'Certificate Type',
+      value: 'Domain Validation',
+    },
+    '2.23.140.1.2.2': {
+      name: 'Certificate Type',
+      value: 'Organization Validation',
+    },
+    '2.23.140.1.2.3': {
+      name: 'Certificate Type',
+      value: 'Individual Validation',
+    },
+    '2.23.140.1.3': {
+      name: 'Certificate Type',
+      value: 'Extended Validation (Code Signing)',
+    },
+    '2.23.140.1.31': {
+      name: 'Certificate Type',
+      value: '.onion Extended Validation',
+    },
+    '2.23.140.2.1': {
+      name: 'Certificate Type',
+      value: 'Test Certificate',
+    },
+  };
+
   // parse the DER
   const asn1 = asn1js.fromBER(der.buffer);
   var x509 = new Certificate({ schema: asn1.result });
@@ -252,6 +300,60 @@ export const parse = async (der) => {
     scts = [];
   }
 
+  // Certificate Policies, this stuff is really messy
+  let cp = getX509Ext(x509.extensions, '2.5.29.32').parsedValue;
+  if (cp && cp.hasOwnProperty('certificatePolicies')) {
+    cp = cp.certificatePolicies.map(x => {
+      let id = x.policyIdentifier;
+      let name = cpsNames.hasOwnProperty(id) ? cpsNames[id].name : undefined;
+      let qualifiers = undefined;
+      let value = cpsNames.hasOwnProperty(id) ? cpsNames[id].value : undefined;
+
+      // ansi organization identifiers
+      if (id.startsWith('2.16.840')) {
+        value = id;
+        id = '2.16.840';
+        name = cpsNames['2.16.840'].name;
+      }
+
+      // statement identifiers
+      if (id.startsWith('1.3.6.1.4.1')) {
+        value = id;
+        id = '1.3.6.1.4.1';
+        name = cpsNames['1.3.6.1.4.1'].name;
+      }
+
+      if (x.hasOwnProperty('policyQualifiers')) {
+        qualifiers = x.policyQualifiers.map(qualifier => {
+          let id = qualifier.policyQualifierId;
+          let name = cpsNames.hasOwnProperty(id) ? cpsNames[id].name : undefined;
+          let value = qualifier.qualifier.valueBlock.value;
+
+          // sometimes they are multiple qualifier subblocks, and for now we'll
+          // only return the first one because it's getting really messy at this point
+          if (Array.isArray(value) && value.length === 1) {
+            value = value[0].valueBlock.value;
+          } else if (Array.isArray(value) && value.length > 1) {
+            value = '(currently unsupported)';
+          }
+
+          return {
+            id,
+            name,
+            value,
+          }
+        });
+      }
+
+      return {
+        id,
+        name,
+        qualifiers,
+        value,
+      };
+    });
+  }
+
   console.log('returning from parse() for cert', x509);
 
   // the output shell
@@ -261,6 +363,7 @@ export const parse = async (der) => {
       aKID,
       basicConstraints,
       crlPoints,
+      cp,
       eKUsages,
       keyUsages,
       ocspStaple,

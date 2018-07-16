@@ -101,8 +101,10 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.crlPoints : stack1),{"name":"if","hash":{},"fn":container.program(69, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- Certificate Authority Information Access -->\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aia : stack1),{"name":"if","hash":{},"fn":container.program(72, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Certificate policies -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.cp : stack1),{"name":"if","hash":{},"fn":container.program(76, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- Certificate transparency -->\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(76, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(93, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     return "hidden";
@@ -307,15 +309,76 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"76":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(77, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return "            <div class=\"panel-section-subheader\">\n              <span>Certificate Policies</span>\n            </div>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.cp : stack1),{"name":"each","hash":{},"fn":container.program(77, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"77":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Policy "
+    + container.escapeExpression((helpers.onebasedindex || (depth0 && depth0.onebasedindex) || helpers.helperMissing).call(alias1,(data && data.index),{"name":"onebasedindex","hash":{},"data":data}))
+    + "</div>\n                <div class=\"text\">"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(78, data, 0),"inverse":container.program(80, data, 0),"data":data})) != null ? stack1 : "")
+    + "</div>\n              </div>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"if","hash":{},"fn":container.program(82, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.qualifiers : depth0),{"name":"if","hash":{},"fn":container.program(87, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "              "
+    + ((stack1 = helpers.unless.call(alias1,(data && data.last),{"name":"unless","hash":{},"fn":container.program(74, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n";
+},"78":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return alias2(alias1((depth0 != null ? depth0.name : depth0), depth0))
+    + " ( "
+    + alias2(alias1((depth0 != null ? depth0.id : depth0), depth0))
+    + " )";
+},"80":function(container,depth0,helpers,partials,data) {
+    return container.escapeExpression(container.lambda((depth0 != null ? depth0.id : depth0), depth0));
+},"82":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return "                <div class=\"panel-list-item\">\n                  <div class=\"text\">Value</div>\n                  <div class=\"text\">"
+    + ((stack1 = helpers["if"].call(alias1,(helpers.is_web_uri || (depth0 && depth0.is_web_uri) || helpers.helperMissing).call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"is_web_uri","hash":{},"data":data}),{"name":"if","hash":{},"fn":container.program(83, data, 0),"inverse":container.program(85, data, 0),"data":data})) != null ? stack1 : "")
+    + "</div>\n                </div>\n";
+},"83":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = (helpers.link || (depth0 && depth0.link) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.value : depth0),(depth0 != null ? depth0.value : depth0),{"name":"link","hash":{},"data":data})) != null ? stack1 : "");
+},"85":function(container,depth0,helpers,partials,data) {
+    return container.escapeExpression(container.lambda((depth0 != null ? depth0.value : depth0), depth0));
+},"87":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"if","hash":{},"fn":container.program(88, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.qualifiers : depth0),{"name":"each","hash":{},"fn":container.program(90, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"88":function(container,depth0,helpers,partials,data) {
+    return "                  <div class=\"panel-list-item-separator\"></div>\n";
+},"90":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return "                  <div class=\"panel-list-item\">\n                    <div class=\"text\">Qualifier "
+    + container.escapeExpression((helpers.onebasedindex || (depth0 && depth0.onebasedindex) || helpers.helperMissing).call(alias1,(data && data.index),{"name":"onebasedindex","hash":{},"data":data}))
+    + "</div>\n                    <div class=\"text\">"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(78, data, 0),"inverse":container.program(80, data, 0),"data":data})) != null ? stack1 : "")
+    + "</div>\n                  </div>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"if","hash":{},"fn":container.program(91, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"91":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return "                    <div class=\"panel-list-item\">\n                      <div class=\"text\">Value</div>\n                      <div class=\"text\">"
+    + ((stack1 = helpers["if"].call(alias1,(helpers.is_web_uri || (depth0 && depth0.is_web_uri) || helpers.helperMissing).call(alias1,(depth0 != null ? depth0.value : depth0),{"name":"is_web_uri","hash":{},"data":data}),{"name":"if","hash":{},"fn":container.program(83, data, 0),"inverse":container.program(85, data, 0),"data":data})) != null ? stack1 : "")
+    + "</div>\n                    </div>\n";
+},"93":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(94, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"94":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {});
 
   return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Log ID</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.logId : depth0), depth0))
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Log Name</div>\n                <div class=\"text\">"
-    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(78, data, 0),"inverse":container.program(80, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(95, data, 0),"inverse":container.program(97, data, 0),"data":data})) != null ? stack1 : "")
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Signature Algorithm</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.signatureAlgorithm : depth0), depth0))
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Timestamp</div>\n                <div class=\"text\">"
@@ -323,9 +386,9 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + "</div>\n              </div>\n              "
     + ((stack1 = helpers.unless.call(alias3,(data && data.last),{"name":"unless","hash":{},"fn":container.program(74, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"78":function(container,depth0,helpers,partials,data) {
+},"95":function(container,depth0,helpers,partials,data) {
     return container.escapeExpression(container.lambda((depth0 != null ? depth0.name : depth0), depth0));
-},"80":function(container,depth0,helpers,partials,data) {
+},"97":function(container,depth0,helpers,partials,data) {
     return "Unknown";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
