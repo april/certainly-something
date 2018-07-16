@@ -55,6 +55,11 @@ const postRender = () => {
 
 const render = (securityInfo) => {
   // console.log('about to render with this securityInfo', securityInfo);
+
+  // change the tab title
+  document.title = `${securityInfo.certs[0].subject.cn} (Certainly Something)`;
+
+  // render the handlebars template
   document.body.innerHTML = Handlebars.templates.viewer(securityInfo);
 
   // once handlebars has rendered, let us setup event handlers
