@@ -166,9 +166,10 @@ export const parse = async (der) => {
   }
 
   // get the basic constraints
-  const basicConstraints = {};
+  let basicConstraints;
   const basicConstraintsExt = getX509Ext(x509.extensions, '2.5.29.19');
-  if (basicConstraintsExt) {
+  if (basicConstraintsExt && basicConstraintsExt.parsedValue) {
+    basicConstraints = {};
     basicConstraints.critical = basicConstraintsExt.critical === true ? 'Yes' : 'No';
 
     if (basicConstraintsExt.parsedValue.cA !== undefined) {
