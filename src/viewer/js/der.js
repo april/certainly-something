@@ -44,7 +44,6 @@ const parseSubsidiary = (obj) => {
 
   for (var attribute in obj) {
     var attr = obj[attribute];
-    // console.log('attribute is', obj[attribute]);
     if (attr.type in usefulOIDs) {
       // add it to the subsidary
       subsidiary[usefulOIDs[attr.type]] = attr.value.valueBlock.value;
@@ -64,7 +63,6 @@ const parseSubsidiary = (obj) => {
 
 
 export const parse = async (der) => {
-  console.log('called into parse()');
   const timeZone = `${new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1]}`;
   const keyUsageNames = [
     'CRL Signing',
@@ -285,7 +283,6 @@ export const parse = async (der) => {
   // get the embedded SCTs
   let scts = getX509Ext(x509.extensions, '1.3.6.1.4.1.11129.2.4.2').parsedValue;
   if (scts) {
-    console.log('here are the scts', scts);
     scts = Object.keys(scts.timestamps).map(x => {
       let logId = scts.timestamps[x].logID.toLowerCase();
       return {
@@ -354,7 +351,7 @@ export const parse = async (der) => {
     });
   }
 
-  console.log('returning from parse() for cert', x509);
+  // console.log('returning from parse() for cert', x509);
 
   // the output shell
   return {

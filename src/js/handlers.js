@@ -25,7 +25,7 @@ const consumer = async details => {
   }
 
   // only pull security info on top level requests
-  if (details.type === 'main_frame') {
+  if (mainFrame) {
     // initialize the state
     tabState[tid] = {
       si: {
@@ -85,10 +85,19 @@ browser.webNavigation.onCompleted.addListener(
 
 // open the certificate viewer
 browser.browserAction.onClicked.addListener(
-  active => {
+  details => {
     browser.tabs.create({
-      url: `/viewer/index.html?tid=${String(active.id)}`
+      url: `/viewer/index.html?tid=${String(details.id)}`
     });
+  }
+);
+
+// remove the tab state when a tab is closed
+browser.tabs.onRemoved.addListener(
+  tabId => {
+    if (tabState.hasOwnProperty(tabId)) {
+      delete tabState[tabId];
+    }
   }
 );
 

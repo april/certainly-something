@@ -6,8 +6,7 @@ const getSecurityInfo = async (securityInfo) => {
   // information that can only be retrieved from the certificate's raw DER
   securityInfo['certs'] = [];
   for (const siCert of securityInfo.certificates) {
-    const der = new Uint8Array(siCert.rawDER);
-    const parsedCert = await parse(der);
+    const parsedCert = await parse(new Uint8Array(siCert.rawDER));
 
     // store if it's a built-in cert or not
     parsedCert['isBuiltInRoot'] = siCert.isBuiltInRoot;
@@ -55,7 +54,7 @@ const postRender = () => {
 
 
 const render = (securityInfo) => {
-  console.log('about to render with this securityInfo', securityInfo);
+  // console.log('about to render with this securityInfo', securityInfo);
   document.body.innerHTML = Handlebars.templates.viewer(securityInfo);
 
   // once handlebars has rendered, let us setup event handlers
