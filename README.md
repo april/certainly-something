@@ -1,5 +1,5 @@
-Certificate Viewer
-==================
+Certainly Something (Certificate Viewer)
+========================================
 
 Uses the new TLS Info API in Firefox to view information about the current state of your HTTPS connection. Watch it in action here:
 

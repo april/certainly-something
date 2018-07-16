@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "Certificate Viewer",
-  "short_name": "Certificate Viewer",
+  "name": "Certainly Something (Certificate Viewer)",
+  "short_name": "Certainly Something",
   "version": "1.0.0",
 
-  "description": "TLS Info Experiment",
-  "homepage_url": "https://github.com/april/cert-viewer",
+  "description": "Certainly Something (Certificate Viewer)",
+  "homepage_url": "https://github.com/april/certainly-something",
   "developer": {
     "name": "April King",
-    "url": "https://github.com/april/cert-viewer"
+    "url": "https://github.com/april/certainly-something"
   },
 
   "icons": {
@@ -34,7 +34,7 @@
   "browser_action": {
     "browser_style": true,
     "default_icon": "icons/http.svg",
-    "default_title": "Certificate Viewer by Mozilla"
+    "default_title": "Certainly Something (Certificate Viewer)"
   },
 
   "permissions": [
