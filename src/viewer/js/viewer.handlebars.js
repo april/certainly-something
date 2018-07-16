@@ -99,8 +99,10 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aKID : stack1),{"name":"if","hash":{},"fn":container.program(67, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- CRL Distribution Points -->\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.crlPoints : stack1),{"name":"if","hash":{},"fn":container.program(69, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Certificate Authority Information Access -->\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aia : stack1),{"name":"if","hash":{},"fn":container.program(72, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- Certificate transparency -->\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(72, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(76, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     return "hidden";
@@ -286,28 +288,45 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"72":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(73, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return "            <div class=\"panel-section-subheader\">\n              <span>Authority Info (AIA)</span>\n            </div>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aia : stack1),{"name":"each","hash":{},"fn":container.program(73, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"73":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Method "
+    + alias3((helpers.onebasedindex || (depth0 && depth0.onebasedindex) || alias2).call(alias1,(data && data.index),{"name":"onebasedindex","hash":{},"data":data}))
+    + "</div>\n                <div class=\"text\">"
+    + alias3(container.lambda((depth0 != null ? depth0.method : depth0), depth0))
+    + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Location</div>\n                <div class=\"text\">"
+    + ((stack1 = (helpers.link || (depth0 && depth0.link) || alias2).call(alias1,(depth0 != null ? depth0.location : depth0),(depth0 != null ? depth0.location : depth0),{"name":"link","hash":{},"data":data})) != null ? stack1 : "")
+    + "</div>\n              </div>\n              "
+    + ((stack1 = helpers.unless.call(alias1,(data && data.last),{"name":"unless","hash":{},"fn":container.program(74, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n";
+},"74":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"panel-list-item-separator\"></div>";
+},"76":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(77, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"77":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {});
 
   return "              <div class=\"panel-list-item\">\n                <div class=\"text\">Log ID</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.logId : depth0), depth0))
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Log Name</div>\n                <div class=\"text\">"
-    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(74, data, 0),"inverse":container.program(76, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(78, data, 0),"inverse":container.program(80, data, 0),"data":data})) != null ? stack1 : "")
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Signature Algorithm</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.signatureAlgorithm : depth0), depth0))
     + "</div>\n              </div>\n              <div class=\"panel-list-item\">\n                <div class=\"text\">Timestamp</div>\n                <div class=\"text\">"
     + alias2(alias1((depth0 != null ? depth0.timestamp : depth0), depth0))
     + "</div>\n              </div>\n              "
-    + ((stack1 = helpers.unless.call(alias3,(data && data.last),{"name":"unless","hash":{},"fn":container.program(78, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(alias3,(data && data.last),{"name":"unless","hash":{},"fn":container.program(74, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"74":function(container,depth0,helpers,partials,data) {
-    return container.escapeExpression(container.lambda((depth0 != null ? depth0.name : depth0), depth0));
-},"76":function(container,depth0,helpers,partials,data) {
-    return "Unknown";
 },"78":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"panel-list-item-separator\"></div>";
+    return container.escapeExpression(container.lambda((depth0 != null ? depth0.name : depth0), depth0));
+},"80":function(container,depth0,helpers,partials,data) {
+    return "Unknown";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
 

@@ -1,3 +1,12 @@
+Handlebars.registerHelper('link', (text, url) => {
+  text = Handlebars.escapeExpression(text);
+  url = Handlebars.escapeExpression(url);
+
+  return new Handlebars.SafeString(
+    `<a href="${url}">${text}</a>`
+  );
+});
+
 Handlebars.registerHelper('onebasedindex', index => { return index + 1; });
 
 Handlebars.registerHelper('replace', (str, a, b) => {

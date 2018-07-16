@@ -325,6 +325,24 @@
             {{/each}}
           {{/if}}
 
+          <!-- Certificate Authority Information Access -->
+          {{#if this.ext.aia}}
+            <div class="panel-section-subheader">
+              <span>Authority Info (AIA)</span>
+            </div>
+            {{#each this.ext.aia}}
+              <div class="panel-list-item">
+                <div class="text">Method {{onebasedindex @index}}</div>
+                <div class="text">{{ this.method }}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Location</div>
+                <div class="text">{{{link this.location this.location}}}</div>
+              </div>
+              {{#unless @last}}<div class="panel-list-item-separator"></div>{{/unless}}
+            {{/each}}
+          {{/if}}
+
           <!-- Certificate transparency -->
           {{#if this.ext.scts}}
             <div class="panel-section-subheader">

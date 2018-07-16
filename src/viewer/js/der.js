@@ -109,6 +109,11 @@ export const parse = async (der) => {
     '1.2.840.10045.4.3.4': 'ECDSA with SHA-512',
   };
 
+  const aiaNames = {
+    '1.3.6.1.5.5.7.48.1': 'Online Certificate Status Protocol (OCSP)',
+    '1.3.6.1.5.5.7.48.2': 'CA Issuers',
+  };
+
   // parse the DER
   const asn1 = asn1js.fromBER(der.buffer);
   var x509 = new Certificate({ schema: asn1.result });
@@ -217,6 +222,17 @@ export const parse = async (der) => {
     }
   }
 
+  // get the Authority Information Access
+  let aia = getX509Ext(x509.extensions, '1.3.6.1.5.5.7.1.1').parsedValue;
+  if (aia) {
+    aia = aia.accessDescriptions.map(x => {
+      return {
+        location: x.accessLocation.value,
+        method: aiaNames[x.accessMethod],
+      };
+    });
+  }
+
   // get the embedded SCTs
   let scts = getX509Ext(x509.extensions, '1.3.6.1.4.1.11129.2.4.2').parsedValue;
   if (scts) {
@@ -240,6 +256,7 @@ export const parse = async (der) => {
   // the output shell
   return {
     ext: {
+      aia,
       aKID,
       basicConstraints,
       crlPoints,
