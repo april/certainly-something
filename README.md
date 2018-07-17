@@ -1,9 +1,9 @@
 Certainly Something (Certificate Viewer)
 ========================================
 
-Uses the new TLS Info API in Firefox to view information about the current state of your HTTPS connection. Watch it in action here:
+Uses the new TLS Info API in Firefox to view information about the current state of your HTTPS connection.
 
-https://www.youtube.com/watch?v=5uCY3k6UFB0
+<p align="center"><img src="https://i.imgur.com/GEbv434.png" alt="Main Info" width="300">    <img src="https://i.imgur.com/xM13M1E.png" alt="Extensions" width="300"></p>
 
 It currently requires at least Firefox 62.
 
@@ -22,3 +22,28 @@ Firefox -> Tools -> Add-ons -> Extensions -> (Gear Icon) -> Debug Add-ons -> Loa
 
 Navigate to `src/manifest.json` and it should start running immediately.
 
+## Supported Functionality
+
+* Handshake information (TLS version, cipher suite, signature scheme)
+* Subject and issuer information (common name, organization, etc.)
+* Validity date ranges
+* Subject alternative names
+* Subject public key information (SPKI)
+* Certificate downloading
+* Key usage
+* Serial numbers
+* Fingerprints
+* Extensions, including
+  * Basic constraints
+  * Extended key usage
+  * Certificate revocation list (CRL) endpoints
+  * Authority information access (AIA)
+  * Certificate policies (most common policies)
+  * Subject key identifiers
+  * Authority key identifiers
+  * OCSP stapling
+  * [Embedded SCTs](https://www.certificate-transparency.org/), including CT log names  
+
+## Kudos
+
+Thanks so much to Ryan Hurst and Yury Strozhevsky for doing the painful work in [PKI.js](https://pkijs.org/) and [ASN1.js](https://asn1js.org/), without which this project could not have been accomplished.
