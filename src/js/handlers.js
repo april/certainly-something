@@ -59,7 +59,7 @@ const consumer = async details => {
 
   // there are no good ways to specifically fire on an HTTPS error, so we have to set the icon here
   if (mainFrame && tabState[tid].si.state === 'insecure' && url.protocol === 'https:') {
-    updateIcon(tid, tabState[tid].si.state);
+    icon.update(tid, tabState[tid].si.state);
   }
 };
 
@@ -78,13 +78,16 @@ browser.webRequest.onErrorOccurred.addListener(
 // disable the icon immediately when a tab is created
 browser.tabs.onCreated.addListener(
   tab => {
-    updateIcon(tab.id, 'http');
+    icon.update(tab.id, 'http');
   }
 );
 
 // same with a new navigation
 browser.webNavigation.onBeforeNavigate.addListener(details => {
-  updateIcon(details.tabId, 'http');
+  console.log('onbeforenavigate details', details);
+  if (details.parentFrameId === -1) {
+    icon.update(details.tabId, 'http');
+  }
 })
 
 // when it's first loaded, disable the icon on every page
@@ -96,7 +99,7 @@ browser.runtime.onInstalled.addListener(async () => {
 
   // disable every inactive tab
   tabs.forEach(tab => {
-    updateIcon(tab.id, 'http');
+    icon.update(tab.id, 'http');
 
     // disable the icon on every tab
     if (tab.active) {
@@ -117,7 +120,11 @@ browser.runtime.onInstalled.addListener(async () => {
 
 // update the icon when a navigation is complete
 browser.webNavigation.onCompleted.addListener(
-  details => { updateIcon(details.tabId, tabState[details.tabId].si.state); },
+  details => {
+    if (details.parentFrameId === -1) {
+      icon.update(details.tabId, tabState[details.tabId].si.state);
+    }
+  },
   { url: [{ schemes: ['http', 'https'] }] }
 );
 
