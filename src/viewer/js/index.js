@@ -1,7 +1,7 @@
 import { parse } from './der.js';
 
 
-const getSecurityInfo = async (securityInfo) => {
+const derParse = async (securityInfo) => {
   // there is some information we need from the parsed securityInfo.certificates as well as
   // information that can only be retrieved from the certificate's raw DER
   securityInfo['certs'] = [];
@@ -54,7 +54,7 @@ const postRender = () => {
 
 
 const render = (securityInfo) => {
-  // console.log('about to render with this securityInfo', securityInfo);
+  console.log('about to render with this securityInfo', securityInfo);
 
   // change the tab title
   document.title = `${securityInfo.certs[0].subject.cn} (Certainly Something)`;
@@ -92,7 +92,7 @@ const handleDOMContentLoaded = () => {
         return;
       }
 
-      const securityInfo = await getSecurityInfo(response);
+      const securityInfo = await derParse(response);
       render(response);
     }
   );

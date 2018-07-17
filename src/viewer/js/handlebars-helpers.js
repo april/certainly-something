@@ -31,7 +31,7 @@ Handlebars.registerHelper('replace', (str, a, b) => {
 });
 
 Handlebars.registerHelper('truthy', v => {
-  if (v === null || v === 'none') {
+  if (v === undefined || v === null || v === 'none') {
     return false;
   }
 

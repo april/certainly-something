@@ -39,6 +39,11 @@ const consumer = async details => {
       { certificateChain: true, rawDER: true });
 
     if (securityInfo !== undefined) {
+      // sometimes securityInfo doesn't return keaGroupName for whatever reason
+      if (!securityInfo.keaGroupName) {
+        securityInfo.keaGroupName = undefined;
+      }
+
       tabState[tid].si = securityInfo;
     }
   }

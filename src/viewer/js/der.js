@@ -1,6 +1,7 @@
 import * as asn1js from './pkijs/asn1.js';
 import Certificate from './pkijs/Certificate.js';
 import { ctLogNames } from './ctlognames.js';
+import { strings } from './strings.js';
 import { b64urltodec, b64urltohex, getObjPath, hash, hashify } from './utils.js';
 
 
@@ -63,102 +64,21 @@ const parseSubsidiary = (obj) => {
 
 
 export const parse = async (der) => {
-  const timeZone = `${new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1]}`;
-  const keyUsageNames = [
-    'CRL Signing',
-    'Certificate Signing',
-    'Key Agreement',
-    'Data Encipherment',
-    'Key Encipherment',
-    'Non-Repudiation',
-    'Digital Signature',
+  const supportedExtensions = [
+    '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
+    '1.3.6.1.5.5.7.1.1',        // authority info access
+    '1.3.6.1.5.5.7.1.24',       // ocsp stapling
+    '2.5.29.14',                // subject key identifier
+    '2.5.29.15',                // key usages
+    '2.5.29.17',                // subject alt names
+    '2.5.29.19',                // basic constraints
+    '2.5.29.31',                // crl points
+    '2.5.29.32',                // certificate policies
+    '2.5.29.35',                // authority key identifier
+    '2.5.29.37',                // extended key usage
   ];
 
-  const sanNames = [
-    'Other Name',
-    'RFC 822 Name',
-    'DNS Name',
-    'X.400 Address',
-    'Directory Name',
-    'EDI Party Name',
-    'URI',
-    'IP Address',
-    'Registered ID',
-  ]
-
-  const eKUNames = {
-    '1.3.6.1.5.5.7.3.1': 'Server Authentication',
-    '1.3.6.1.5.5.7.3.2': 'Client Authentication',
-    '1.3.6.1.5.5.7.3.3': 'Code Signing',
-    '1.3.6.1.5.5.7.3.4': 'E-mail Protection',
-    '1.3.6.1.5.5.7.3.5': 'Timestamping',
-  }
-
-  const signatureNames = {
-    '1.2.840.113549.1.1.5': 'SHA-1 with RSA Encryption',
-    '1.2.840.113549.1.1.11': 'SHA-256 with RSA Encryption',
-    '1.2.840.113549.1.1.12': 'SHA-384 with RSA Encryption',
-    '1.2.840.113549.1.1.13': 'SHA-512 with RSA Encryption',
-    '1.2.840.10040.4.3': 'DSA with SHA-1',
-    '2.16.840.1.101.3.4.3.2': 'DSA with SHA-256',
-    '1.2.840.10045.4.1': 'ECDSA with SHA-1',
-    '1.2.840.10045.4.3.2': 'ECDSA with SHA-256',
-    '1.2.840.10045.4.3.3': 'ECDSA with SHA-384',
-    '1.2.840.10045.4.3.4': 'ECDSA with SHA-512',
-  };
-
-  const aiaNames = {
-    '1.3.6.1.5.5.7.48.1': 'Online Certificate Status Protocol (OCSP)',
-    '1.3.6.1.5.5.7.48.2': 'CA Issuers',
-  };
-
-  // this includes qualifiers as well
-  const cpsNames = {
-    '1.3.6.1.4.1': {
-      name: 'Statement Identifier',
-      value: undefined,
-    },
-    '1.3.6.1.5.5.7.2.1': {
-      name: 'Practices Statement',
-      value: undefined,
-    },
-    '1.3.6.1.5.5.7.2.2': {
-      name: 'User Notice',
-      value: undefined,
-    },
-    '2.16.840': {
-      name: 'ANSI Organizational Identifier',
-      value: undefined,
-    },
-    '2.23.140.1.1': {
-      name: 'Certificate Type',
-      value: 'Extended Validation',
-    },
-    '2.23.140.1.2.1': {
-      name: 'Certificate Type',
-      value: 'Domain Validation',
-    },
-    '2.23.140.1.2.2': {
-      name: 'Certificate Type',
-      value: 'Organization Validation',
-    },
-    '2.23.140.1.2.3': {
-      name: 'Certificate Type',
-      value: 'Individual Validation',
-    },
-    '2.23.140.1.3': {
-      name: 'Certificate Type',
-      value: 'Extended Validation (Code Signing)',
-    },
-    '2.23.140.1.31': {
-      name: 'Certificate Type',
-      value: '.onion Extended Validation',
-    },
-    '2.23.140.2.1': {
-      name: 'Certificate Type',
-      value: 'Test Certificate',
-    },
-  };
+  const timeZone = `${new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1]}`;
 
   // parse the DER
   const asn1 = asn1js.fromBER(der.buffer);
@@ -169,17 +89,27 @@ export const parse = async (der) => {
   const certBTOA = window.btoa(String.fromCharCode.apply(null, der)).match(/.{1,64}/g).join('\r\n');
 
   // get the public key info
-  let spki = x509.subjectPublicKeyInfo;
+  let spki = Object.assign({
+    crv: undefined,
+    e: undefined,
+    kty: undefined,
+    n: undefined,
+    keysize: undefined,
+    x: undefined,
+    xy: undefined,
+    y: undefined,
+  }, x509.subjectPublicKeyInfo);
+
   if (spki.kty === 'RSA') {
-      spki.e = b64urltodec(spki.e);                   // exponent
-      spki.keysize = b64urltohex(spki.n).length * 8;  // key size in bits
-      spki.n = hashify(b64urltohex(spki.n));          // modulus
+    spki.e = b64urltodec(spki.e);                      // exponent
+    spki.keysize = b64urltohex(spki.n).length * 8;     // key size in bits
+    spki.n = hashify(b64urltohex(spki.n));             // modulus
   } else if (spki.kty === 'EC') {
     spki.kty = 'Elliptic Curve';
-    spki.keysize = parseInt(spki.crv.split('-')[1])   // this is a bit hacky
-    spki.x = hashify(b64urltohex(spki.x));            // x coordinate
-    spki.y = hashify(b64urltohex(spki.y));            // y coordinate
-    spki.xy = `04:${spki.x}:${spki.y}`;               // 04 (uncompressed) public key
+    spki.keysize = parseInt(spki.crv.split('-')[1])    // this is a bit hacky
+    spki.x = hashify(b64urltohex(spki.x));             // x coordinate
+    spki.y = hashify(b64urltohex(spki.y));             // y coordinate
+    spki.xy = `04:${spki.x}:${spki.y}`;                // 04 (uncompressed) public key
   }
 
   // get the keyUsages
@@ -191,7 +121,7 @@ export const parse = async (der) => {
     keyUsagesBS = parseInt(keyUsagesBS.valueBlock.valueHex, 16) >> unusedBits;
 
     // iterate through the bit string
-    keyUsageNames.splice(unusedBits - 1).forEach(usage => {
+    strings.keyUsages.splice(unusedBits - 1).forEach(usage => {
       if (keyUsagesBS & 1) {
         keyUsages.push(usage);
       }
@@ -206,7 +136,7 @@ export const parse = async (der) => {
   // get the subjectAltNames
   let san = getX509Ext(x509.extensions, '2.5.29.17').parsedValue;
   if (san && san.hasOwnProperty('altNames')) {
-    san = Object.keys(san.altNames).map(x => [sanNames[san.altNames[x].type], san.altNames[x].value]);
+    san = Object.keys(san.altNames).map(x => [strings.san[san.altNames[x].type], san.altNames[x].value]);
   } else {
     san = [];
   }
@@ -229,7 +159,7 @@ export const parse = async (der) => {
   let eKUsages = getX509Ext(x509.extensions, '2.5.29.37').parsedValue;
   if (eKUsages) {
     eKUsages = {
-      purposes: eKUsages.keyPurposes.map(x => eKUNames[x]),
+      purposes: eKUsages.keyPurposes.map(x => strings.eKU[x]),
     }
   }
 
@@ -275,7 +205,7 @@ export const parse = async (der) => {
     aia = aia.accessDescriptions.map(x => {
       return {
         location: x.accessLocation.value,
-        method: aiaNames[x.accessMethod],
+        method: strings.aia[x.accessMethod],
       };
     });
   }
@@ -302,28 +232,28 @@ export const parse = async (der) => {
   if (cp && cp.hasOwnProperty('certificatePolicies')) {
     cp = cp.certificatePolicies.map(x => {
       let id = x.policyIdentifier;
-      let name = cpsNames.hasOwnProperty(id) ? cpsNames[id].name : undefined;
+      let name = strings.cps.hasOwnProperty(id) ? strings.cps[id].name : undefined;
       let qualifiers = undefined;
-      let value = cpsNames.hasOwnProperty(id) ? cpsNames[id].value : undefined;
+      let value = strings.cps.hasOwnProperty(id) ? strings.cps[id].value : undefined;
 
       // ansi organization identifiers
       if (id.startsWith('2.16.840')) {
         value = id;
         id = '2.16.840';
-        name = cpsNames['2.16.840'].name;
+        name = strings.cps['2.16.840'].name;
       }
 
       // statement identifiers
       if (id.startsWith('1.3.6.1.4.1')) {
         value = id;
         id = '1.3.6.1.4.1';
-        name = cpsNames['1.3.6.1.4.1'].name;
+        name = strings.cps['1.3.6.1.4.1'].name;
       }
 
       if (x.hasOwnProperty('policyQualifiers')) {
         qualifiers = x.policyQualifiers.map(qualifier => {
           let id = qualifier.policyQualifierId;
-          let name = cpsNames.hasOwnProperty(id) ? cpsNames[id].name : undefined;
+          let name = strings.cps.hasOwnProperty(id) ? strings.cps[id].name : undefined;
           let value = qualifier.qualifier.valueBlock.value;
 
           // sometimes they are multiple qualifier subblocks, and for now we'll
@@ -382,7 +312,7 @@ export const parse = async (der) => {
     subject: parseSubsidiary(x509.subject.typesAndValues),
     serialNumber: hashify(getObjPath(x509, 'serialNumber.valueBlock.valueHex')),
     signature: {
-      name: signatureNames[getObjPath(x509, 'signature.algorithmId')],
+      name: strings.signature[getObjPath(x509, 'signature.algorithmId')],
       type: getObjPath(x509, 'signature.algorithmId'),
     },
     subjectPublicKeyInfo: spki,
