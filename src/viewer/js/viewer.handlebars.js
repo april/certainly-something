@@ -105,6 +105,8 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.cp : stack1),{"name":"if","hash":{},"fn":container.program(76, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n          <!-- Certificate transparency -->\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"if","hash":{},"fn":container.program(93, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n          <!-- Unsupported extensions -->\n"
+    + ((stack1 = helpers["if"].call(alias1,(helpers.truthy || (depth0 && depth0.truthy) || alias2).call(alias1,(depth0 != null ? depth0.unsupportedExtensions : depth0),{"name":"truthy","hash":{},"data":data}),{"name":"if","hash":{},"fn":container.program(99, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     return "hidden";
@@ -390,6 +392,12 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     return container.escapeExpression(container.lambda((depth0 != null ? depth0.name : depth0), depth0));
 },"97":function(container,depth0,helpers,partials,data) {
     return "Unknown";
+},"99":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "            <div class=\"panel-section-subheader\">\n              <span>Unknown Extensions</span>\n            </div>\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Identifiers</div>\n              <div class=\"text\">"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.unsupportedExtensions : depth0),{"name":"each","hash":{},"fn":container.program(56, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</div>\n            </div>\n            <div class=\"panel-list-item\">\n              <div class=\"text\">Note</div>\n              <div class=\"text\">Please open up an issue at <a href=\"https://github.com/april/certainly-something/issues\">Certainly Something</a>, noting the website and unsupported extension identifiers. Thanks!</div>\n            </div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
 

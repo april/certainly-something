@@ -406,6 +406,21 @@
             {{/each}}
           {{/if}}
 
+          <!-- Unsupported extensions -->
+          {{#if (truthy this.unsupportedExtensions)}}
+            <div class="panel-section-subheader">
+              <span>Unknown Extensions</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Identifiers</div>
+              <div class="text">{{#each this.unsupportedExtensions}}{{ this }}{{#unless @last}}, {{/unless}}{{/each}}</div>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Note</div>
+              <div class="text">Please open up an issue at <a href="https://github.com/april/certainly-something/issues">Certainly Something</a>, noting the website and unsupported extension identifiers. Thanks!</div>
+            </div>
+          {{/if}}
+
         </div>
         {{/each}}
       </div>

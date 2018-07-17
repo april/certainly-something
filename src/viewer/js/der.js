@@ -281,6 +281,14 @@ export const parse = async (der) => {
     });
   }
 
+  // determine which extensions weren't supported
+  let unsupportedExtensions = [];
+  x509.extensions.forEach(ext => {
+    if (!supportedExtensions.includes(ext.extnID)) {
+      unsupportedExtensions.push(ext.extnID);
+    }
+  });
+
   // console.log('returning from parse() for cert', x509);
 
   // the output shell
@@ -316,6 +324,7 @@ export const parse = async (der) => {
       type: getObjPath(x509, 'signature.algorithmId'),
     },
     subjectPublicKeyInfo: spki,
+    unsupportedExtensions,
     version: (x509.version + 1).toString(),
   }
 };

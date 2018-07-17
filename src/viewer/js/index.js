@@ -54,7 +54,7 @@ const postRender = () => {
 
 
 const render = (securityInfo) => {
-  console.log('about to render with this securityInfo', securityInfo);
+  // console.log('about to render with this securityInfo', securityInfo);
 
   // change the tab title
   document.title = `${securityInfo.certs[0].subject.cn} (Certainly Something)`;

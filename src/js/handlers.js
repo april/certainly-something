@@ -84,7 +84,6 @@ browser.tabs.onCreated.addListener(
 
 // same with a new navigation
 browser.webNavigation.onBeforeNavigate.addListener(details => {
-  console.log('onbeforenavigate details', details);
   if (details.parentFrameId === -1) {
     icon.update(details.tabId, 'http');
   }
