@@ -31,7 +31,7 @@
     ]
   },
 
-  "browser_action": {
+  "page_action": {
     "browser_style": true,
     "default_icon": "icons/http.svg",
     "default_title": "Certainly Something (Certificate Viewer)"
