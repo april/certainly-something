@@ -36,7 +36,7 @@ module.exports = {
         use: [{
           loader: 'handlebars-loader',
           options: {
-            helpersDir: path.resolve(__dirname, 'src', 'viewer', 'helpers')
+            helpersDir: path.resolve(__dirname, '..', 'src', 'viewer', 'helpers')
           }
         }]
       },
