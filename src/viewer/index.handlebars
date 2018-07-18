@@ -1,0 +1,428 @@
+<div id="template">
+  {{! handshake }}
+  <div class="row section" id="handshake">
+    <div class="panel">
+      <div class="panel-section panel-section-header">
+        <div class="text-section-header"><h1>Handshake</h1></div>
+      </div>
+      <div class="panel-list-item">
+        <div class="text">Protocol</div>
+        <div class="text">{{replace protocolVersion "v" " "}}</div>
+      </div>
+      <div class="panel-list-item">
+        <div class="text">Cipher Suite</div>
+        <div class="text">{{ cipherSuite }}</div>
+      </div>
+      {{#if (truthy keaGroupName)}}
+      <div class="panel-list-item">
+        <div class="text">Key Exchange Group</div>
+        <div class="text">{{ keaGroupName }}</div>
+      </div>
+      {{/if}}
+      {{#if (truthy signatureSchemeName)}}
+      <div class="panel-list-item">
+        <div class="text">Signature Scheme</div>
+        <div class="text">{{ signatureSchemeName }}</div>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+
+  {{! certificates }}
+  <div class="row section" id="certificates">
+    <div class="panel">
+      <div class="panel-section panel-section-header">
+        <div class="text-section-header"><h1>Certificates</h1></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="certificate-panel panel">
+        <div class="panel-section panel-section-tabs">
+          {{#each certs}}
+          <div class="panel-section-tabs-button {{#if @first}}selected{{/if}}" data-certificate-index="{{@index}}">{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</div>
+          <div class="panel-section-tabs-separator"></div>
+          {{/each}}
+        </div>
+
+        {{#each certs}}
+        <div class="certificate" data-certificate-index="{{@index}}" {{#unless @first}}hidden{{/unless}}>
+          {{! Subject }}
+          <div class="panel-section-subheader">
+            <span>Subject Name</span>
+          </div>
+          {{#if this.subject.c}}
+          <div class="panel-list-item">
+            <div class="text">Country</div>
+            <div class="text">{{ this.subject.c }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subject.s}}
+          <div class="panel-list-item">
+            <div class="text">State / Province</div>
+            <div class="text">{{ this.subject.s }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subject.l}}
+          <div class="panel-list-item">
+            <div class="text">Locality</div>
+            <div class="text">{{ this.subject.l }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subject.address}}
+          <div class="panel-list-item">
+            <div class="text">Street Address</div>
+            <div class="text">{{ this.subject.address }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subject.ou}}
+          <div class="panel-list-item">
+            <div class="text">Organizational Unit</div>
+            <div class="text">{{ this.subject.ou }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subject.o}}
+          <div class="panel-list-item">
+            <div class="text">Organization</div>
+            <div class="text">{{ this.subject.o }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subject.cn}}
+          <div class="panel-list-item">
+            <div class="text">Common Name</div>
+            <div class="text">{{ this.subject.cn }}</div>
+          </div>
+          {{/if}}
+
+          {{! Issuer }}
+          <div class="panel-section-subheader">
+            <span>Issuer Name</span>
+          </div>
+          {{#if this.issuer.c}}
+          <div class="panel-list-item">
+            <div class="text">Country</div>
+            <div class="text">{{ this.issuer.c }}</div>
+          </div>
+          {{/if}}
+          {{#if this.issuer.s}}
+          <div class="panel-list-item">
+            <div class="text">State / Province</div>
+            <div class="text">{{ this.issuer.s }}</div>
+          </div>
+          {{/if}}
+          {{#if this.issuer.l}}
+          <div class="panel-list-item">
+            <div class="text">Locality</div>
+            <div class="text">{{ this.issuer.l }}</div>
+          </div>
+          {{/if}}
+          {{#if this.issuer.address}}
+          <div class="panel-list-item">
+            <div class="text">Street Address</div>
+            <div class="text">{{ this.issuer.address }}</div>
+          </div>
+          {{/if}}
+          {{#if this.issuer.ou}}
+          <div class="panel-list-item">
+            <div class="text">Organizational Unit</div>
+            <div class="text">{{ this.issuer.ou }}</div>
+          </div>
+          {{/if}}
+          {{#if this.issuer.o}}
+          <div class="panel-list-item">
+            <div class="text">Organization</div>
+            <div class="text">{{ this.issuer.o }}</div>
+          </div>
+          {{/if}}
+          {{#if this.issuer.cn}}
+          <div class="panel-list-item">
+            <div class="text">Common Name</div>
+            <div class="text">{{ this.issuer.cn }}</div>
+          </div>
+          {{/if}}
+
+
+          {{! Validity }}
+          <div class="panel-section-subheader">
+            <span>Validity</span>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Not Before</div>
+            <div class="text">{{ this.notBefore }}</div>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Not After</div>
+            <div class="text">{{ this.notAfter }}</div>
+          </div>
+
+          {{#if (truthy this.ext.subjectAltNames)}}
+            {{! Subject Alt Names}}
+            <div class="panel-section-subheader">
+              <span>Subject Alt Names</span>
+            </div>
+            {{#each this.ext.subjectAltNames}}
+              <div class="panel-list-item">
+                <div class="text">{{lookup this 0}}</div>
+                <div class="text">{{lookup this 1}}</div>
+              </div>
+            {{/each}}
+          {{/if}}
+
+          {{! Subject Public Key Info }}
+          <div class="panel-section-subheader">
+            <span>Public Key Info</span>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Algorithm</div>
+            <div class="text">{{ this.subjectPublicKeyInfo.kty }}</div>
+          </div>
+          {{#if this.subjectPublicKeyInfo.keysize}}
+          <div class="panel-list-item">
+            <div class="text">Key size</div>
+            <div class="text">{{ this.subjectPublicKeyInfo.keysize }} bits</div>
+          </div>
+          {{/if}}
+
+          {{! EC only }}
+          {{#if this.subjectPublicKeyInfo.crv}}
+          <div class="panel-list-item">
+            <div class="text">Curve</div>
+            <div class="text">{{ this.subjectPublicKeyInfo.crv }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subjectPublicKeyInfo.xy}}
+          <div class="panel-list-item">
+            <div class="text">Public Value</div>
+            <div class="text long-hex">{{ this.subjectPublicKeyInfo.xy }}</div>
+          </div>
+          {{/if}}
+
+          {{! RSA only }}
+          {{#if this.subjectPublicKeyInfo.e}}
+          <div class="panel-list-item">
+            <div class="text">Exponent</div>
+            <div class="text">{{ this.subjectPublicKeyInfo.e }}</div>
+          </div>
+          {{/if}}
+          {{#if this.subjectPublicKeyInfo.n}}
+          <div class="panel-list-item">
+            <div class="text">Modulus</div>
+            <div class="text long-hex">{{ this.subjectPublicKeyInfo.n }}</div>
+          </div>
+          {{/if}}
+
+          <div class="panel-section-subheader">
+            <span>Miscellaneous</span>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Download</div>
+            <div class="text"><a href="data:,{{ this.files.pem }}" download="{{ this.subject.cn }}.pem">PEM (cert)</a>, <a href="data:,{{#each ../certs}}{{ this.files.pem }}{{/each}}" download="{{ this.subject.cn }}-chain.pem">PEM (chain)</a></div>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Key Usage</div>
+            <div class="text">{{#each this.ext.keyUsages}}{{ this }}{{#unless @last}}, {{/unless}}{{/each}}</div>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Serial Number</div>
+            <div class="text">{{ this.serialNumber }}</div>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Signature Algorithm</div>
+            <div class="text">{{ this.signature.name }}</div>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Version</div>
+            <div class="text">{{ this.version }}</div>
+          </div>
+
+          {{! Fingerprints }}
+          <div class="panel-section-subheader">
+            <span>Fingerprints</span>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">SHA-256</div>
+            <div class="text">{{ this.fingerprint.sha256 }}</div>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">SHA-1</div>
+            <div class="text">{{ this.fingerprint.sha1 }}</div>
+          </div>
+
+          <div class="panel-section-subsection">Extensions</div>
+          {{! Basic constraints }}
+          {{#if this.ext.basicConstraints}}
+            <div class="panel-section-subheader">
+              <span>Basic Constraints</span>
+            </div>
+            {{! hiding this for now, since most people don't care
+            <div class="panel-list-item">
+              <div class="text">Critical</div>
+              <div class="text">{{ this.ext.basicConstraints.critical }}</div>
+            </div>
+            }}
+            <div class="panel-list-item">
+              <div class="text">Certificate Authority</div>
+              <div class="text">{{ this.ext.basicConstraints.cA }}</div>
+            </div>
+          {{/if}}
+
+          {{! Extended key usages }}
+          {{#if this.ext.eKUsages}}
+            <div class="panel-section-subheader">
+              <span>Extended Key Usages</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Purposes</div>
+              <div class="text">{{#each this.ext.eKUsages.purposes}}{{ this }}{{#unless @last}}, {{/unless}}{{/each}}</div>
+            </div>
+          {{/if}}
+
+          {{! OCSP Stapling }}
+          {{#if this.ext.ocspStaple.required}}
+          <div class="panel-section-subheader">
+            <span><abbr title="Online Certificate Status Protocol">OCSP</abbr> Stapling</span>
+          </div>
+          <div class="panel-list-item">
+            <div class="text">Required</div>
+            <div class="text">Yes</div>
+          </div>
+          {{/if}}
+
+          {{! Subject Key Identifier }}
+          {{#if this.ext.sKID}}
+            <div class="panel-section-subheader">
+              <span>Subject Key ID</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Key ID</div>
+              <div class="text">{{ this.ext.sKID.id }}</div>
+            </div>
+          {{/if}}
+
+          {{! Subject Key Identifier }}
+          {{#if this.ext.aKID}}
+            <div class="panel-section-subheader">
+              <span>Authority Key ID</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Key ID</div>
+              <div class="text">{{ this.ext.aKID.id }}</div>
+            </div>
+          {{/if}}
+
+          {{! CRL Distribution Points }}
+          {{#if this.ext.crlPoints}}
+            <div class="panel-section-subheader">
+              <span><abbr title="Certificate Revocation List">CRL</abbr> Endpoints</span>
+            </div>
+            {{#each this.ext.crlPoints.points}}
+              <div class="panel-list-item">
+                <div class="text">Distribution Point {{onebasedindex @index}}</div>
+                <div class="text">{{{link this this}}}</div>
+              </div>
+            {{/each}}
+          {{/if}}
+
+          {{! Certificate Authority Information Access }}
+          {{#if this.ext.aia}}
+            <div class="panel-section-subheader">
+              <span>Authority Info (<abbr title="Authority Information Access">AIA</abbr>)</span>
+            </div>
+            {{#each this.ext.aia}}
+              <div class="panel-list-item">
+                <div class="text">Method {{onebasedindex @index}}</div>
+                <div class="text">{{ this.method }}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Location</div>
+                <div class="text">{{{link this.location this.location}}}</div>
+              </div>
+              {{#unless @last}}<div class="panel-list-item-separator"></div>{{/unless}}
+            {{/each}}
+          {{/if}}
+
+          {{! Certificate policies }}
+          {{#if this.ext.cp}}
+            <div class="panel-section-subheader">
+              <span>Certificate Policies</span>
+            </div>
+            {{#each this.ext.cp}}
+              <div class="panel-list-item">
+                <div class="text">Policy {{onebasedindex @index}}</div>
+                <div class="text">{{#if this.name}}{{ this.name }} ( {{ this.id }} ){{else}}{{ this.id }}{{/if}}</div>
+              </div>
+              {{#if this.value}}
+                <div class="panel-list-item">
+                  <div class="text">Value</div>
+                  <div class="text">{{#if (is_web_uri this.value)}}{{{link this.value this.value}}}{{else}}{{ this.value }}{{/if}}</div>
+                </div>
+              {{/if}}
+              {{#if this.qualifiers}}
+                {{#if this.value}}
+                  <div class="panel-list-item-separator"></div>
+                {{/if}}
+                {{#each this.qualifiers}}
+                  <div class="panel-list-item">
+                    <div class="text">Qualifier {{onebasedindex @index}}</div>
+                    <div class="text">{{#if this.name}}{{ this.name }} ( {{ this.id }} ){{else}}{{ this.id }}{{/if}}</div>
+                  </div>
+                  {{#if this.value}}
+                    <div class="panel-list-item">
+                      <div class="text">Value</div>
+                      <div class="text">{{#if (is_web_uri this.value)}}{{{link this.value this.value}}}{{else}}{{ this.value }}{{/if}}</div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+              {{/if}}
+              {{#unless @last}}<div class="panel-list-item-separator"></div>{{/unless}}
+            {{/each}}
+          {{/if}}
+
+          {{! Certificate transparency }}
+          {{#if this.ext.scts}}
+            <div class="panel-section-subheader">
+              <span>Embedded <abbr title="Signed Certificate Timestamp">SCTs</abbr></span>
+            </div>
+            {{#each this.ext.scts}}
+              <div class="panel-list-item">
+                <div class="text">Log ID</div>
+                <div class="text">{{ this.logId }}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Log Name</div>
+                <div class="text">{{#if this.name}}{{ this.name }}{{else}}Unknown{{/if}}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Signature Algorithm</div>
+                <div class="text">{{ this.signatureAlgorithm }}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Timestamp</div>
+                <div class="text">{{ this.timestamp }}</div>
+              </div>
+              {{#unless @last}}<div class="panel-list-item-separator"></div>{{/unless}}
+            {{/each}}
+          {{/if}}
+
+          {{! Unsupported extensions }}
+          {{#if (truthy this.unsupportedExtensions)}}
+            <div class="panel-section-subheader">
+              <span>Unknown Extensions</span>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Identifiers</div>
+              <div class="text">{{#each this.unsupportedExtensions}}{{ this }}{{#unless @last}}, {{/unless}}{{/each}}</div>
+            </div>
+            <div class="panel-list-item">
+              <div class="text">Note</div>
+              <div class="text">Please open up an issue at <a href="https://github.com/april/certainly-something/issues">Certainly Something</a>, noting the website and unsupported extension identifiers. Thanks!</div>
+            </div>
+          {{/if}}
+
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+</div>

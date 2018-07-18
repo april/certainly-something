@@ -4,7 +4,7 @@
   "short_name": "Certainly Something",
   "version": "1.0.0",
 
-  "description": "Certainly Something (Certificate Viewer)",
+  "description": "Certainly Something is an advanced digital certificate viewer with an easy to use interface.",
   "homepage_url": "https://github.com/april/certainly-something",
   "developer": {
     "name": "April King",
@@ -25,9 +25,7 @@
 
   "background": {
     "scripts": [
-      "js/consumer.js",
-      "js/icon.js",
-      "js/handlers.js"
+      "background.js"
     ]
   },
 

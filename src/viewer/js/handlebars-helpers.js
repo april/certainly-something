@@ -5,7 +5,7 @@ Handlebars.registerHelper('is_web_uri', (_url) => {
     if (url.protocol === 'http:' || url.protocol === 'https:') {
       return true;
     }
-  } catch {
+  } catch (e) {
     return false;
   }
 

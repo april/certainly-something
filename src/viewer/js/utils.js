@@ -1,14 +1,14 @@
-import * as asn1js from './pkijs/asn1.js';
-import * as pvutils from './pkijs/pvutils.js';
+import Integer from 'asn1js';
+import { fromBase64, stringToArrayBuffer} from 'pvutils';
 
 
 export const b64urltodec = (b64) => {
-  return new asn1js.Integer({ valueHex: pvutils.stringToArrayBuffer(pvutils.fromBase64('AQAB', true, true)) }).valueBlock._valueDec;
+  return new Integer({ valueHex: stringToArrayBuffer(fromBase64('AQAB', true, true)) }).valueBlock._valueDec;
 };
 
 
 export const b64urltohex = (b64) => {
-  const hexBuffer = new asn1js.Integer({ valueHex: pvutils.stringToArrayBuffer(pvutils.fromBase64(b64, true, true)) }).valueBlock._valueHex;
+  const hexBuffer = new Integer({ valueHex: stringToArrayBuffer(fromBase64(b64, true, true)) }).valueBlock._valueHex;
   const hexArray = Array.from(new Uint8Array(hexBuffer));
 
   return hexArray.map(b => ('00' + b.toString(16)).slice(-2));
