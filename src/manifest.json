@@ -25,7 +25,7 @@
 
   "background": {
     "scripts": [
-      "js/utils.js",
+      "js/consumer.js",
       "js/icon.js",
       "js/handlers.js"
     ]

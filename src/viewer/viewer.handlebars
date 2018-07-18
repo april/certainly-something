@@ -282,7 +282,7 @@
           <!-- OCSP Stapling -->
           {{#if this.ext.ocspStaple.required}}
           <div class="panel-section-subheader">
-            <span>OCSP Stapling</span>
+            <span><abbr title="Online Certificate Status Protocol">OCSP</abbr> Stapling</span>
           </div>
           <div class="panel-list-item">
             <div class="text">Required</div>
@@ -315,7 +315,7 @@
           <!-- CRL Distribution Points -->
           {{#if this.ext.crlPoints}}
             <div class="panel-section-subheader">
-              <span>CRL Endpoints</span>
+              <span><abbr title="Certificate Revocation List">CRL</abbr> Endpoints</span>
             </div>
             {{#each this.ext.crlPoints.points}}
               <div class="panel-list-item">
@@ -328,7 +328,7 @@
           <!-- Certificate Authority Information Access -->
           {{#if this.ext.aia}}
             <div class="panel-section-subheader">
-              <span>Authority Info (AIA)</span>
+              <span>Authority Info (<abbr title="Authority Information Access">AIA</abbr>)</span>
             </div>
             {{#each this.ext.aia}}
               <div class="panel-list-item">
@@ -383,7 +383,7 @@
           <!-- Certificate transparency -->
           {{#if this.ext.scts}}
             <div class="panel-section-subheader">
-              <span>Embedded SCTs</span>
+              <span>Embedded <abbr title="Signed Certificate Timestamp">SCTs</abbr></span>
             </div>
             {{#each this.ext.scts}}
               <div class="panel-list-item">

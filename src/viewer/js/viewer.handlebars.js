@@ -263,7 +263,7 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.eKUsages : stack1)) != null ? stack1.purposes : stack1),{"name":"each","hash":{},"fn":container.program(56, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</div>\n            </div>\n";
 },"63":function(container,depth0,helpers,partials,data) {
-    return "          <div class=\"panel-section-subheader\">\n            <span>OCSP Stapling</span>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Required</div>\n            <div class=\"text\">Yes</div>\n          </div>\n";
+    return "          <div class=\"panel-section-subheader\">\n            <span><abbr title=\"Online Certificate Status Protocol\">OCSP</abbr> Stapling</span>\n          </div>\n          <div class=\"panel-list-item\">\n            <div class=\"text\">Required</div>\n            <div class=\"text\">Yes</div>\n          </div>\n";
 },"65":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -279,7 +279,7 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"69":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <div class=\"panel-section-subheader\">\n              <span>CRL Endpoints</span>\n            </div>\n"
+  return "            <div class=\"panel-section-subheader\">\n              <span><abbr title=\"Certificate Revocation List\">CRL</abbr> Endpoints</span>\n            </div>\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = ((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.crlPoints : stack1)) != null ? stack1.points : stack1),{"name":"each","hash":{},"fn":container.program(70, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"70":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
@@ -292,7 +292,7 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"72":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <div class=\"panel-section-subheader\">\n              <span>Authority Info (AIA)</span>\n            </div>\n"
+  return "            <div class=\"panel-section-subheader\">\n              <span>Authority Info (<abbr title=\"Authority Information Access\">AIA</abbr>)</span>\n            </div>\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.aia : stack1),{"name":"each","hash":{},"fn":container.program(73, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"73":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
@@ -372,7 +372,7 @@ templates['viewer'] = template({"1":function(container,depth0,helpers,partials,d
 },"93":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <div class=\"panel-section-subheader\">\n              <span>Embedded SCTs</span>\n            </div>\n"
+  return "            <div class=\"panel-section-subheader\">\n              <span>Embedded <abbr title=\"Signed Certificate Timestamp\">SCTs</abbr></span>\n            </div>\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.ext : depth0)) != null ? stack1.scts : stack1),{"name":"each","hash":{},"fn":container.program(94, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"94":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {});
