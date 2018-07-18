@@ -1,4 +1,4 @@
-export default 'truthy' (v) => {
+export default (v) => {
   if (v === undefined || v === null || v === 'none') {
     return false;
   }
