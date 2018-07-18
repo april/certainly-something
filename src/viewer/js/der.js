@@ -1,8 +1,9 @@
-import fromBER from 'asn1js';
-import Certificate from 'pkijs';
+import * as asn1js from 'asn1js';
+import { Certificate } from 'pkijs';
 import { ctLogNames } from './ctlognames.js';
 import { strings } from './strings.js';
 import { b64urltodec, b64urltohex, getObjPath, hash, hashify } from './utils.js';
+
 
 
 const getX509Ext = (extensions, v) => {

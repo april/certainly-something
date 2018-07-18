@@ -11,7 +11,8 @@ module.exports = {
     'background': './src/background/entry.js',
     'viewer/index': './src/viewer/js/index.js'
   },
-//  devtool: 'inline-source-map',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -32,9 +33,12 @@ module.exports = {
       },
       {
         test: /\.handlebars$/,
-        loaders: [
-          'handlebars-loader'
-        ]
+        use: [{
+          loader: 'handlebars-loader',
+          options: {
+            helpersDir: path.resolve(__dirname, 'src', 'viewer', 'helpers')
+          }
+        }]
       },
       {
         test: /\.css$/,

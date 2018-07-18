@@ -1,15 +1,17 @@
-import './consumer';
-import './icon';
+import { consume } from './consumer';
+import * as icon from './icon';
+import * as state from './state';
+
 
 // consume the security info about requests
 browser.webRequest.onHeadersReceived.addListener(
-  details => { consumer(details); },
+  details => { consume(details); },
   { urls: ['<all_urls>'] },
   ['blocking'],
 );
 
 browser.webRequest.onErrorOccurred.addListener(
-  details => { consumer(details); },
+  details => { consume(details); },
   { urls: ['<all_urls>'] }
 );
 
@@ -37,7 +39,7 @@ browser.runtime.onInstalled.addListener(async () => {
 // update the icon when a navigation is complete
 browser.webNavigation.onCompleted.addListener(
   details => {
-    icon.update(details.tabId, tabState[details.tabId].si.state);
+    icon.update(details.tabId, state.get(details.tabId).state);
   },
   { url: [{ schemes: ['http', 'https'] }] }
 );
@@ -54,9 +56,7 @@ browser.pageAction.onClicked.addListener(
 // remove the tab state when a tab is closed
 browser.tabs.onRemoved.addListener(
   tabId => {
-    if (tabState.hasOwnProperty(tabId)) {
-      delete tabState[tabId];
-    }
+    state.remove(tabId);
   }
 );
 
@@ -64,14 +64,14 @@ browser.tabs.onRemoved.addListener(
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     if (request.action === 'getSecurityInfo' && sender.envType === 'addon_child') {
-      const state = tabState[request.tabId];
+      const si = state.get(request.tabId);
 
-      if (!state) {
+      if (!si) {
         sendResponse(undefined);
         return;
       }
 
-      sendResponse(state.si);
+      sendResponse(si);
     }
 
     // this is a bit hackish for now, I could probably have a real error page

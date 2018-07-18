@@ -1,3 +1,7 @@
+import * as Handlebars from 'handlebars/runtime';
+
+console.log('trying to register Handlebars', Handlebars);
+
 Handlebars.registerHelper('is_web_uri', (_url) => {
   try {
     let url = new URL(_url);
@@ -42,3 +46,5 @@ Handlebars.registerHelper('truthy', v => {
 
   return true;
 });
+
+console.log('trying to register Handlebars 2', Handlebars, Handlebars.default.SafeString);

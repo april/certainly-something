@@ -1,4 +1,4 @@
-const tabState = {};
+import * as state from './state';
 
 // state can only be downgraded, not upgraded
 const getWorseState = (tid, newState) => {
@@ -12,7 +12,7 @@ const getWorseState = (tid, newState) => {
   return curState;
 };
 
-export const consumer = async details => {
+export const consume = async details => {
   const tid = details.tabId;
   const url = new URL(details.url);
   const documentUrl = details.documentUrl === undefined ? url : new URL(details.documentUrl);
@@ -26,12 +26,7 @@ export const consumer = async details => {
 
   // only pull security info on top level requests
   if (mainFrame) {
-    // initialize the state
-    tabState[tid] = {
-      si: {
-        state: 'insecure',
-      },
-    };
+    state.init(tid);
 
     // grab the security info
     securityInfo = await browser.webRequest.getSecurityInfo( // fetch the security info
@@ -44,14 +39,17 @@ export const consumer = async details => {
         securityInfo.keaGroupName = undefined;
       }
 
-      tabState[tid].si = securityInfo;
+      // tabState[tid].si = securityInfo;
+      state.set(tid, securityInfo);
     }
   }
 
   // update document state depending on various conditions
   if (documentUrl.protocol === 'https:' && url.protocol === 'http:') {  // mixed content
-    tabState[tid].si.state = getWorseState(tid, 'broken');
+    // tabState[tid].si.state = getWorseState(tid, 'broken');
+    state.set(tid, getWorseState(tid, 'broken'));
   } else if (url.protocol === 'http:') {  // plain HTTP
-    tabState[tid].si.state = getWorseState(tid, 'http');
+    state.set(tid, getWorseState(tid, 'http'));
+    // tabState[tid].si.state = getWorseState(tid, 'http');
   }
 };
