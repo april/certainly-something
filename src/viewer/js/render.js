@@ -1,5 +1,6 @@
 import { parse } from './der.js';
-import * as template from '../index.handlebars';
+let template = require('../index.handlebars');
+
 
 const derParse = async (securityInfo) => {
   // there is some information we need from the parsed securityInfo.certificates as well as
@@ -55,14 +56,14 @@ const postRender = () => {
 
 const render = (securityInfo) => {
   // console.log('about to render with this securityInfo', securityInfo);
-  console.log('here is the template', template);
+  // console.log('here is the template', template, 'and here is securityinfo', securityInfo);
 
   // change the tab title
   document.title = `${securityInfo.certs[0].subject.cn} (Certainly Something)`;
 
   // render the handlebars template
   // document.body.innerHTML = Handlebars.templates.viewer(securityInfo);
-  template(securityInfo);
+  document.body.innerHTML = template(securityInfo);
 
   // once handlebars has rendered, let us setup event handlers
   postRender();
@@ -77,11 +78,11 @@ const closeTab = () => {
   );
 };
 
+
 const handleDOMContentLoaded = () => {
   // get the tab id
   const tid = window.location.search.split('=')[1];
 
-  console.log('checking for response');
   chrome.runtime.sendMessage(
     {
       'action': 'getSecurityInfo',
@@ -96,7 +97,6 @@ const handleDOMContentLoaded = () => {
       }
 
       const securityInfo = await derParse(response);
-      console.log('moving to render', response);
 
       render(response);
     }
