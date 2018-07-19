@@ -9,11 +9,11 @@ It currently requires at least Firefox 62.
 
 ## Developing and Installing Locally
 
-It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext) for installation and testing.  It provides a number of useful features, such as automated installation and autoreload upon source changes:
+It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext) for installation and testing.  It provides a number of useful features, such as automated installation and autoreload upon source changes. For testing and development, run the following commands in two separate terminal windows:
 
 ```bash
-$ web-ext run --browser-console -s src --ignore-files 'icons/*.afdesign' --ignore-files 'viewer/*.handlebars' --ignore-files 'scripts/*'
-$ fswatch src/viewer/viewer.handlebars | xargs -n1 handlebars -f src/viewer/js/viewer.handlebars.js
+$ npm run-script watch
+$ web-ext run --browser-console -s build
 ```
 
 If you are simply looking to give it a single run, you can install it by navigating to:
