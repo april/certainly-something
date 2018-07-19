@@ -8,8 +8,8 @@ module.exports = {
     filename: '[name].js'
   },
   entry: {
-    'background': './src/background/entry.js',
-    'viewer/index': './src/viewer/js/index.js'
+    'background': path.resolve(__dirname, '..', 'src', 'background', 'entry.js'),
+    'viewer/index': path.resolve(__dirname, '..', 'src', 'viewer', 'js', 'index.js'),
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: 'source-map',
@@ -17,7 +17,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, '..', 'src'),
         use: [{
           loader: 'babel-loader',
           options: {
@@ -33,6 +33,9 @@ module.exports = {
       },
       {
         test: /\.handlebars$/,
+        include: [
+          path.resolve(__dirname, '..', 'src', 'viewer'),
+        ],
         use: [{
           loader: 'handlebars-loader',
           options: {
@@ -44,6 +47,9 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        include: [
+          path.resolve(__dirname, '..', 'src', 'viewer', 'css'),
+        ],
         loaders: [
           'style-loader',
           'css-loader',

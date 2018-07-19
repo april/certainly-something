@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Certainly Something is an advanced digital certificate viewer with an easy to use interface.",
   "scripts": {
-    "compile": "webpack --mode=development --config=config/webpack.config.js",
+    "compile": "webpack --config=config/webpack.config.js",
     "package": "web-ext build -s build -a dist --overwrite-dest",
-    "build": "npm run compile && npm run package"
+    "build": "npm run compile && npm run package",
+    "watch": "NODE_ENV=development webpack --config=config/webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
