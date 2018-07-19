@@ -12,8 +12,8 @@
   },
 
   "icons": {
-    "48": "icons/http.svg",
-    "96": "icons/http.svg"
+    "48": "icons/secure.svg",
+    "96": "icons/secure.svg"
   },
 
   "applications": {
@@ -31,7 +31,7 @@
 
   "page_action": {
     "browser_style": true,
-    "default_icon": "icons/http.svg",
+    "default_icon": "icons/secure.svg",
     "default_title": "Certainly Something (Certificate Viewer)"
   },
 
