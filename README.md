@@ -16,11 +16,15 @@ $ npm run-script watch
 $ web-ext run --browser-console -s build
 ```
 
-If you are simply looking to give it a single run, you can install it by navigating to:
+If you are simply looking to give it a single run, you can compile it by running:
 
-Firefox -> Tools -> Add-ons -> Extensions -> (Gear Icon) -> Debug Add-ons -> Load Temporary Add-on
+```bash
+$ npm run-script compile
+```
 
-Navigate to `src/manifest.json` and it should start running immediately.
+And then in Firefox, go to -> Add-ons -> Extensions -> (Gear Icon) -> Debug Add-ons -> Load Temporary Add-on
+
+Navigate to `build/manifest.json` and it should start running immediately.
 
 ## Supported Functionality
 
