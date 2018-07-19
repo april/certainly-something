@@ -1,8 +1,8 @@
 const _state = {};
 
-const log = (from) => {
-  console.log('current tab state is', _state, 'from', from);
-}
+// const log = (from) => {
+//   console.log('current tab state is', _state, 'from', from);
+// }
 
 export const init = (tid) => {
   _state[tid] = {
@@ -18,7 +18,8 @@ export const get = (tid) => {
 
 export const remove = (tid) => {
   if (_state.hasOwnProperty(tid)) {
-    delete state[tid];
+    console.log('hello');
+    delete _state[tid];
   }
 }
 
