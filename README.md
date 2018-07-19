@@ -19,6 +19,7 @@ $ web-ext run --browser-console -s build --start-url 'https://badssl.com/'
 If you are simply looking to give it a single run, you can compile it by running:
 
 ```bash
+$ npm install
 $ npm run-script compile
 ```
 
