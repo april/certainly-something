@@ -13,7 +13,7 @@ It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext
 
 ```bash
 $ npm run-script watch
-$ web-ext run --browser-console -s build
+$ web-ext run --browser-console -s build --start-url 'https://badssl.com/'
 ```
 
 If you are simply looking to give it a single run, you can compile it by running:
