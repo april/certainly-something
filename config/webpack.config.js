@@ -1,4 +1,5 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const LicenseWebpackPlugin = require('license-webpack-plugin').LicenseWebpackPlugin;
 const path = require('path');
 const webpack = require('webpack');
 
@@ -76,6 +77,12 @@ module.exports = {
         from: 'src/viewer/css',
         to: 'viewer/index.css'
       }
-    ])
+    ]),
+    new LicenseWebpackPlugin(
+      {
+        pattern: /.*/,
+        outputFilename: '[name].license.txt'
+      }
+    )
   ]
 };
