@@ -65,6 +65,9 @@ module.exports = {
         from: 'src/manifest.json'
       },
       {
+        from: 'LICENSE.md'
+      },
+      {
         from: 'src/icons/*.svg',
         to: 'icons/',
         flatten: true
