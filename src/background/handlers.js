@@ -26,7 +26,7 @@ browser.runtime.onInstalled.addListener(async () => {
       try {
         const activeUrl = new URL(tab.url);
 
-        if (activeUrl.protocol === 'https:') {
+        if (activeUrl.protocol === 'https:' && activeUrl.hostname !== 'addons.mozilla.org') {
           browser.tabs.reload(tab.id);
         }
       } catch (e) {
@@ -39,7 +39,9 @@ browser.runtime.onInstalled.addListener(async () => {
 // update the icon when a navigation is complete
 browser.webNavigation.onCompleted.addListener(
   details => {
-    icon.update(details.tabId, state.get(details.tabId).state);
+    if (details.parentFrameId === -1) {
+      icon.update(details.tabId, state.get(details.tabId).state);
+    }
   },
   { url: [{ schemes: ['http', 'https'] }] }
 );
