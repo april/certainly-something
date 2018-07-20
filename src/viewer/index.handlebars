@@ -32,18 +32,22 @@
   <div class="row section" id="certificates">
     <div class="panel">
       <div class="panel-section panel-section-header">
-        <div class="text-section-header"><h1>Certificates</h1></div>
+        <div class="text-section-header"><h1>{{#if (eq certs.length 1)}}Certificate{{else}}Certificates{{/if}}</h1></div>
       </div>
     </div>
 
     <div class="row">
       <div class="certificate-panel panel">
-        <div class="panel-section panel-section-tabs">
-          {{#each certs}}
-          <div class="panel-section-tabs-button {{#if @first}}selected{{/if}}" data-certificate-index="{{@index}}">{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</div>
-          <div class="panel-section-tabs-separator"></div>
-          {{/each}}
-        </div>
+        {{#if (eq certs.length 1)}}
+          <div class="panel-list-item-separator"></div>
+        {{else}}
+          <div class="panel-section panel-section-tabs">
+            {{#each certs}}
+            <div class="panel-section-tabs-button {{#if @first}}selected{{/if}}" data-certificate-index="{{@index}}">{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</div>
+            <div class="panel-section-tabs-separator"></div>
+            {{/each}}
+          </div>
+        {{/if}}
 
         {{#each certs}}
         <div class="certificate" data-certificate-index="{{@index}}" {{#unless @first}}hidden{{/unless}}>
