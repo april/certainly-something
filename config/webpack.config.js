@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin').LicenseWebpackPlugin;
 const path = require('path');
 const webpack = require('webpack');
+const production = process.env.NODE_ENV === 'production';
 
 module.exports = {
   output: {
@@ -12,8 +13,8 @@ module.exports = {
     'background': path.resolve(__dirname, '..', 'src', 'background', 'entry.js'),
     'viewer/index': path.resolve(__dirname, '..', 'src', 'viewer', 'js', 'index.js'),
   },
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devtool: 'source-map',
+  mode: production ? 'production' : 'development',
+  devtool: production ? undefined : 'source-map',
   module: {
     rules: [
       {
