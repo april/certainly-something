@@ -46,18 +46,7 @@ module.exports = {
             ]
           }
         }]
-      },
-      {
-        test: /\.css$/,
-        include: [
-          path.resolve(__dirname, '..', 'src', 'viewer', 'css'),
-        ],
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      },
+      }
     ]
   },
   plugins: [
@@ -78,8 +67,10 @@ module.exports = {
         to: 'viewer/index.html'
       },
       {
-        from: 'src/viewer/css',
-        to: 'viewer/index.css'
+        // todo: eventually switch to sass + loaders, but this is easier for now
+        from: 'src/viewer/css/*.css',
+        to: 'viewer/css/',
+        flatten: true
       }
     ]),
     new LicenseWebpackPlugin(

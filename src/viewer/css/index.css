@@ -68,10 +68,6 @@ h2 {
   margin-right: 1.5em;
 }
 
-.certificate-icon {
-  background-image: url('certificate.svg');
-}
-
 .long-hex {
   flex-grow: inherit;
   margin-right: 4em;
