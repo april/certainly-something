@@ -62,6 +62,7 @@ h2 {
   font-weight: bold;
   padding-right: 1em;
   text-align: right;
+  word-break: initial;
 }
 
 .certificate, .panel-list-container {
