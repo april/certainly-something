@@ -55,95 +55,23 @@
           <div class="panel-section-subheader">
             <span>Subject Name</span>
           </div>
-          {{#if this.subject.c}}
+          {{#each this.subject.entries}}
           <div class="panel-list-item">
-            <div class="text">Country</div>
-            <div class="text">{{ this.subject.c }}</div>
+            <div class="text">{{lookup this 0}}</div>
+            <div class="text">{{lookup this 1}}</div>
           </div>
-          {{/if}}
-          {{#if this.subject.s}}
-          <div class="panel-list-item">
-            <div class="text">State / Province</div>
-            <div class="text">{{ this.subject.s }}</div>
-          </div>
-          {{/if}}
-          {{#if this.subject.l}}
-          <div class="panel-list-item">
-            <div class="text">Locality</div>
-            <div class="text">{{ this.subject.l }}</div>
-          </div>
-          {{/if}}
-          {{#if this.subject.address}}
-          <div class="panel-list-item">
-            <div class="text">Street Address</div>
-            <div class="text">{{ this.subject.address }}</div>
-          </div>
-          {{/if}}
-          {{#if this.subject.ou}}
-          <div class="panel-list-item">
-            <div class="text">Organizational Unit</div>
-            <div class="text">{{ this.subject.ou }}</div>
-          </div>
-          {{/if}}
-          {{#if this.subject.o}}
-          <div class="panel-list-item">
-            <div class="text">Organization</div>
-            <div class="text">{{ this.subject.o }}</div>
-          </div>
-          {{/if}}
-          {{#if this.subject.cn}}
-          <div class="panel-list-item">
-            <div class="text">Common Name</div>
-            <div class="text">{{ this.subject.cn }}</div>
-          </div>
-          {{/if}}
+          {{/each}}
 
           {{! Issuer }}
           <div class="panel-section-subheader">
             <span>Issuer Name</span>
           </div>
-          {{#if this.issuer.c}}
+          {{#each this.issuer.entries}}
           <div class="panel-list-item">
-            <div class="text">Country</div>
-            <div class="text">{{ this.issuer.c }}</div>
+            <div class="text">{{lookup this 0}}</div>
+            <div class="text">{{lookup this 1}}</div>
           </div>
-          {{/if}}
-          {{#if this.issuer.s}}
-          <div class="panel-list-item">
-            <div class="text">State / Province</div>
-            <div class="text">{{ this.issuer.s }}</div>
-          </div>
-          {{/if}}
-          {{#if this.issuer.l}}
-          <div class="panel-list-item">
-            <div class="text">Locality</div>
-            <div class="text">{{ this.issuer.l }}</div>
-          </div>
-          {{/if}}
-          {{#if this.issuer.address}}
-          <div class="panel-list-item">
-            <div class="text">Street Address</div>
-            <div class="text">{{ this.issuer.address }}</div>
-          </div>
-          {{/if}}
-          {{#if this.issuer.ou}}
-          <div class="panel-list-item">
-            <div class="text">Organizational Unit</div>
-            <div class="text">{{ this.issuer.ou }}</div>
-          </div>
-          {{/if}}
-          {{#if this.issuer.o}}
-          <div class="panel-list-item">
-            <div class="text">Organization</div>
-            <div class="text">{{ this.issuer.o }}</div>
-          </div>
-          {{/if}}
-          {{#if this.issuer.cn}}
-          <div class="panel-list-item">
-            <div class="text">Common Name</div>
-            <div class="text">{{ this.issuer.cn }}</div>
-          </div>
-          {{/if}}
+          {{/each}}
 
 
           {{! Validity }}

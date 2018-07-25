@@ -1,4 +1,258 @@
 export const strings = {
+  names: {
+    // Directory Pilot Attributes
+    '0.9.2342.19200300.100.1.1': {
+      short: 'uid',
+      long: 'User ID',
+    },
+    '0.9.2342.19200300.100.1.25': {
+      short: 'dc',
+      long: 'Domain Component',
+    },
+
+    // PKCS-9
+    '1.2.840.113549.1.9.1': {
+      short: 'e',
+      long: 'Email Address',
+    },
+
+    // Microsoft
+    '1.3.6.1.4.1.311.60.2.1.1': {
+      short: 'l',
+      long: 'Locality (AD)',
+    },
+    '1.3.6.1.4.1.311.60.2.1.2': {
+      short: 's',
+      long: 'State / Province (AD)',
+    },
+    '1.3.6.1.4.1.311.60.2.1.3': {
+      short: 'c',
+      long: 'Country (AD)',
+    },
+
+    // X.500 attribute types
+    '2.5.4.1': {
+      short: undefined,
+      long: 'Aliased Entry',
+    },
+    '2.5.4.2': {
+      short: undefined,
+      long: 'Knowledge Information',
+    },
+    '2.5.4.3': {
+      short: 'cn',
+      long: 'Common Name',
+    },
+    '2.5.4.4': {
+      short: 'sn',
+      long: 'Surname',
+    },
+    '2.5.4.5': {
+      short: 'serialNumber',
+      long: 'Serial Number',
+    },
+    '2.5.4.6': {
+      short: 'c',
+      long: 'Country',
+    },
+    '2.5.4.7': {
+      short: 'l',
+      long: 'Locality',
+    },
+    '2.5.4.8': {
+      short: 's',
+      long: 'State / Province',
+    },
+    '2.5.4.9': {
+      short: 'street',
+      long: 'Stress Address',
+    },
+    '2.5.4.10': {
+      short: 'o',
+      long: 'Organization',
+    },
+    '2.5.4.11': {
+      short: 'ou',
+      long: 'Organizational Unit',
+    },
+    '2.5.4.12': {
+      short: 't',
+      long: 'Title',
+    },
+    '2.5.4.13': {
+      short: 'description',
+      long: 'Description',
+    },
+    '2.5.4.14': {
+      short: undefined,
+      long: 'Search Guide',
+    },
+    '2.5.4.15': {
+      short: undefined,
+      long: 'Business Category',
+    },
+    '2.5.4.16': {
+      short: undefined,
+      long: 'Postal Address',
+    },
+    '2.5.4.17': {
+      short: 'postalCode',
+      long: 'Postal Code',
+    },
+    '2.5.4.18': {
+      short: 'POBox',
+      long: 'PO Box',
+    },
+    '2.5.4.19': {
+      short: undefined,
+      long: 'Physical Delivery Office Name',
+    },
+    '2.5.4.20': {
+      short: 'phone',
+      long: 'Phone Number',
+    },
+    '2.5.4.21': {
+      short: undefined,
+      long: 'Telex Number',
+    },
+    '2.5.4.22': {
+      short: undefined,
+      long: 'Teletex Terminal Identifier',
+    },
+    '2.5.4.23': {
+      short: undefined,
+      long: 'Fax Number',
+    },
+    '2.5.4.24': {
+      short: undefined,
+      long: 'X.121 Address',
+    },
+    '2.5.4.25': {
+      short: undefined,
+      long: 'International ISDN Number',
+    },
+    '2.5.4.26': {
+      short: undefined,
+      long: 'Registered Address',
+    },
+    '2.5.4.27': {
+      short: undefined,
+      long: 'Destination Indicator',
+    },
+    '2.5.4.28': {
+      short: undefined,
+      long: 'Preferred Delivery Method',
+    },
+    '2.5.4.29': {
+      short: undefined,
+      long: 'Presentation Address',
+    },
+    '2.5.4.30': {
+      short: undefined,
+      long: 'Supported Application Context',
+    },
+    '2.5.4.31': {
+      short: undefined,
+      long: 'Member',
+    },
+    '2.5.4.32': {
+      short: undefined,
+      long: 'Owner',
+    },
+    '2.5.4.33': {
+      short: undefined,
+      long: 'Role Occupant',
+    },
+    '2.5.4.34': {
+      short: undefined,
+      long: 'See Also',
+    },
+    '2.5.4.35': {
+      short: undefined,
+      long: 'User Password',
+    },
+    '2.5.4.36': {
+      short: undefined,
+      long: 'User Certificate',
+    },
+    '2.5.4.37': {
+      short: undefined,
+      long: 'CA Certificate',
+    },
+    '2.5.4.38': {
+      short: undefined,
+      long: 'Authority Revocation List',
+    },
+    '2.5.4.39': {
+      short: undefined,
+      long: 'Certificate Revocation List',
+    },
+    '2.5.4.40': {
+      short: undefined,
+      long: 'Cross-certificate Pair',
+    },
+    '2.5.4.41': {
+      short: undefined,
+      long: 'Name',
+    },
+    '2.5.4.42': {
+      short: 'g',
+      long: 'Given Name',
+    },
+    '2.5.4.43': {
+      short: 'i',
+      long: 'Initials',
+    },
+    '2.5.4.44': {
+      short: undefined,
+      long: 'Generation Qualifier',
+    },
+    '2.5.4.45': {
+      short: undefined,
+      long: 'Unique Identifier',
+    },
+    '2.5.4.46': {
+      short: undefined,
+      long: 'DN Qualifier',
+    },
+    '2.5.4.47': {
+      short: undefined,
+      long: 'Enhanced Search Guide',
+    },
+    '2.5.4.48': {
+      short: undefined,
+      long: 'Protocol Information',
+    },
+    '2.5.4.49': {
+      short: 'dn',
+      long: 'Distinguished Name',
+    },
+    '2.5.4.50': {
+      short: undefined,
+      long: 'Unique Member',
+    },
+    '2.5.4.51': {
+      short: undefined,
+      long: 'House Identifier',
+    },
+    '2.5.4.52': {
+      short: undefined,
+      long: 'Supported Algorithms',
+    },
+    '2.5.4.53': {
+      short: undefined,
+      long: 'Delta Revocation List',
+    },
+    '2.5.4.58': {
+      short: undefined,
+      long: 'Attribute Certificate Attribute',  // huh
+    },
+    '2.5.4.65': {
+      short: undefined,
+      long: 'Pseudonym',
+    },
+  },
+
   keyUsages: [
     'CRL Signing',
     'Certificate Signing',

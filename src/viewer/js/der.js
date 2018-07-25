@@ -21,44 +21,36 @@ const getX509Ext = (extensions, v) => {
 };
 
 
-const parseSubsidiary = (obj) => {
-  var path = [];
-
+const parseSubsidiary = (distinguishedNames) => {
   const subsidiary = {
-    'cn': undefined,
-    'c': undefined,
-    'l': undefined,
-    's': undefined,
-    'address': undefined,
-    'o': undefined,
-    'ou': undefined,
+    cn: '',
+    dn: [],
+    entries: [],
   };
 
-  const usefulOIDs = {
-    '2.5.4.3': 'cn',
-    '2.5.4.6': 'c',        // country
-    '2.5.4.7': 'l',        // locality
-    '2.5.4.8': 's',        // state or province name
-    '2.5.4.9': 'address',
-    '2.5.4.10': 'o',
-    '2.5.4.11': 'ou',
-  };
+  distinguishedNames.forEach(dn => {
+    const name = strings.names[dn.type];
+    const value = dn.value.valueBlock.value;
 
-  for (var attribute in obj) {
-    var attr = obj[attribute];
-    if (attr.type in usefulOIDs) {
-      // add it to the subsidary
-      subsidiary[usefulOIDs[attr.type]] = attr.value.valueBlock.value;
-      path.push(`${usefulOIDs[attr.type].toUpperCase()}=${attr.value.valueBlock.value}`);
+    if (name === undefined) {
+      subsidiary.dn.push(`OID.${dn.type}=${value}`);
+      subsidiary.entries.push([`OID.${dn.type}`, value]);
+    } else if (name.short === undefined) {
+      subsidiary.dn.push(`OID.${dn.type}=${value}`);
+      subsidiary.entries.push([name.long, value]);
     } else {
-      // append to the path because we didn't understand something
-      path.push(`??=${attr.value.valueBlock.value}`);
-    }
-  }
+      subsidiary.dn.push(`${name.short}=${value}`);
+      subsidiary.entries.push([name.long, value]);
 
-  // add the path to the subsidiary
-  path.reverse();
-  subsidiary['path'] = path.join(', ');
+      // add the common name for tab display
+      if (name.short === 'cn') {
+        subsidiary.cn = value;
+      }
+    }
+  });
+
+  // turn path into a string
+  subsidiary.dn = subsidiary.dn.join(', ');
 
   return subsidiary;
 };
@@ -137,7 +129,16 @@ export const parse = async (der) => {
   // get the subjectAltNames
   let san = getX509Ext(x509.extensions, '2.5.29.17').parsedValue;
   if (san && san.hasOwnProperty('altNames')) {
-    san = Object.keys(san.altNames).map(x => [strings.san[san.altNames[x].type], san.altNames[x].value]);
+    san = Object.keys(san.altNames).map(x => {
+      const type = san.altNames[x].type;
+
+      switch (type) {
+        case 4:  // directory
+          return [strings.san[type], parseSubsidiary(san.altNames[x].value.typesAndValues).dn]
+        default:
+          return [strings.san[type], san.altNames[x].value]
+      }
+    });
   } else {
     san = [];
   }
@@ -290,7 +291,7 @@ export const parse = async (der) => {
     }
   });
 
-  // console.log('returning from parse() for cert', x509);
+  console.log('returning from parse() for cert', x509);
 
   // the output shell
   return {
