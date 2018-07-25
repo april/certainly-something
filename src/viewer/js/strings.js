@@ -16,18 +16,18 @@ export const strings = {
       long: 'Email Address',
     },
 
-    // Microsoft
+    // Incorporated Locations
     '1.3.6.1.4.1.311.60.2.1.1': {
-      short: 'l',
-      long: 'Locality (AD)',
+      short: undefined,
+      long: 'Incorporated Locality',
     },
     '1.3.6.1.4.1.311.60.2.1.2': {
-      short: 's',
-      long: 'State / Province (AD)',
+      short: undefined,
+      long: 'Incorporated State / Province',
     },
     '1.3.6.1.4.1.311.60.2.1.3': {
-      short: 'c',
-      long: 'Country (AD)',
+      short: undefined,
+      long: 'Incorporated Country',
     },
 
     // X.500 attribute types
