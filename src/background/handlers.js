@@ -49,8 +49,11 @@ browser.webNavigation.onCompleted.addListener(
 // open the certificate viewer
 browser.pageAction.onClicked.addListener(
   details => {
+    // open the cert viewer page in the next tab over
     browser.tabs.create({
-      url: `/viewer/index.html?tid=${String(details.id)}`
+      index: details.index + 1,
+      url: `/viewer/index.html?tid=${String(details.id)}`,
+      windowId: details.windowId,
     });
   }
 );
