@@ -55,7 +55,7 @@ const postRender = () => {
 
 
 const render = (securityInfo) => {
-  console.log('about to render with this securityInfo', securityInfo);
+  // console.log('about to render with this securityInfo', securityInfo);
   // console.log('here is the template', template, 'and here is securityinfo', securityInfo);
 
   // change the tab title

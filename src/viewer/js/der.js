@@ -291,7 +291,7 @@ export const parse = async (der) => {
     }
   });
 
-  console.log('returning from parse() for cert', x509);
+  // console.log('returning from parse() for cert', x509);
 
   // the output shell
   return {
