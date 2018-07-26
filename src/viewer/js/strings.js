@@ -19,15 +19,15 @@ export const strings = {
     // Incorporated Locations
     '1.3.6.1.4.1.311.60.2.1.1': {
       short: undefined,
-      long: 'Incorporated Locality',
+      long: 'Inc. Locality',
     },
     '1.3.6.1.4.1.311.60.2.1.2': {
       short: undefined,
-      long: 'Incorporated State / Province',
+      long: 'Inc. State / Province',
     },
     '1.3.6.1.4.1.311.60.2.1.3': {
       short: undefined,
-      long: 'Incorporated Country',
+      long: 'Inc. Country',
     },
 
     // X.500 attribute types
