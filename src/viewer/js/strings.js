@@ -30,6 +30,26 @@ export const strings = {
       long: 'Inc. Country',
     },
 
+    // certificate extensions
+    '1.3.6.1.4.1.11129.2.4.2': {
+      name: {
+        short: 'Embedded SCTs',
+        long: 'Embedded Signed Certificate Timestamps',
+      }
+    },
+    '1.3.6.1.5.5.7.1.1': {
+      name: {
+        short: undefined,
+        long: 'Authority Information Access'
+      }
+    },
+    '1.3.6.1.5.5.7.1.24': {
+      name: {
+        short: 'OCSP Stapling',
+        long: 'Online Certificate Status Protocol Stapling'
+      }
+    },
+
     // X.500 attribute types
     '2.5.4.1': {
       short: undefined,
@@ -250,6 +270,56 @@ export const strings = {
     '2.5.4.65': {
       short: undefined,
       long: 'Pseudonym',
+    },
+
+    // extensions
+    '2.5.29.14': {
+      name: {
+        short: 'Subject Key ID',
+        long: 'Subject Key Identifier',
+      }
+    },
+    '2.5.29.15': {
+      name: {
+        short: undefined,
+        long: 'Key Usages',
+      }
+    },
+    '2.5.29.17': {
+      name: {
+        short: 'Subject Alt Names',
+        long: 'Subject Alternative Names',
+      }
+    },
+    '2.5.29.19': {
+      name: {
+        short: undefined,
+        long: 'Basic Constraints',
+      }
+    },
+    '2.5.29.31': {
+      name: {
+        short: 'CRL Endpoints',
+        long: 'Certificate Revocation List Endpoints',
+      }
+    },
+    '2.5.29.32': {
+      name: {
+        short: undefined,
+        long: 'Certificate Policies',
+      }
+    },
+    '2.5.29.35': {
+      name: {
+        short: 'Authority Key ID',
+        long: 'Authority Key Identifier',
+      }
+    },
+    '2.5.29.37': {
+      name: {
+        short: undefined,
+        long: 'Extended Key Usages',
+      }
     },
   },
 
