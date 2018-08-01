@@ -65,6 +65,12 @@ h2 {
   word-break: initial;
 }
 
+.critical {
+  height: 13px;
+  margin: 0 4px 2px 0;
+  vertical-align: middle;
+}
+
 .certificate, .panel-list-container {
   margin-right: 1.5em;
 }

@@ -81,6 +81,14 @@ export const parse = async (der) => {
   // convert the cert to PEM
   const certBTOA = window.btoa(String.fromCharCode.apply(null, der)).match(/.{1,64}/g).join('\r\n');
 
+  // get which extensions are critical
+  const criticalExtensions = [];
+  x509.extensions.forEach(ext => {
+    if (ext.hasOwnProperty('critical') && ext.critical === true) {
+      criticalExtensions.push(ext.extnID);
+    }
+  });
+
   // get the public key info
   let spki = Object.assign({
     crv: undefined,
@@ -106,7 +114,11 @@ export const parse = async (der) => {
   }
 
   // get the keyUsages
-  const keyUsages = [];
+  const keyUsages = {
+    critical: criticalExtensions.includes('2.5.29.15'),
+    purposes: [],
+  };
+
   let keyUsagesBS = getX509Ext(x509.extensions, '2.5.29.15').parsedValue;
   if (keyUsagesBS !== undefined) {
     // parse the bit string, shifting as necessary
@@ -114,16 +126,16 @@ export const parse = async (der) => {
     keyUsagesBS = parseInt(keyUsagesBS.valueBlock.valueHex, 16) >> unusedBits;
 
     // iterate through the bit string
-    strings.keyUsages.splice(unusedBits - 1).forEach(usage => {
+    strings.keyUsages.slice(unusedBits - 1).forEach(usage => {
       if (keyUsagesBS & 1) {
-        keyUsages.push(usage);
+        keyUsages.purposes.push(usage);
       }
 
       keyUsagesBS = keyUsagesBS >> 1;
     })
 
     // reverse the order for legibility
-    keyUsages.reverse();
+    keyUsages.purposes.reverse();
   };
 
   // get the subjectAltNames
@@ -143,25 +155,27 @@ export const parse = async (der) => {
     san = [];
   }
 
+  san = {
+    altNames: san,
+    critical: criticalExtensions.includes('2.5.29.17'),
+  };
+
   // get the basic constraints
   let basicConstraints;
   const basicConstraintsExt = getX509Ext(x509.extensions, '2.5.29.19');
   if (basicConstraintsExt && basicConstraintsExt.parsedValue) {
-    basicConstraints = {};
-    basicConstraints.critical = basicConstraintsExt.critical === true ? 'Yes' : 'No';
-
-    if (basicConstraintsExt.parsedValue.cA !== undefined) {
-      basicConstraints.cA = basicConstraintsExt.parsedValue.cA === true ? 'Yes' : 'No';
-    } else {
-      basicConstraints.cA = 'No';
-    }
+    basicConstraints = {
+      cA: (basicConstraintsExt.parsedValue.cA !== undefined && basicConstraintsExt.parsedValue.cA),
+      critical: criticalExtensions.includes('2.5.29.19'),
+    };
   }
 
   // get the extended key usages
-  let eKUsages = getX509Ext(x509.extensions, '2.5.29.37').parsedValue;
-  if (eKUsages) {
-    eKUsages = {
-      purposes: eKUsages.keyPurposes.map(x => strings.eKU[x]),
+  let eKeyUsages = getX509Ext(x509.extensions, '2.5.29.37').parsedValue;
+  if (eKeyUsages) {
+    eKeyUsages = {
+      critical: criticalExtensions.includes('2.5.29.37'),
+      purposes: eKeyUsages.keyPurposes.map(x => strings.eKU[x]),
     }
   }
 
@@ -169,6 +183,7 @@ export const parse = async (der) => {
   let sKID = getX509Ext(x509.extensions, '2.5.29.14').parsedValue;
   if (sKID) {
     sKID = {
+      critical: criticalExtensions.includes('2.5.29.14'),
       id: hashify(sKID.valueBlock.valueHex),
     }
   }
@@ -177,15 +192,16 @@ export const parse = async (der) => {
   let aKID = getX509Ext(x509.extensions, '2.5.29.35').parsedValue;
   if (aKID) {
     aKID = {
+      critical: criticalExtensions.includes('2.5.29.35'),
       id: hashify(aKID.keyIdentifier.valueBlock.valueHex),
     }
   }
 
   // get the CRL points
   let crlPoints = getX509Ext(x509.extensions, '2.5.29.31').parsedValue;
-
   if (crlPoints) {
     crlPoints = {
+      critical: criticalExtensions.includes('2.5.29.31'),
       points: crlPoints.distributionPoints.map(x => x.distributionPoint[0].value),
     };
   }
@@ -193,10 +209,12 @@ export const parse = async (der) => {
   let ocspStaple = getX509Ext(x509.extensions, '1.3.6.1.5.5.7.1.24').extnValue;
   if (ocspStaple && ocspStaple.valueBlock.valueHex === '3003020105') {
     ocspStaple = {
+      critical: criticalExtensions.includes('1.3.6.1.5.5.7.1.24'),
       required: true,
     }
   } else {
     ocspStaple = {
+      critical: criticalExtensions.includes('1.3.6.1.5.5.7.1.24'),
       required: false,
     }
   }
@@ -210,6 +228,11 @@ export const parse = async (der) => {
         method: strings.aia[x.accessMethod],
       };
     });
+  }
+
+  aia = {
+    descriptions: aia,
+    critical: criticalExtensions.includes('1.3.6.1.5.5.7.1.1'),
   }
 
   // get the embedded SCTs
@@ -227,6 +250,11 @@ export const parse = async (der) => {
     });
   } else {
     scts = [];
+  }
+
+  scts = {
+    critical: criticalExtensions.includes('1.3.6.1.4.1.11129.2.4.2'),
+    timestamps: scts,
   }
 
   // Certificate Policies, this stuff is really messy
@@ -283,6 +311,11 @@ export const parse = async (der) => {
     });
   }
 
+  cp = {
+    critical: criticalExtensions.includes('2.5.29.32'),
+    policies: cp,
+  }
+
   // determine which extensions weren't supported
   let unsupportedExtensions = [];
   x509.extensions.forEach(ext => {
@@ -301,12 +334,12 @@ export const parse = async (der) => {
       basicConstraints,
       crlPoints,
       cp,
-      eKUsages,
+      eKeyUsages,
       keyUsages,
       ocspStaple,
       scts: scts,
       sKID,
-      subjectAltNames: san,
+      san,
     },
     files: {
       der: undefined,
