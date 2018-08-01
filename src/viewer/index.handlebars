@@ -155,7 +155,7 @@
           </div>
           <div class="panel-list-item">
             <div class="text">Serial Number</div>
-            <div class="text">{{ this.serialNumber }}</div>
+            <div class="text long-hex">{{ this.serialNumber }}</div>
           </div>
           <div class="panel-list-item">
             <div class="text">Signature Algorithm</div>
@@ -172,11 +172,11 @@
           </div>
           <div class="panel-list-item">
             <div class="text">SHA-256</div>
-            <div class="text">{{ this.fingerprint.sha256 }}</div>
+            <div class="text long-hex">{{ this.fingerprint.sha256 }}</div>
           </div>
           <div class="panel-list-item">
             <div class="text">SHA-1</div>
-            <div class="text">{{ this.fingerprint.sha1 }}</div>
+            <div class="text long-hex">{{ this.fingerprint.sha1 }}</div>
           </div>
 
           <div class="panel-section-subsection">Extensions</div>
@@ -246,11 +246,11 @@
             </div>
             <div class="panel-list-item">
               <div class="text">Key ID</div>
-              <div class="text">{{ this.ext.sKID.id }}</div>
+              <div class="text long-hex">{{ this.ext.sKID.id }}</div>
             </div>
           {{/if}}
 
-          {{! Subject Key Identifier }}
+          {{! Authority Key Identifier }}
           {{#if this.ext.aKID}}
             <div class="panel-section-subheader">
               <span>
@@ -260,7 +260,7 @@
             </div>
             <div class="panel-list-item">
               <div class="text">Key ID</div>
-              <div class="text">{{ this.ext.aKID.id }}</div>
+              <div class="text long-hex">{{ this.ext.aKID.id }}</div>
             </div>
           {{/if}}
 
@@ -352,7 +352,7 @@
             {{#each this.ext.scts.timestamps}}
               <div class="panel-list-item">
                 <div class="text">Log ID</div>
-                <div class="text">{{ this.logId }}</div>
+                <div class="text long-hex">{{ this.logId }}</div>
               </div>
               <div class="panel-list-item">
                 <div class="text">Log Name</div>
