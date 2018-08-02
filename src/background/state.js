@@ -25,4 +25,6 @@ export const set = (tid, state) => {
   } else if (typeof state === 'object') {  // setting security info
     _state[tid] = state;
   }
+
+  return state;
 };

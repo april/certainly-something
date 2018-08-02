@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Certainly Something (Certificate Viewer)",
   "short_name": "Certainly Something",
-  "version": "1.0.2",
+  "version": "1.0.3",
 
   "description": "Certainly Something is an advanced digital certificate viewer with an easy to use interface.",
   "homepage_url": "https://github.com/april/certainly-something",
@@ -32,7 +32,8 @@
   "page_action": {
     "browser_style": true,
     "default_icon": "icons/secure.svg",
-    "default_title": "Certainly Something (Certificate Viewer)"
+    "default_title": "Certainly Something (Certificate Viewer)",
+    "show_matches": ["https://*/*"]
   },
 
   "permissions": [

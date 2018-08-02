@@ -1,3 +1,4 @@
+import * as icon from './icon';
 import * as state from './state';
 
 // state can only be downgraded, not upgraded
@@ -42,12 +43,17 @@ export const consume = async details => {
       // tabState[tid].si = securityInfo;
       state.set(tid, securityInfo);
     }
+
+    return;
   }
 
   // update document state depending on various conditions
   if (documentUrl.protocol === 'https:' && url.protocol === 'http:') {  // mixed content
-    state.set(tid, getWorseState(tid, 'broken'));
-  } else if (url.protocol === 'http:') {  // plain HTTP
-    state.set(tid, getWorseState(tid, 'http'));
+    icon.update(tid, state.set(tid, getWorseState(tid, 'broken')));
   }
+
+  // this isn't needed for now, simply because the manifest hides the extension from HTTP only pages
+  // else if (url.protocol === 'http:') {  // plain HTTP
+  //   icon.update(tid, state.set(tid, getWorseState(tid, 'http')));
+  // }
 };

@@ -39,11 +39,9 @@ browser.runtime.onInstalled.addListener(async () => {
 // update the icon when a navigation is complete
 browser.webNavigation.onCompleted.addListener(
   details => {
-    if (details.parentFrameId === -1) {
-      icon.update(details.tabId, state.get(details.tabId).state);
-    }
+    icon.update(details.tabId, state.get(details.tabId).state);
   },
-  { url: [{ schemes: ['http', 'https'] }] }
+  { url: [{ schemes: ['https'] }] }
 );
 
 // open the certificate viewer

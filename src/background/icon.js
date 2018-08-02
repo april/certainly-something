@@ -8,5 +8,7 @@ export const update = async (tid, state) => {
     });
 
     browser.pageAction.show(tid);
+  } else {
+    browser.pageAction.hide(tid);
   }
 };
