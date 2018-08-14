@@ -32,6 +32,15 @@ browser.runtime.onInstalled.addListener(async () => {
       } catch (e) {
         // pass
       }
+    } else {
+      // inject notification script to say you need to refresh
+      browser.tabs.insertCSS(tab.id, {
+        file: '/content_script/index.css',
+      });
+
+      browser.tabs.executeScript(tab.id, {
+        file: '/content_script/index.js',
+      });
     }
   });
 });
@@ -47,12 +56,19 @@ browser.webNavigation.onCompleted.addListener(
 // open the certificate viewer
 browser.pageAction.onClicked.addListener(
   details => {
-    // open the cert viewer page in the next tab over
-    browser.tabs.create({
-      index: details.index + 1,
-      url: `/viewer/index.html?tid=${String(details.id)}`,
-      windowId: details.windowId,
-    });
+    // open the cert viewer page in the next tab over, if we have the existing state
+    if (state.get(details.id) !== undefined) {
+      browser.tabs.create({
+        index: details.index + 1,
+        url: `/viewer/index.html?tid=${String(details.id)}`,
+        windowId: details.windowId,
+      });
+    } else {
+      // open popup to have people refresh the page
+      browser.tabs.sendMessage(details.id, {
+        action: 'notify',
+      });
+    }
   }
 );
 
@@ -75,11 +91,6 @@ chrome.runtime.onMessage.addListener(
       }
 
       sendResponse(si);
-    }
-
-    // this is a bit hackish for now, I could probably have a real error page
-    if (request.action === 'closeTab' && sender.envType === 'addon_child') {
-      browser.tabs.remove(sender.tab.id);
     }
   }
 );

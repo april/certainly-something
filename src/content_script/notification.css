@@ -1,0 +1,26 @@
+#certainly-something-notification {
+  /* slide in and out animation */
+  animation: slideDown 4s .5s 1 ease forwards;
+  transform: translateY(-50px);
+
+  background: #97d4fc;
+  box-shadow: 0 0 5px black;
+  font-size: 16px;
+  left: 0;
+  line-height: 2.5;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  z-index: 5678;
+}
+
+@keyframes slideDown {
+  0%, 100% { 
+    transform: translateY(-50px);
+  }
+
+  10%, 90% {
+    transform: translateY(0px);
+  }
+}

@@ -11,6 +11,7 @@ module.exports = {
   },
   entry: {
     'background': path.resolve(__dirname, '..', 'src', 'background', 'entry.js'),
+    'content_script/index': path.resolve(__dirname, '..', 'src', 'content_script', 'entry.js'),
     'viewer/index': path.resolve(__dirname, '..', 'src', 'viewer', 'js', 'index.js'),
   },
   mode: production ? 'production' : 'development',
@@ -63,11 +64,17 @@ module.exports = {
         flatten: true
       },
       {
-        from: 'src/viewer/index.html',
-        to: 'viewer/index.html'
+        from: 'src/viewer/*.html',
+        to: 'viewer/',
+        flatten: true
       },
       {
         // todo: eventually switch to sass + loaders, but this is easier for now
+        from: 'src/content_script/*.css',
+        to: 'content_script/index.css',
+        flatten: true
+      },
+      {
         from: 'src/viewer/css/*.css',
         to: 'viewer/css/',
         flatten: true
