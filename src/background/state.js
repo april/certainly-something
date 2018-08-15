@@ -1,10 +1,10 @@
 // this is for tracking the securityInfo information for every open tab
 const _state = {};
 
-export const init = (tid) => {
+export const init = (tid, state = 'insecure') => {
   _state[tid] = {
     si: {
-      state: 'insecure',
+      state,
     },
   };
 };

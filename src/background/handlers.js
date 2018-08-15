@@ -11,7 +11,12 @@ browser.webRequest.onHeadersReceived.addListener(
 );
 
 browser.webRequest.onErrorOccurred.addListener(
-  details => { consume(details); },
+  details => {
+    // eventually we will be able to consume these details, but for now we can only
+    // disable the icon
+    // consume(details);
+    icon.update(details.tabId, 'http');
+  },
   { urls: ['<all_urls>'] }
 );
 
@@ -32,30 +37,13 @@ browser.runtime.onInstalled.addListener(async () => {
       } catch (e) {
         // pass
       }
-    } else {
-      // inject notification script to say you need to refresh
-      browser.tabs.insertCSS(tab.id, {
-        file: '/content_script/index.css',
-      });
-
-      browser.tabs.executeScript(tab.id, {
-        file: '/content_script/index.js',
-      });
     }
   });
 });
 
-// update the icon when a navigation is complete
-browser.webNavigation.onCompleted.addListener(
-  details => {
-    icon.update(details.tabId, state.get(details.tabId).state);
-  },
-  { url: [{ schemes: ['https'] }] }
-);
-
 // open the certificate viewer
 browser.pageAction.onClicked.addListener(
-  details => {
+  async details => {
     // open the cert viewer page in the next tab over, if we have the existing state
     if (state.get(details.id) !== undefined) {
       browser.tabs.create({
@@ -64,8 +52,17 @@ browser.pageAction.onClicked.addListener(
         windowId: details.windowId,
       });
     } else {
+      // inject notification script to say you need to refresh
+      await browser.tabs.insertCSS(details.id, {
+        file: '/content_script/index.css',
+      });
+
+      await browser.tabs.executeScript(details.id, {
+        file: '/content_script/index.js',
+      });
+
       // open popup to have people refresh the page
-      browser.tabs.sendMessage(details.id, {
+      await browser.tabs.sendMessage(details.id, {
         action: 'notify',
       });
     }

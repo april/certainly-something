@@ -49,6 +49,10 @@ export const consume = async details => {
 
   // update document state depending on various conditions
   if (documentUrl.protocol === 'https:' && url.protocol === 'http:') {  // mixed content
+    if (state.get(tid) === undefined) {
+      state.init(tid, 'broken');
+    }
+
     icon.update(tid, state.set(tid, getWorseState(tid, 'broken')));
   }
 

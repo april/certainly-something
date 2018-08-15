@@ -7,8 +7,14 @@ export const update = async (tid, state) => {
       tabId: tid,
     });
 
-    browser.pageAction.show(tid);
+    await browser.pageAction.show(tid);
   } else {
-    browser.pageAction.hide(tid);
+    // browser bug avoidance
+    await browser.pageAction.setIcon({
+      path: 'icons/invalid-path-to-hide-icon.svg',
+      tabId: tid,
+    });
+
+    await browser.pageAction.hide(tid);
   }
 };
