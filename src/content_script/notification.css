@@ -1,10 +1,12 @@
-#certainly-something-notification {
+certainly-something-notification {
   /* slide in and out animation */
   animation: slideDown 4s .5s 1 ease forwards;
   transform: translateY(-50px);
 
   background: #97d4fc;
   box-shadow: 0 0 5px black;
+  display: block;
+  font-family: "Droid Serif", Georgia, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   left: 0;
   line-height: 2.5;
