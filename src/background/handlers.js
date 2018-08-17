@@ -15,7 +15,7 @@ browser.webRequest.onErrorOccurred.addListener(
     // eventually we will be able to consume these details, but for now we can only
     // disable the icon
     // consume(details);
-    if (details.type === 'main_frame' && details.url === details.documentUrl) {
+    if (details.type === 'main_frame' && details.documentUrl === undefined) {
       icon.update(details.tabId, 'http');
     }
   },
