@@ -1,6 +1,9 @@
 body {
   font-size: 14px;
   line-height: 1.428;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: 100vw;
   -moz-user-select: text;
 }
 
@@ -41,7 +44,7 @@ h2 {
   content: "";
   flex: 1 1;
   border-bottom: 1px solid #b8b8b8;
-  margin: auto 2em auto 1em;
+  margin: auto 3.5em auto 1em;
 }
 
 #handshake .panel .panel-section-header {
@@ -71,16 +74,17 @@ h2 {
   vertical-align: middle;
 }
 
-.certificate, .panel-list-container {
-  margin-right: 1.5em;
-}
-
 .long-hex {
   flex-grow: inherit;
-  margin-right: 4em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.long-hex-box {
+  max-width: 816px;
+  margin-right: 4em;
+  word-break: break-all;
 }
 
 .section {
@@ -91,7 +95,6 @@ h2 {
 .panel-list-item {
   height: inherit;
   min-height: 24px;
-  word-break: break-all;  /* fingerprints, etc. */
 }
 
 .panel-list-item-separator {
@@ -113,4 +116,8 @@ h2 {
 .panel-section-tabs-button.selected {
   box-shadow: 0 2px 0 #0996f8;
   color: #0996f8;
+}
+
+.text-section-header {
+  margin: 0 auto;
 }
