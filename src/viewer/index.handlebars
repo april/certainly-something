@@ -41,11 +41,12 @@
         {{#if (eq certs.length 1)}}
           <div class="panel-list-item-separator"></div>
         {{else}}
-          <div class="panel-section panel-section-tabs">
+          <div class="panel-section" id="panel-section-tabs">
             {{#each certs}}
             <div class="panel-section-tabs-button {{#if @first}}selected{{/if}}" data-certificate-index="{{@index}}">{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</div>
             <div class="panel-section-tabs-separator"></div>
             {{/each}}
+            <div class="panel-list-item-separator"></div>
           </div>
         {{/if}}
 
