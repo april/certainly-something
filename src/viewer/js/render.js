@@ -60,6 +60,13 @@ const render = (securityInfo) => {
   // change the tab title
   document.title = `${securityInfo.certs[0].subject.cn} (Certainly Something)`;
 
+  // do some minor cleanup on the securityInfo data - we don't want to put this in the handler, as
+  // it gets called too frequently
+  if (securityInfo.protocolVersion === 'TLSv1') {
+    securityInfo.protocolVersion = 'TLS 1.0';
+  }
+  securityInfo.protocolVersion = securityInfo.protocolVersion.replace('v', ' ');
+
   // render the handlebars template
   // document.body.innerHTML = Handlebars.templates.viewer(securityInfo);
   document.body.innerHTML = template(securityInfo);

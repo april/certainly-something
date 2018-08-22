@@ -40,7 +40,6 @@ export const consume = async details => {
         securityInfo.keaGroupName = undefined;
       }
 
-      // tabState[tid].si = securityInfo;
       state.set(tid, securityInfo);
     }
 
