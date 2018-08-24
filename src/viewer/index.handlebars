@@ -11,7 +11,7 @@
       </div>
       <div class="panel-list-item">
         <div class="text">Cipher Suite</div>
-        <div class="text">{{ cipherSuite }}</div>
+        <div class="text breakable">{{ cipherSuite }}</div>
       </div>
       {{#if (truthy keaGroupName)}}
       <div class="panel-list-item">
@@ -276,7 +276,7 @@
             {{#each this.ext.crlPoints.points}}
               <div class="panel-list-item">
                 <div class="text">Distribution Point {{onebasedindex @index}}</div>
-                <div class="text">{{{link this this}}}</div>
+                <div class="text breakable">{{{link this this}}}</div>
               </div>
             {{/each}}
           {{/if}}
@@ -296,7 +296,7 @@
               </div>
               <div class="panel-list-item">
                 <div class="text">Location</div>
-                <div class="text">{{{link this.location this.location}}}</div>
+                <div class="text breakable">{{{link this.location this.location}}}</div>
               </div>
               {{#unless @last}}<div class="panel-list-item-separator"></div>{{/unless}}
             {{/each}}
@@ -333,7 +333,7 @@
                   {{#if this.value}}
                     <div class="panel-list-item">
                       <div class="text">Value</div>
-                      <div class="text">{{#if (is_web_uri this.value)}}{{{link this.value this.value}}}{{else}}{{ this.value }}{{/if}}</div>
+                      <div class="text breakable">{{#if (is_web_uri this.value)}}{{{link this.value this.value}}}{{else}}{{ this.value }}{{/if}}</div>
                     </div>
                   {{/if}}
                 {{/each}}

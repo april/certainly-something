@@ -3,6 +3,13 @@ import * as icon from './icon';
 import * as state from './state';
 
 
+// we only do some actions if we are on Android
+let IS_ANDROID = false;
+browser.runtime.getPlatformInfo().then(pi => {
+  IS_ANDROID = (pi.os === 'android');
+});
+
+
 // consume the security info about requests
 browser.webRequest.onHeadersReceived.addListener(
   details => { consume(details); },

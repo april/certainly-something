@@ -88,6 +88,10 @@ h2 {
   word-break: break-all;
 }
 
+.breakable {
+  word-break: break-all;
+}
+
 .section {
   margin-bottom: .5em;
 }
@@ -114,8 +118,29 @@ h2 {
   top: 0;
 }
 
+/* have the tabs be sticky but only on reasonably sized devices */
+@media (max-height: 680px) {
+  #panel-section-tabs {
+    position: auto;
+    top: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  #panel-section-tabs {
+    flex-direction: column;
+  }
+}
+
 .panel-section-tabs-button {
   box-shadow: 0 1px 0 rgb(0, 0, 0, .15);
+
+  /* questionable overrides from the chrome.css */
+  align-items: center;
+  display: flex;
+  height: auto;
+  justify-content: center;
+  margin: 0;  /* default 0 -1 causes x overflow */
 }
 
 .panel-section-tabs-button.selected {

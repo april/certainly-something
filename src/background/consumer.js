@@ -1,6 +1,13 @@
 import * as icon from './icon';
 import * as state from './state';
 
+
+// we only do some actions if we are on Android
+let IS_ANDROID = false;
+browser.runtime.getPlatformInfo().then(pi => {
+  IS_ANDROID = (pi.os === 'android');
+});
+
 // state can only be downgraded, not upgraded
 const getWorseState = (tid, newState) => {
   const curState = state.get(tid).state;
@@ -41,6 +48,13 @@ export const consume = async details => {
       }
 
       state.set(tid, securityInfo);
+
+      // the icon is show by default on the desktop due to its manifest (show_matches), but on Android
+      // you have to specifically call pageAction.show(). We don't want to do this on other platforms,
+      // since this can be a bit glitchy at times
+      if (IS_ANDROID && url.protocol === 'https:' && url.hostname !== 'addons.mozilla.org') {
+        icon.update(tid, securityInfo.state);
+      }
     }
 
     return;
