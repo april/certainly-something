@@ -71,7 +71,16 @@ export const parse = async (der) => {
     '2.5.29.37',                // extended key usage
   ];
 
-  const timeZone = `${new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1]}`;
+  // get the current time zone - note that there are some time zones that this doesn't easily
+  // match, for whatever reason.  https://github.com/april/certainly-something/issues/21
+  let timeZone = new Date().toString().match(/\(([A-Za-z\s].*)\)/);
+  if (timeZone === null) {    // America/Chicago
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  } else if (timeZone.length > 1) {
+    timeZone = timeZone[1];   // Central Daylight Time
+  } else {
+    timeZone = 'Local Time';  // not sure if this is right, but let's go with it for now
+  }
 
   // parse the DER
   const asn1 = asn1js.fromBER(der.buffer);
