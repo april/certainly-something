@@ -156,6 +156,16 @@ export const parse = async (der) => {
       switch (type) {
         case 4:  // directory
           return [strings.san[type], parseSubsidiary(san.altNames[x].value.typesAndValues).dn]
+        case 7:  // ip address
+          let address = san.altNames[x].value.valueBlock.valueHex;
+
+          if (address.length === 8) {  // ipv4
+            return [strings.san[type], address.match(/.{1,2}/g).map(x => parseInt(x, 16)).join('.')];
+          } else if (address.length === 32) {  // ipv6
+            return [strings.san[type], address.toLowerCase().match(/.{1,4}/g).join(':').replace(/\b:?(?:0+:?){2,}/, '::')];
+          } else {
+            return [strings.san[type], 'Unknown IP address'];
+          }
         default:
           return [strings.san[type], san.altNames[x].value]
       }
