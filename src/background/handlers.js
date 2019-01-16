@@ -11,6 +11,8 @@ browser.runtime.getPlatformInfo().then(pi => {
 
 
 // consume the security info about requests
+// ideally, we'd like to set it to types: ['main_frame'] for performance reasons, but
+// unfortunately this is the only way to check for mixed content errors
 browser.webRequest.onHeadersReceived.addListener(
   details => { consume(details); },
   { urls: ['<all_urls>'] },
