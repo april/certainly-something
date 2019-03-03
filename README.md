@@ -9,7 +9,14 @@ It currently requires at least Firefox 62.
 
 ## Developing and Installing Locally
 
-It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext) for installation and testing.  It provides a number of useful features, such as automated installation and autoreload upon source changes. For testing and development, run the following commands in two separate terminal windows:
+It is recommend that developers use [web-ext](https://github.com/mozilla/web-ext) for installation and testing.  It provides a number of useful features, such as automated installation and autoreload upon source changes. 
+
+Install web-ext using the following command:
+
+````bash
+$ npm install --global web-ext
+````
+For testing and development, run the following commands in two separate terminal windows:
 
 ```bash
 $ npm run-script watch
