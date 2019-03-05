@@ -100,6 +100,7 @@ h2 {
 .panel-list-item {
   height: inherit;
   min-height: 24px;
+  cursor: text;
 }
 
 .panel-list-item-separator {
@@ -116,6 +117,7 @@ h2 {
   margin-bottom: 12px;
   position: sticky;
   top: 0;
+  cursor: pointer;
 }
 
 /* have the tabs be sticky but only on reasonably sized devices */
