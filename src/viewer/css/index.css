@@ -98,9 +98,11 @@ h2 {
 
 /* overrides to extension.css */
 .panel-list-item {
+  border-bottom: solid 1px white;  /* same as background to fix hover issue, see issue #41 */
+  border-top: solid 1px white;
+  cursor: text;
   height: inherit;
   min-height: 24px;
-  cursor: text;
 }
 
 .panel-list-item-separator {
