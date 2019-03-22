@@ -30,6 +30,20 @@ export const strings = {
       long: 'Inc. Country',
     },
 
+    // microsoft cryptographic extensions
+    '1.3.6.1.4.1.311.21.7': {
+      name: {
+        short: 'Certificate Template',
+        long: 'Microsoft Certificate Template',
+      }
+    },
+    '1.3.6.1.4.1.311.21.10': {
+      name: {
+        short: 'Certificate Policies',
+        long: 'Microsoft Certificate Policies',
+      }
+    },
+
     // certificate extensions
     '1.3.6.1.4.1.11129.2.4.2': {
       name: {

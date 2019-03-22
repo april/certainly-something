@@ -1,5 +1,5 @@
 export default (v) => {
-  if (v === undefined || v === null || v === 'none') {
+  if (v === undefined || v === null || v === 'none' || v === false) {
     return false;
   }
 

@@ -58,6 +58,8 @@ const parseSubsidiary = (distinguishedNames) => {
 
 export const parse = async (der) => {
   const supportedExtensions = [
+    '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
+    '1.3.6.1.4.1.311.21.10',    // microsoft certificate policies
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
     '1.3.6.1.5.5.7.1.1',        // authority info access
     '1.3.6.1.5.5.7.1.24',       // ocsp stapling
@@ -335,6 +337,30 @@ export const parse = async (der) => {
     policies: cp,
   }
 
+  // now let's parse the Microsoft cryptographic extensions
+  let msCrypto = {
+    certificatePolicies: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.10').parsedValue,
+    certificateTemplate: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.7').parsedValue,
+  };
+
+  if (msCrypto.certificatePolicies) {
+    msCrypto.certificatePolicies = {
+      critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.10'),
+      purposes: msCrypto.certificatePolicies.certificatePolicies.map(x => strings.eKU[x.policyIdentifier]),
+    };
+  }
+
+  if (msCrypto.certificateTemplate) {
+    msCrypto.certificateTemplate = {
+      critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.7'),
+      id: msCrypto.certificateTemplate.extnID,
+      major: msCrypto.certificateTemplate.templateMajorVersion,
+      minor: msCrypto.certificateTemplate.templateMinorVersion,     
+    };
+  }
+
+  msCrypto.exists = (msCrypto.certificatePolicies || msCrypto.certificateTemplate) ? true : false;
+
   // determine which extensions weren't supported
   let unsupportedExtensions = [];
   x509.extensions.forEach(ext => {
@@ -355,6 +381,7 @@ export const parse = async (der) => {
       cp,
       eKeyUsages,
       keyUsages,
+      msCrypto,
       ocspStaple,
       scts: scts,
       sKID,

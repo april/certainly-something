@@ -370,12 +370,52 @@
             {{/each}}
           {{/if}}
 
+          {{! Microsoft cryptography }}
+          {{#if (truthy this.ext.msCrypto.exists)}}
+          <div class="panel-section-subsection mt-4">Microsoft Cryptographic Extensions</div>
+
+            {{! Certificate Policies }}
+            {{#if (truthy this.ext.msCrypto.certificatePolicies)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.certificatePolicies.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  Certificate Policies
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Purposes</div>
+                <div class="text">{{#each this.ext.msCrypto.certificatePolicies.purposes}}{{ this }}{{#unless @last}}, {{/unless}}{{/each}}</div>
+              </div>
+            {{/if}}
+
+            {{! Certificate Template }}
+            {{#if (truthy this.ext.msCrypto.certificateTemplate)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.certificateTemplate.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  Certificate Template
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Identifier</div>
+                <div class="text long-hex long-hex-box">{{this.ext.msCrypto.certificateTemplate.id}}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Minor Version</div>
+                <div class="text">{{this.ext.msCrypto.certificateTemplate.minor}}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Major Version</div>
+                <div class="text">{{this.ext.msCrypto.certificateTemplate.major}}</div>
+              </div>
+            {{/if}}
+
+          {{/if}}
+
           {{! Unsupported extensions }}
           {{#if (truthy this.unsupportedExtensions)}}
-            <div class="panel-section-subheader">
-              <span>Unknown Extensions</span>
-            </div>
-            <div class="panel-list-item">
+            <div class="panel-section-subsection">Unknown Extensions</div>
+            <div class="panel-list-item mt-3">
               <div class="text">Identifiers</div>
               <div class="text">{{#each this.unsupportedExtensions}}{{ this }}{{#unless @last}}, {{/unless}}{{/each}}</div>
             </div>
