@@ -68,8 +68,16 @@
           </div>
           {{#each this.issuer.entries}}
           <div class="panel-list-item">
-            <div class="text">{{lookup this 0}}</div>
-            <div class="text">{{lookup this 1}}</div>
+              <div class="text">{{lookup this 0}}</div>
+              {{#if @last}}
+              {{#if @../last}}
+              <div class="text">{{lookup this 1}}</div>
+              {{else}}
+              <div class="text"><a class="issuer-link" id="{{@../index}}" href="#">{{lookup this 1}}</a></div>
+              {{/if}}
+              {{else}}
+              <div class="text">{{lookup this 1}}</div>
+              {{/if}}
           </div>
           {{/each}}
 

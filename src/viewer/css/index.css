@@ -179,3 +179,7 @@ h2 {
 .text-section-header {
   margin: 0 auto;
 }
+
+.issuer-link:visited {
+    color: blue;
+}
