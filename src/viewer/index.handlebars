@@ -382,6 +382,20 @@
           {{#if (truthy this.ext.msCrypto.exists)}}
           <div class="panel-section-subsection mt-4">Microsoft Cryptographic Extensions</div>
 
+            {{! Certificate Type }}
+            {{#if (truthy this.ext.msCrypto.certificateType)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.certificateType.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  Certificate Type
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Type</div>
+                <div class="text long-hex long-hex-box">{{ this.ext.msCrypto.certificateType.type }}</div>
+              </div>
+            {{/if}}
+
             {{! Certificate Policies }}
             {{#if (truthy this.ext.msCrypto.certificatePolicies)}}
               <div class="panel-section-subheader">
@@ -406,15 +420,15 @@
               </div>
               <div class="panel-list-item">
                 <div class="text">Identifier</div>
-                <div class="text long-hex long-hex-box">{{this.ext.msCrypto.certificateTemplate.id}}</div>
+                <div class="text long-hex long-hex-box">{{ this.ext.msCrypto.certificateTemplate.id }}</div>
               </div>
               <div class="panel-list-item">
                 <div class="text">Minor Version</div>
-                <div class="text">{{this.ext.msCrypto.certificateTemplate.minor}}</div>
+                <div class="text">{{ this.ext.msCrypto.certificateTemplate.minor }}</div>
               </div>
               <div class="panel-list-item">
                 <div class="text">Major Version</div>
-                <div class="text">{{this.ext.msCrypto.certificateTemplate.major}}</div>
+                <div class="text">{{ this.ext.msCrypto.certificateTemplate.major }}</div>
               </div>
             {{/if}}
 

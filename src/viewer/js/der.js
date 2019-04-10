@@ -58,6 +58,7 @@ const parseSubsidiary = (distinguishedNames) => {
 
 export const parse = async (der) => {
   const supportedExtensions = [
+    '1.3.6.1.4.1.311.20.2',     // microsoft certificate type
     '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
     '1.3.6.1.4.1.311.21.10',    // microsoft certificate policies
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
@@ -341,6 +342,7 @@ export const parse = async (der) => {
   let msCrypto = {
     certificatePolicies: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.10').parsedValue,
     certificateTemplate: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.7').parsedValue,
+    certificateType: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.20.2').parsedValue,
   };
 
   if (msCrypto.certificatePolicies) {
@@ -359,7 +361,16 @@ export const parse = async (der) => {
     };
   }
 
-  msCrypto.exists = (msCrypto.certificatePolicies || msCrypto.certificateTemplate) ? true : false;
+  if (msCrypto.certificateType) {
+    msCrypto.certificateType = {
+      type: strings.microsoftCertificateTypes[msCrypto.certificateType.valueBlock.value] || 'Unknown',
+    };
+  }
+
+  msCrypto.exists = (
+    msCrypto.certificatePolicies ||
+    msCrypto.certificateTemplate ||
+    msCrypto.certificateType) ? true : false;
 
   // determine which extensions weren't supported
   let unsupportedExtensions = [];
