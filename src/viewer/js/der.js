@@ -59,6 +59,7 @@ const parseSubsidiary = (distinguishedNames) => {
 export const parse = async (certificate) => {
   const supportedExtensions = [
     '1.3.6.1.4.1.311.20.2',     // microsoft certificate type
+    '1.3.6.1.4.1.311.21.2',     // microsoft certificate previous hash
     '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
     '1.3.6.1.4.1.311.21.10',    // microsoft certificate policies
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
@@ -341,9 +342,11 @@ export const parse = async (certificate) => {
 
   // now let's parse the Microsoft cryptographic extensions
   let msCrypto = {
+    caVersion: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.1').parsedValue,  // currently broken in PKI.js
     certificatePolicies: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.10').parsedValue,
     certificateTemplate: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.7').parsedValue,
     certificateType: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.20.2').parsedValue,
+    previousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
   };
 
   if (msCrypto.certificatePolicies) {
@@ -368,10 +371,18 @@ export const parse = async (certificate) => {
     };
   }
 
+  if (msCrypto.previousHash) {
+    msCrypto.previousHash = {
+      critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.2'),
+      previousHash: hashify(msCrypto.previousHash.valueBlock.valueHex),
+    }
+  }
+
   msCrypto.exists = (
     msCrypto.certificatePolicies ||
     msCrypto.certificateTemplate ||
-    msCrypto.certificateType) ? true : false;
+    msCrypto.certificateType ||
+    msCrypto.previousHash) ? true : false;
 
   // determine which extensions weren't supported
   let unsupportedExtensions = [];
