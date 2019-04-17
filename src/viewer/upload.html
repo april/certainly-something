@@ -8,9 +8,14 @@
     <title></title>
   </head>
   <body class="browser-style">
-    <div class="row section mt-4">
-      <h3 id="message"></h3>
-    </div>
+    <form>
+      <div class="row section mt-4">
+        <h3>
+          <label for="uploadCertificate">Please select your PEM or DER-encoded certificate:</label>
+        </h3>
+        <input type="file" id="uploadCertificate" accept=".crt,.pem">
+      </div>
+    </form>
 
     <script src="index.js"></script>
   </body>

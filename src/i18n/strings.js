@@ -1,4 +1,8 @@
 export const strings = {
+  ux: {
+    upload: 'Upload Certificate',
+  },
+  
   names: {
     // Directory Pilot Attributes
     '0.9.2342.19200300.100.1.1': {

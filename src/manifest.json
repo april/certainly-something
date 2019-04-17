@@ -38,11 +38,12 @@
   },
 
   "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "contextMenus",
     "tabs",
     "webNavigation",
     "webRequest",
-    "webRequestBlocking",
-    "http://*/*",
-    "https://*/*"
+    "webRequestBlocking"
   ]
 }

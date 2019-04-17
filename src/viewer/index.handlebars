@@ -1,37 +1,39 @@
 <div id="template">
-  {{! handshake }}
-  <div class="row section" id="handshake">
-    <div class="panel">
-      <div class="panel-section panel-section-header">
-        <div class="text-section-header"><h1>Handshake</h1></div>
+  {{! handshake, note that uploaded certificates won't have this information }}
+  {{#if protocolVersion}}
+    <div class="row section" id="handshake">
+      <div class="panel">
+        <div class="panel-section panel-section-header">
+          <div class="text-section-header"><h1>Handshake</h1></div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Protocol</div>
+          <div class="text">{{ protocolVersion }}</div>
+        </div>
+        <div class="panel-list-item">
+          <div class="text">Cipher Suite</div>
+          <div class="text breakable">{{ cipherSuite }}</div>
+        </div>
+        {{#if (truthy keaGroupName)}}
+        <div class="panel-list-item">
+          <div class="text">Key Exchange Group</div>
+          <div class="text">{{ keaGroupName }}</div>
+        </div>
+        {{/if}}
+        {{#if (truthy signatureSchemeName)}}
+        <div class="panel-list-item">
+          <div class="text">Signature Scheme</div>
+          <div class="text">{{ signatureSchemeName }}</div>
+        </div>
+        {{/if}}
       </div>
-      <div class="panel-list-item">
-        <div class="text">Protocol</div>
-        <div class="text">{{ protocolVersion }}</div>
-      </div>
-      <div class="panel-list-item">
-        <div class="text">Cipher Suite</div>
-        <div class="text breakable">{{ cipherSuite }}</div>
-      </div>
-      {{#if (truthy keaGroupName)}}
-      <div class="panel-list-item">
-        <div class="text">Key Exchange Group</div>
-        <div class="text">{{ keaGroupName }}</div>
-      </div>
-      {{/if}}
-      {{#if (truthy signatureSchemeName)}}
-      <div class="panel-list-item">
-        <div class="text">Signature Scheme</div>
-        <div class="text">{{ signatureSchemeName }}</div>
-      </div>
-      {{/if}}
     </div>
-  </div>
+  {{/if}}
 
   {{! certificates }}
   <div class="row section" id="certificates">
     <div class="panel">
-      <div class="panel-section panel-section-header">
+      <div class="panel-section panel-section-header {{#if (eq certs.length 1)}}b-0{{/if}}">
         <div class="text-section-header"><h1>{{#if (eq certs.length 1)}}Certificate{{else}}Certificates{{/if}}</h1></div>
       </div>
     </div>

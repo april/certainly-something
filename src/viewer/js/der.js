@@ -1,8 +1,8 @@
 import * as asn1js from 'asn1js';
 import { Certificate } from 'pkijs';
 import { ctLogNames } from './ctlognames.js';
-import { strings } from './strings.js';
-import { b64urltodec, b64urltohex, getObjPath, hash, hashify } from './utils.js';
+import { strings } from '../../i18n/strings.js';
+import { b64urltodec, b64urltohex, getObjPath, hash, hashify, pemToBER } from './utils.js';
 
 
 
@@ -56,7 +56,7 @@ const parseSubsidiary = (distinguishedNames) => {
 };
 
 
-export const parse = async (der) => {
+export const parse = async (certificate) => {
   const supportedExtensions = [
     '1.3.6.1.4.1.311.20.2',     // microsoft certificate type
     '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
@@ -85,13 +85,14 @@ export const parse = async (der) => {
     timeZone = 'Local Time';  // not sure if this is right, but let's go with it for now
   }
 
-  // parse the DER
-  const asn1 = asn1js.fromBER(der.buffer);
-  var x509 = new Certificate({ schema: asn1.result });
+  // parse the certificate
+  const asn1 = asn1js.fromBER(certificate);
+
+  let x509 = new Certificate({ schema: asn1.result });
   x509 = x509.toJSON()
 
   // convert the cert to PEM
-  const certBTOA = window.btoa(String.fromCharCode.apply(null, der)).match(/.{1,64}/g).join('\r\n');
+  const certBTOA = window.btoa(String.fromCharCode.apply(null, new Uint8Array(certificate))).match(/.{1,64}/g).join('\r\n');
 
   // get which extensions are critical
   const criticalExtensions = [];
@@ -403,8 +404,8 @@ export const parse = async (der) => {
       pem: encodeURI(`-----BEGIN CERTIFICATE-----\r\n${certBTOA}\r\n-----END CERTIFICATE-----\r\n`),
     },
     fingerprint: {
-      'sha1': await hash('SHA-1', der.buffer),
-      'sha256': await hash('SHA-256', der.buffer),
+      'sha1': await hash('SHA-1', certificate),
+      'sha256': await hash('SHA-256', certificate),
     },
     issuer: parseSubsidiary(x509.issuer.typesAndValues),
     notBefore: `${x509.notBefore.value.toLocaleString()} (${timeZone})`,

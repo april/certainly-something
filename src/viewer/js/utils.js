@@ -14,21 +14,6 @@ export const b64urltohex = (b64) => {
   return hexArray.map(b => ('00' + b.toString(16)).slice(-2));
 };
 
-export const hash = async (algo, buffer) => {
-  const hashBuffer = await crypto.subtle.digest(algo, buffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-  return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join(':').toUpperCase();
-};
-
-export const hashify = (hash) => {
-  if (typeof hash === 'string') {
-    return hash.match(/.{2}/g).join(':').toUpperCase();
-  } else {
-    return hash.join(':').toUpperCase();
-  }
-}
-
 // this particular prototype override makes it easy to chain down complex objects
 export const getObjPath = (obj, path) => {
     for (var i=0, path=path.split('.'), len=path.length; i<len; i++){
@@ -42,4 +27,23 @@ export const getObjPath = (obj, path) => {
     };
 
     return obj;
+};
+
+export const hash = async (algo, buffer) => {
+  const hashBuffer = await crypto.subtle.digest(algo, buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join(':').toUpperCase();
+};
+
+export const hashify = (hash) => {
+  if (typeof hash === 'string') {
+    return hash.match(/.{2}/g).join(':').toUpperCase();
+  } else {
+    return hash.join(':').toUpperCase();
+  }
+};
+
+export const pemToBER = (pem) => {
+  return stringToArrayBuffer(window.atob(pem));
 };

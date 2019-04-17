@@ -19,6 +19,10 @@ h2 {
 }
 
 /* generic spacing utilities */
+.b-0 {
+  border: 0;
+}
+
 .mt-1 {
   margin-top: .25rem !important;
 }

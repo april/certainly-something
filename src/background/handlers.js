@@ -1,6 +1,7 @@
 import { consume } from './consumer';
 import * as icon from './icon';
 import * as state from './state';
+import { strings } from '../i18n/strings.js';
 
 
 // we only do some actions if we are on Android
@@ -9,6 +10,23 @@ browser.runtime.getPlatformInfo().then(pi => {
   IS_ANDROID = (pi.os === 'android');
 });
 
+
+browser.contextMenus.create({
+  contexts: ['page_action'],
+  id: 'uploadCertificate',
+  title: strings.ux.upload,
+});
+
+browser.contextMenus.onClicked.addListener(
+  (info, tab) => {
+  if (info.menuItemId == 'uploadCertificate') {
+    browser.tabs.create({
+      index: tab.index + 1,
+      url: '/viewer/upload.html',
+      windowId: tab.windowId,
+    });
+  }
+});
 
 // consume the security info about requests
 // ideally, we'd like to set it to types: ['main_frame'] for performance reasons, but
