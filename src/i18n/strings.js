@@ -391,7 +391,7 @@ export const strings = {
     '1.3.6.1.5.5.7.3.7': 'IPSec User',
     '1.3.6.1.5.5.7.3.8': 'Timestamping',
     '1.3.6.1.5.5.7.3.9': 'OCSP Signing',
-    '1.3.6.1.5.5.8.2.2', 'Internet Key Exchange (IKE)',
+    '1.3.6.1.5.5.8.2.2': 'Internet Key Exchange (IKE)',
   },
 
   signature: {
