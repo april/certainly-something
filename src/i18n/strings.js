@@ -364,6 +364,24 @@ export const strings = {
   ],
 
   eKU: {
+    '1.3.6.1.4.1.311.10.3.1': 'Certificate Trust List (CTL) Signing',
+    '1.3.6.1.4.1.311.10.3.2': 'Timestamp Signing',
+    '1.3.6.1.4.1.311.10.3.4': 'EFS Encryption',
+    '1.3.6.1.4.1.311.10.3.4.1': 'EFS Recovery',
+    '1.3.6.1.4.1.311.10.3.5': 'Windows Hardware Quality Labs (WHQL) Cryptography',
+    '1.3.6.1.4.1.311.10.3.7': 'Windows NT 5 Cryptography',
+    '1.3.6.1.4.1.311.10.3.8': 'Windows NT Embedded Cryptography',
+    '1.3.6.1.4.1.311.10.3.10': 'Qualified Subordination',
+    '1.3.6.1.4.1.311.10.3.11': 'Escrowed Key Recovery',
+    '1.3.6.1.4.1.311.10.3.12': 'Document Signing',
+    '1.3.6.1.4.1.311.10.5.1': 'Digital Rights Management',
+    '1.3.6.1.4.1.311.10.6.1': 'Key Pack Licenses',
+    '1.3.6.1.4.1.311.10.6.2': 'License Server',
+    '1.3.6.1.4.1.311.20.2.1': 'Enrollment Agent',
+    '1.3.6.1.4.1.311.20.2.2': 'Smartcard Login',
+    '1.3.6.1.4.1.311.21.5': 'Certificate Authority Private Key Archival',
+    '1.3.6.1.4.1.311.21.6': 'Key Recovery Agent',
+    '1.3.6.1.4.1.311.21.19': 'Directory Service Email Replication',
     '1.3.6.1.5.5.7.3.1': 'Server Authentication',
     '1.3.6.1.5.5.7.3.2': 'Client Authentication',
     '1.3.6.1.5.5.7.3.3': 'Code Signing',
@@ -373,6 +391,7 @@ export const strings = {
     '1.3.6.1.5.5.7.3.7': 'IPSec User',
     '1.3.6.1.5.5.7.3.8': 'Timestamping',
     '1.3.6.1.5.5.7.3.9': 'OCSP Signing',
+    '1.3.6.1.5.5.8.2.2', 'Internet Key Exchange (IKE)',
   },
 
   signature: {

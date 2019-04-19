@@ -199,7 +199,7 @@ export const parse = async (certificate) => {
   if (eKeyUsages) {
     eKeyUsages = {
       critical: criticalExtensions.includes('2.5.29.37'),
-      purposes: eKeyUsages.keyPurposes.map(x => strings.eKU[x]),
+      purposes: eKeyUsages.keyPurposes.map(x => strings.eKU[x] || x),
     }
   }
 
@@ -352,7 +352,7 @@ export const parse = async (certificate) => {
   if (msCrypto.certificatePolicies) {
     msCrypto.certificatePolicies = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.10'),
-      purposes: msCrypto.certificatePolicies.certificatePolicies.map(x => strings.eKU[x.policyIdentifier]),
+      purposes: msCrypto.certificatePolicies.certificatePolicies.map(x => strings.eKU[x.policyIdentifier] || x.policyIdentifier),
     };
   }
 
