@@ -125,6 +125,9 @@ const handleDOMContentLoaded = async () => {
     const certificate = new Uint8Array(JSON.parse(localStorage.getItem('certificate'))['file']);
     const certificateString = String.fromCharCode.apply(null, certificate);
 
+    // clear out the local storage so as to not leave the certificate on disk
+    localStorage.clear();
+
     if (certificateString.includes('-----BEGIN CERTIFICATE-----')) {  // PEM
       render({
         certs: await buildChain(certificateString),
