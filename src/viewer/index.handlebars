@@ -447,6 +447,23 @@
               </div>
             {{/if}}
 
+            {{! Certification Authority Renewals }}
+            {{#if (truthy this.ext.msCrypto.caVersion)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.caVersion.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  CA Renewals
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Renewals</div>
+                <div class="text">{{ this.ext.msCrypto.caVersion.caRenewals }}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Key Reuses</div>
+                <div class="text">{{ this.ext.msCrypto.caVersion.keyReuses }}</div>
+              </div>
+            {{/if}}
           {{/if}}
 
           {{! Unsupported extensions }}

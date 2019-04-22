@@ -61,6 +61,7 @@ export const parse = async (certificate) => {
     '1.3.6.1.4.1.311.20.2',     // microsoft certificate type
     '1.3.6.1.4.1.311.21.2',     // microsoft certificate previous hash
     '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
+    '1.3.6.1.4.1.311.21.1',    // microsoft certification authority renewal
     '1.3.6.1.4.1.311.21.10',    // microsoft certificate policies
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
     '1.3.6.1.5.5.7.1.1',        // authority info access
@@ -342,12 +343,22 @@ export const parse = async (certificate) => {
 
   // now let's parse the Microsoft cryptographic extensions
   let msCrypto = {
-    caVersion: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.1').parsedValue,  // currently broken in PKI.js
+    caVersion: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.1').parsedValue,
     certificatePolicies: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.10').parsedValue,
     certificateTemplate: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.7').parsedValue,
     certificateType: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.20.2').parsedValue,
     previousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
   };
+
+  if (msCrypto.caVersion &&
+      Number.isInteger(msCrypto.caVersion.keyIndex) &&
+      Number.isInteger(msCrypto.caVersion.certificateIndex)) {
+    msCrypto.caVersion = {
+      critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.1'),
+      caRenewals: msCrypto.caVersion.certificateIndex,
+      keyReuses: msCrypto.caVersion.certificateIndex - msCrypto.caVersion.keyIndex,
+    };
+  }
 
   if (msCrypto.certificatePolicies) {
     msCrypto.certificatePolicies = {
@@ -367,6 +378,7 @@ export const parse = async (certificate) => {
 
   if (msCrypto.certificateType) {
     msCrypto.certificateType = {
+      critical: criticalExtensions.includes('1.3.6.1.4.1.311.20.2'),
       type: strings.microsoftCertificateTypes[msCrypto.certificateType.valueBlock.value] || 'Unknown',
     };
   }
@@ -379,6 +391,7 @@ export const parse = async (certificate) => {
   }
 
   msCrypto.exists = (
+    msCrypto.caVersion ||
     msCrypto.certificatePolicies ||
     msCrypto.certificateTemplate ||
     msCrypto.certificateType ||
