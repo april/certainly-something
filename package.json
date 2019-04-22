@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/april/certainly-something#readme",
   "dependencies": {
-    "handlebars": "^4.1.1",
+    "handlebars": "^4.1.2",
     "license-webpack-plugin": "^1.5.0",
-    "pkijs": "^2.1.76"
+    "pkijs": "^2.1.77"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -28,7 +28,7 @@
     "babel-preset-env": "^1.7.0",
     "copy-webpack-plugin": "^4.6.0",
     "handlebars-loader": "^1.7.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
   }
 }
