@@ -66,6 +66,7 @@ export const parse = async (certificate) => {
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
     '1.3.6.1.5.5.7.1.1',        // authority info access
     '1.3.6.1.5.5.7.1.24',       // ocsp stapling
+    '1.3.101.77',               // ct redaction - deprecated and not displayed
     '2.5.29.14',                // subject key identifier
     '2.5.29.15',                // key usages
     '2.5.29.17',                // subject alt names
