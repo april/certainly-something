@@ -43,6 +43,10 @@ h2 {
   margin-top: 3rem !important;
 }
 
+.m-5 {
+  margin: 3em !important;
+}
+
 .certificate .panel-section-header {
   border: 0;
 }
