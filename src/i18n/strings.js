@@ -414,6 +414,10 @@ export const strings = {
 
   // this includes qualifiers as well
   cps: {
+    '0.4.0.194112.1.4': {
+      name: 'ETSI EN-319-411-2',
+      value: undefined,
+    },
     '1.3.6.1.4.1': {
       name: 'Statement Identifier',
       value: undefined,
