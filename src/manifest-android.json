@@ -2,7 +2,8 @@
   "manifest_version": 2,
   "name": "Certainly Something (Certificate Viewer)",
   "short_name": "Certainly Something",
-  "version": "1.2.2",
+  "version": "1.2.2-android",
+  "version_name": "1.2.2 (Android)",
 
   "description": "Certainly Something is an advanced digital certificate viewer with an easy to use interface.",
   "homepage_url": "https://github.com/april/certainly-something",
@@ -32,15 +33,12 @@
   "page_action": {
     "browser_style": true,
     "default_icon": "icons/secure.svg",
-    "default_title": "Certainly Something (Certificate Viewer)",
-    "show_matches": ["https://*/*"],
-    "hide_matches": ["https://addons.mozilla.org/*"]
+    "default_title": "Certainly Something (Certificate Viewer)"
   },
 
   "permissions": [
     "http://*/*",
     "https://*/*",
-    "contextMenus",
     "tabs",
     "webNavigation",
     "webRequest",

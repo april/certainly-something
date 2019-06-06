@@ -11,22 +11,24 @@ browser.runtime.getPlatformInfo().then(pi => {
 });
 
 
-browser.contextMenus.create({
-  contexts: ['page_action'],
-  id: 'uploadCertificate',
-  title: strings.ux.upload,
-});
+if (browser.contextMenus) {  // android doesn't support browser.contextMenus
+  browser.contextMenus.create({
+    contexts: ['page_action'],
+    id: 'uploadCertificate',
+    title: strings.ux.upload,
+  });
 
-browser.contextMenus.onClicked.addListener(
-  (info, tab) => {
-  if (info.menuItemId == 'uploadCertificate') {
-    browser.tabs.create({
-      index: tab.index + 1,
-      url: '/viewer/upload.html',
-      windowId: tab.windowId,
-    });
-  }
-});
+  browser.contextMenus.onClicked.addListener(
+    (info, tab) => {
+    if (info.menuItemId == 'uploadCertificate') {
+      browser.tabs.create({
+        index: tab.index + 1,
+        url: '/viewer/upload.html',
+        windowId: tab.windowId,
+      });
+    }
+  });
+}
 
 // consume the security info about requests
 // ideally, we'd like to set it to types: ['main_frame'] for performance reasons, but

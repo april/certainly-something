@@ -3,6 +3,7 @@ const LicenseWebpackPlugin = require('license-webpack-plugin').LicenseWebpackPlu
 const path = require('path');
 const webpack = require('webpack');
 const production = process.env.NODE_ENV === 'production';
+const target = process.env.TARGET ? process.env.TARGET : 'desktop';
 
 module.exports = {
   output: {
@@ -53,7 +54,8 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: 'src/manifest.json'
+        from: target === 'desktop' ? 'src/manifest.json' : 'src/manifest-android.json',
+        to: 'manifest.json'
       },
       {
         from: 'LICENSE.md'
