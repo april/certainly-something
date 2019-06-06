@@ -1,12 +1,12 @@
 {
   "name": "certainly-something",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Certainly Something is an advanced digital certificate viewer with an easy to use interface.",
   "license": "MPL-2.0",
   "scripts": {
     "compile": "webpack --config=config/webpack.config.js",
     "package": "web-ext build -s build -a dist --overwrite-dest",
-    "build": "npm run compile && npm run package && TARGET=android npm run compile && npm run package",
+    "build": "npm run compile && npm run package",
     "watch": "NODE_ENV=development webpack --config=config/webpack.config.js --watch"
   },
   "repository": {
