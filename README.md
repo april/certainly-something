@@ -1,6 +1,8 @@
 Certainly Something (Certificate Viewer)
 ========================================
 
+> **Note:** Certainly Something has been integrated directly into Firefox 72, and aside from convenience functions it is no longer necessary for viewing certificates.
+
 Uses the new TLS Info API in Firefox to view information about the current state of your HTTPS connection.
 
 <p align="center"><img src="https://i.imgur.com/GEbv434.png" alt="Main Info" width="300">    <img src="https://i.imgur.com/xM13M1E.png" alt="Extensions" width="300"></p>
